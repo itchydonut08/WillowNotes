@@ -1028,18 +1028,18 @@ async function askAgent(){
     {role:'system',content:P.system||'You are a helpful assistant.'},
     {role:'user',content:(P.user||'').replaceAll('{title}', note.title||'').replaceAll('{text}', note.content||'')}
   ], stream:false };
-  $('#debate-output').textContent='Thinking...';
+  const outEl=$('#debate-output'); if(outEl) outEl.textContent='Thinking...';
   try{
     const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok) throw new Error(await r.text());
     const data=await r.json();
     const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
-    $('#debate-output').textContent = text || '(no text)';
-  }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
+    if(outEl) outEl.textContent = text || '(no text)';
+  }catch(err){ if(outEl) outEl.textContent='Agent error: '+err.message; }
 }
-$('#debate-ask').onclick=askAgent;
+if($('#debate-ask')) $('#debate-ask').onclick=askAgent;
 
-$('#debate-add').onclick=()=>{
+if($('#debate-add')) $('#debate-add').onclick=()=>{
   const t=$('#debate-output').textContent.trim();
   if(!t){ toast('Ask AI first, or type something.','warn'); return; }
   const note=st.notes.find(x=>x.id===currentId);
