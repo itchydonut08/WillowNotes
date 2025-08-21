@@ -787,22 +787,6 @@ textarea{min-height:260px;resize:vertical}
 <div class="footer">Local-first. All data is in your browser (localStorage + IndexedDB). © 2025</div>
 
 <script>
-// === OpenAI response text extractor (supports Responses API + old Chat Completions) ===
-function getOpenAIText(data) {
-  return (
-    // Responses API:
-    data?.output_text ??
-    data?.output?.[0]?.content?.[0]?.text ??
-    data?.content?.[0]?.text ??
-    // Chat Completions (legacy):
-    data?.choices?.[0]?.message?.content ??
-    // Error surface:
-    data?.error?.message ??
-    ''
-  );
-}
-
-  
 /*** ===== Helpers / Globals ===== ***/
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
@@ -926,47 +910,34 @@ const defaultPrompts = {
 async function loadPrompts(){ try{ const res=await fetch('prompts.json',{cache:'no-store'}); st.prompts = res.ok? await res.json() : defaultPrompts; } catch{ st.prompts = defaultPrompts; } }
 loadPrompts();
 
-async function askAgent(){
-  const agentKey = $('#debate-agent').value;
-  const P = st.prompts[agentKey] || defaultPrompts[agentKey] || defaultPrompts.Historian;
-  const note = draft();
-
-  const body = {
-    model: P.model || 'gpt-4o-mini',
-    temperature: P.temperature ?? 0.7,
-    input: [
-      { role: 'system', content: P.system || 'You are a helpful assistant.' },
-      { role: 'user', content: (P.user || '')
-          .replaceAll('{title}', note.title || '')
-          .replaceAll('{text}', note.content || '') }
-    ],
-    stream: false // make sure we get a single JSON, not SSE
-  };
-
-  $('#debate-output').textContent = 'Thinking...';
-
-  try {
-    const r = await fetch('/api/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
-    if (!r.ok) {
-      const errText = await r.text().catch(()=>'');
-      throw new Error(`OpenAI ${r.status}: ${errText}`);
-    }
-
-    const data = await r.json();
-    console.log('askAgent raw response:', data); // 🔍 helpful debug
-    const text = getOpenAIText(data) || '(no text)';
-    $('#debate-output').textContent = text;
-
-  } catch (err) {
-    $('#debate-output').textContent = 'Agent error: ' + err.message;
-  }
+function getOpenAIText(data) {
+  return (
+    data?.output_text ??
+    data?.output?.[0]?.content?.[0]?.text ??
+    data?.content?.[0]?.text ??
+    data?.choices?.[0]?.message?.content ??
+    data?.error?.message ??
+    ''
+  );
 }
 
+async function askAgent(){
+  const agentKey=$('#debate-agent').value;
+  const P = st.prompts[agentKey]||defaultPrompts[agentKey]||defaultPrompts.Historian;
+  const note=draft();
+  const body={ model:P.model||'gpt-4o-mini', temperature: P.temperature ?? 0.7, input:[
+    {role:'system',content:P.system||'You are a helpful assistant.'},
+    {role:'user',content:(P.user||'').replaceAll('{title}', note.title||'').replaceAll('{text}', note.content||'')}
+  ], stream:false };
+  $('#debate-output').textContent='Thinking...';
+  try{
+    const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
+    $('#debate-output').textContent = text || '(no text)';
+  }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
+}
 $('#debate-ask').onclick=askAgent;
 $('#debate-add').onclick=()=>{
   const t=$('#debate-output').textContent.trim(); if(!t){ alert('Ask AI first, or type something.'); return; }
@@ -1304,11 +1275,21 @@ function renderNotesTab(q){
   $('#fc-notes-list').value = hits.length? hits.map((n,i)=>`${i+1}. ${n.title}\n`).join('') : '';
   const div=$('#fc-notes-cluster'); div.innerHTML=''; hits.slice(0,12).forEach(n=>{ const card=document.createElement('div'); card.className='card'; card.style.width='220px'; card.innerHTML=`<div class="title">${esc(n.title)}</div><div class="preview">${esc((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</div><div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span></div>`; card.onclick=()=>{ location.hash='#/notecard'; load(n.id); renderLeft(); }; div.appendChild(card); });
   $('#fc-notes-agent').onclick=async ()=>{
-    const P={system:"You are a concise forecasting assistant. Consider the user's notes and the question.",user:`Question: ${q.title}\nNotes:\n${hits.map(n=>`- ${n.title}: ${n.content.slice(0,200)}`).join('\n')}\nGive a short qualitative view and 2-3 factors that would move odds.`};
-    const body={ model:'gpt-4o-mini', temperature:0.6, input:[{role:'system',content:P.system},{role:'user',content:P.user}] };
-    $('#fc-agent-output').textContent='Thinking...';
-    try{ const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); if(!r.ok) throw new Error(await r.text()); const data=await r.json(); $('#fc-agent-output').textContent=data.choices?.[0]?.message?.content || '(no text)'; }catch(err){ $('#fc-agent-output').textContent='Agent error: '+err.message; }
-  };
+  const P={system:"You are a helpful note-taking assistant. Summarize and improve the note.", user:"{text}", model:"gpt-4o-mini", temperature:0.6};
+  const note=draft();
+  const body={ model:P.model||'gpt-4o-mini', temperature:P.temperature ?? 0.6, input:[
+    {role:'system',content:P.system},
+    {role:'user',content:(P.user||'{text}').replaceAll('{title}', note.title||'').replaceAll('{text}', (note?.content||'').trim())}
+  ], stream:false };
+  $('#fc-agent-output').textContent='Thinking...';
+  try{
+    const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
+    $('#fc-agent-output').textContent = text || '(no text)';
+  }catch(err){ $('#fc-agent-output').textContent='Agent error: '+err.message; }
+};
 }
 
 /*** ===== Boot ===== ***/
