@@ -914,7 +914,7 @@ async function askAgent(){
   const agentKey=$('#debate-agent').value;
   const P = st.prompts[agentKey]||defaultPrompts[agentKey]||defaultPrompts.Historian;
   const note=draft();
-  const body={ model:P.model||'gpt-4o-mini', temperature: P.temperature ?? 0.7, messages:[
+  const body={ model:P.model||'gpt-4o-mini', temperature: P.temperature ?? 0.7, input:[
     {role:'system',content:P.system||'You are a helpful assistant.'},
     {role:'user',content:(P.user||'').replaceAll('{title}', note.title||'').replaceAll('{text}', note.content||'')}
   ]};
@@ -1264,7 +1264,7 @@ function renderNotesTab(q){
   const div=$('#fc-notes-cluster'); div.innerHTML=''; hits.slice(0,12).forEach(n=>{ const card=document.createElement('div'); card.className='card'; card.style.width='220px'; card.innerHTML=`<div class="title">${esc(n.title)}</div><div class="preview">${esc((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</div><div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span></div>`; card.onclick=()=>{ location.hash='#/notecard'; load(n.id); renderLeft(); }; div.appendChild(card); });
   $('#fc-notes-agent').onclick=async ()=>{
     const P={system:"You are a concise forecasting assistant. Consider the user's notes and the question.",user:`Question: ${q.title}\nNotes:\n${hits.map(n=>`- ${n.title}: ${n.content.slice(0,200)}`).join('\n')}\nGive a short qualitative view and 2-3 factors that would move odds.`};
-    const body={ model:'gpt-4o-mini', temperature:0.6, messages:[{role:'system',content:P.system},{role:'user',content:P.user}] };
+    const body={ model:'gpt-4o-mini', temperature:0.6, input:[{role:'system',content:P.system},{role:'user',content:P.user}] };
     $('#fc-agent-output').textContent='Thinking...';
     try{ const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); if(!r.ok) throw new Error(await r.text()); const data=await r.json(); $('#fc-agent-output').textContent=data.choices?.[0]?.message?.content || '(no text)'; }catch(err){ $('#fc-agent-output').textContent='Agent error: '+err.message; }
   };
