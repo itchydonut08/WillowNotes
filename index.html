@@ -938,32 +938,34 @@ async function askAgent(){
     $('#debate-output').textContent = text || '(no text)';
   }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
 }
-(()=>{var _a=document.getElementById('debate-ask'); if(_a) _a.onclick=askAgent;})();
+(()=>{ const _b=$('#debate-ask'); if(_b) _b.onclick=askAgent; })();
 
 (()=>{
-  const btn = document.getElementById('debate-add');
-  if(!btn) return;
-  btn.onclick = () => {
-    const outEl = document.getElementById('debate-output');
-    const titleEl = document.getElementById('nc-title');
-    const bodyEl  = document.getElementById('nc-content');
-    const tagsEl  = document.getElementById('nc-tags');
-    const text = (outEl?.textContent || '').trim();
-    if(!text){ window.toast?.('Nothing to add','Ask AI first'); return; }
+  const _b=document.getElementById('debate-add');
+  if(!_b) return;
+  _b.onclick=()=>{
+    const outEl=document.getElementById('debate-output');
+    const bodyEl=document.getElementById('nc-content');
+    const titleEl=document.getElementById('nc-title');
+    const tagsEl=document.getElementById('nc-tags');
+    const out=(outEl?.textContent||'').trim();
+    if(!out){ window.toast?.('Nothing to add','Ask AI first'); return; }
     if(!bodyEl) return;
+
     if(!window.currentId){
-      window.currentId = (window.uid? uid(): String(Date.now()));
-      const t = (window.now? now(): new Date().toISOString());
-      window.st = window.st || {notes:[]};
+      window.currentId=(window.uid? uid(): String(Date.now()));
+      const t=(window.now? now(): new Date().toISOString());
+      window.st=window.st||{notes:[]};
       st.notes.push({
         id: currentId,
-        title: (titleEl?.value || 'Untitled').trim(),
+        title: (titleEl?.value||'Untitled').trim(),
         content: bodyEl.value || '',
         tags: (window.tagsOf? tagsOf(tagsEl?.value||''): []),
         created_at: t, updated_at: t, debate: []
       });
-      st.focusId = currentId;
+      st.focusId=currentId;
     }
+
     const agent = document.getElementById('debate-agent')?.value || 'Agent';
     const stamp = new Date().toLocaleString();
     const divider = `
@@ -971,19 +973,22 @@ async function askAgent(){
 ---
 [${agent} • ${stamp}]
 `;
-    bodyEl.value = (bodyEl.value ? bodyEl.value + divider + text : text);
-    const i = (window.st && Array.isArray(st.notes)) ? st.notes.findIndex(n=>n.id===currentId) : -1;
-    if(i>=0){
-      st.notes[i].content = bodyEl.value;
-      st.notes[i].updated_at = (window.now? now(): new Date().toISOString());
-      st.notes[i].debate = st.notes[i].debate || [];
-      st.notes[i].debate.push({who:agent,text:text,at:(window.now? now(): new Date().toISOString())});
+    bodyEl.value = (bodyEl.value ? bodyEl.value + divider + out : out);
+
+    const idx = (Array.isArray(st?.notes)? st.notes.findIndex(n=>n.id===currentId) : -1);
+    if(idx>=0){
+      st.notes[idx].content = bodyEl.value;
+      st.notes[idx].updated_at = (window.now? now(): new Date().toISOString());
+      st.notes[idx].debate = st.notes[idx].debate || [];
+      st.notes[idx].debate.push({who:agent, text:out, at:(window.now? now(): new Date().toISOString())});
     }
+
     window.persist?.();
     window.renderLeft?.();
     window.toast?.('Added to note','AI output appended.');
   };
 })();
+
 
 /*** ===== Projects bar ===== ***/
 function projectsMap(){ const m={}; st.notes.forEach(n=> (n.tags||[]).forEach(t=>{ const l=t.toLowerCase(); if(l.startsWith('project')||l.startsWith('proj:')) (m[t]=m[t]||[]).push(n.id); })); return m; }
@@ -1034,27 +1039,23 @@ function themeColors(){
 function resizeCanvas() {
   if (!window.canvas) window.canvas = document.getElementById('gcanvas');
   if (!window.canvas) return;
-
   if (!window.ctx) {
-    try {
-      window.ctx = canvas.getContext('2d');
-    } catch (e) {
-      // ignore
-    }
+    try { window.ctx = canvas.getContext('2d'); } catch (e) {}
   }
-
-  const rect = canvas.getBoundingClientRect
-    ? canvas.getBoundingClientRect()
-    : { width: 2, height: 2 };
-
+  const rect = canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : { width: 2, height: 2 };
   const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.max(2, Math.floor(rect.width * dpr));
+  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
   canvas.height = Math.max(2, Math.floor(rect.height * dpr));
-
   if (typeof draw === 'function') draw();
 }
-
-window.addEventListener('resize', ()=>{ resizeCanvas(); if(sim) sim.alpha(0.2).restart(); });
+catch(e){} }
+  var rect = (canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : {width:2,height:2});
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
+  canvas.height = Math.max(2, Math.floor(rect.height * dpr));
+  if(typeof draw==='function') draw();
+}
+window.addEventListener('resize', ()=>{ if(!window.canvas) window.canvas=document.getElementById('gcanvas'); if(!window.canvas) return; resizeCanvas(); if(window.sim && typeof sim.alpha==='function') try{ sim.alpha(0.2).restart(); }catch(e){} });
 
 function simTags(A,B){ const a=new Set((A||[]).map(s=>s.toLowerCase())); const b=new Set((B||[]).map(s=>s.toLowerCase())); if(a.size===0 && b.size===0) return 0; let inter=0; a.forEach(t=>{ if(b.has(t)) inter++; }); const uni=a.size+b.size-inter; return inter/uni; }
 
