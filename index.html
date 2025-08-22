@@ -1031,22 +1031,29 @@ function themeColors(){
   return { edge:cs.getPropertyValue('--g-edge').trim()||'#cbd5e1', node:cs.getPropertyValue('--g-node').trim()||'#0ea5e9', stroke:cs.getPropertyValue('--g-stroke').trim()||'#0f172a', label:cs.getPropertyValue('--g-label').trim()||'#0f172a', focus:cs.getPropertyValue('--g-focus').trim()||'#fb7185', bg:cs.getPropertyValue('--g-bg').trim()||'#ffffff' };
 }
 
-function resizeCanvas(){
-  if(!window.canvas) window.canvas = document.getElementById('gcanvas');
-  if(!window.canvas) return;
-  if(!window.ctx){ try{ window.ctx = canvas.getContext('2d'); }catch(e){} }
-  const rect = (canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : {width:2,height:2});
+function resizeCanvas() {
+  if (!window.canvas) window.canvas = document.getElementById('gcanvas');
+  if (!window.canvas) return;
+
+  if (!window.ctx) {
+    try {
+      window.ctx = canvas.getContext('2d');
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  const rect = canvas.getBoundingClientRect
+    ? canvas.getBoundingClientRect()
+    : { width: 2, height: 2 };
+
   const dpr = window.devicePixelRatio || 1;
-  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
+  canvas.width = Math.max(2, Math.floor(rect.width * dpr));
   canvas.height = Math.max(2, Math.floor(rect.height * dpr));
-  if(typeof draw==='function') draw();
-}catch(e){} }
-  var rect = (canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : {width:2,height:2});
-  var dpr = window.devicePixelRatio || 1;
-  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
-  canvas.height = Math.max(2, Math.floor(rect.height * dpr));
-  if(typeof draw==='function') draw();
+
+  if (typeof draw === 'function') draw();
 }
+
 window.addEventListener('resize', ()=>{ resizeCanvas(); if(sim) sim.alpha(0.2).restart(); });
 
 function simTags(A,B){ const a=new Set((A||[]).map(s=>s.toLowerCase())); const b=new Set((B||[]).map(s=>s.toLowerCase())); if(a.size===0 && b.size===0) return 0; let inter=0; a.forEach(t=>{ if(b.has(t)) inter++; }); const uni=a.size+b.size-inter; return inter/uni; }
