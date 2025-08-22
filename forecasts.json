@@ -1,7 +1,7 @@
 [
   {
     "id": "dea8a881-9d4a-4dfb-a472-b6e86c98ecee",
-    "title": "Where will the 10\u2011year U.S. Treasury yield be on Dec 31, 2025?",
+    "title": "Where will the 10‑year U.S. Treasury yield be on Dec 31, 2025?",
     "closesAt": "2025-12-31T21:00:00.000Z",
     "answers": [
       {
@@ -10,11 +10,11 @@
       },
       {
         "id": "d8f7f2cf-13b7-4f50-800d-e788a38451c5",
-        "text": "3.5\u20134.25%"
+        "text": "3.5–4.25%"
       },
       {
         "id": "d41dd36a-f4d5-4d1f-9897-33207d037051",
-        "text": "4.25\u20135.0%"
+        "text": "4.25–5.0%"
       },
       {
         "id": "dfd49a06-93e5-4d5c-8ad9-0855efb026df",
@@ -56,19 +56,19 @@
     "answers": [
       {
         "id": "ef2c552e-b921-4e6e-9294-83b2605450bd",
-        "text": "\u2264 3.0%"
+        "text": "≤ 3.0%"
       },
       {
         "id": "e861968d-e647-40fd-bee1-61050ea08a7c",
-        "text": "3.0\u20133.4%"
+        "text": "3.0–3.4%"
       },
       {
         "id": "b706208c-4196-4e3e-a37f-03b4d32dca95",
-        "text": "3.5\u20133.9%"
+        "text": "3.5–3.9%"
       },
       {
         "id": "8c5d30c0-6358-4380-baf9-b3551a8be4e9",
-        "text": "\u2265 4.0%"
+        "text": "≥ 4.0%"
       }
     ],
     "outcome": null,
@@ -77,5 +77,29 @@
       "inflation",
       "macro"
     ]
+  },
+  {
+    "id": "d98514a1-50cd-4bc2-98c7-444cf2bf2143",
+    "title": "will kai get $100?",
+    "closesAt": "2025-08-23T21:07:00.000Z",
+    "answers": [
+      {
+        "id": "5a7605eb-fa27-45b7-b897-37fa61f6a894",
+        "text": "Yes"
+      },
+      {
+        "id": "03a97392-a829-4e9f-943d-57e45050f9ca",
+        "text": "No"
+      },
+      {
+        "id": "3a70e375-fa7c-4131-84e5-e9025c89fb76",
+        "text": "Maybe"
+      }
+    ],
+    "created_at": "2025-08-22T21:07:48.425Z",
+    "tags": [],
+    "outcome": {
+      "answerId": "5a7605eb-fa27-45b7-b897-37fa61f6a894"
+    }
   }
 ]
