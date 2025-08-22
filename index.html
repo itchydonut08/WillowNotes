@@ -372,7 +372,14 @@ const defaultPrompts = {
   "BlindSpot": {"system":"Identify omissions and risks.","user":"For {title}, list blind spots, missing stakeholders, and unintended consequences.\n{text}\nReturn a short checklist.","temperature":0.5,"model":"gpt-4o-mini"},
   "Interconnectedness": {"system":"Map 2nd/3rd-order links across domains.","user":"Note {title}:\n{text}\nGive a compact map of 2nd/3rd-order effects and which prior notes to link to (just titles).","temperature":0.6,"model":"gpt-4o-mini"}
 };
-async function loadPrompts(){ try{ const res=await fetch('prompts.json',{cache:'no-store'}); st.prompts = res.ok? await res.json() : defaultPrompts; } catch(e) { st.prompts = defaultPrompts; } }
+async function loadPrompts(){ 
+  try{ 
+    const res=await fetch('prompts.json',{cache:'no-store'}); 
+    st.prompts = res.ok? await res.json() : defaultPrompts; 
+  } catch(e) { 
+    st.prompts = defaultPrompts; 
+  } 
+}
 loadPrompts();
 
 function getOpenAIText(data) {
@@ -650,4 +657,241 @@ function dbOpen(){ return new Promise((resolve,reject)=>{ const req=indexedDB.op
   if(!db.objectStoreNames.contains('events')){ db.createObjectStore('events',{keyPath:'id'}); }
 }; req.onsuccess=()=>{ dbh=req.result; resolve(); }; req.onerror=()=>reject(req.error); }); }
 function dbTx(name, mode='readonly'){ return dbh.transaction(name, mode).objectStore(name); }
-function dbGetAll(store, index=null, key=null){ return new Promise((res,rej)=>{ const s=dbTx(store); const src=index? s.index(index) : s; const req = key!==null? src.getAll(key) : src.getAll(); req.onsuccess=()
+function dbGetAll(store, index=null, key=null){ return new Promise((res,rej)=>{ const s=dbTx(store); const src=index? s.index(index) : s; const req = key!==null? src.getAll(key) : src.getAll(); req.onsuccess=()=>res(req.result); req.onerror=()=>rej(req.error); }); }
+function dbPut(store, value){ return new Promise((res,rej)=>{ const s=dbTx(store,'readwrite'); const req=s.put(value); req.onsuccess=()=>res(); req.onerror=()=>rej(req.error); }); }
+function dbGet(store, key){ return new Promise((res,rej)=>{ const s=dbTx(store); const req=s.get(key); req.onsuccess=()=>res(req.result||null); req.onerror=()=>rej(req.error); }); }
+
+const fc = { asOf:null, curQ:null };
+function pct(n){ return Math.round(n)+'%'; }
+function sum(arr){ return arr.reduce((a,b)=>a+(+b||0),0); }
+function newid(){ return crypto.randomUUID ? crypto.randomUUID() : uid(); }
+
+function seedForecastingIfEmpty(){
+  return dbGetAll('questions').then(all=>{ if(all.length) return;
+    const nowISO=new Date().toISOString();
+    const sample=[
+      { id:newid(), title:"When will Moody's or S&P downgrade the U.S. sovereign debt rating?", closesAt:"2025-12-01T04:00:00.000Z", answers:[{id:'a1',text:'Before Oct 1, 2025'},{id:'a2',text:'Between Oct–Dec 2025'},{id:'a3',text:'In 2026 or later'}], outcome:null, created_at:nowISO, tags:['rating','policy'] },
+      { id:newid(), title:"Where will 10-year Treasury yields be on October 1?", closesAt:"2025-10-01T04:00:00.000Z", answers:[{id:'b1',text:'Below 3.5%'},{id:'b2',text:'3.5–4.25%'},{id:'b3',text:'4.25–5.0%'},{id:'b4',text:'Above 5.0%'}], outcome:null, created_at:nowISO, tags:['rates','macro'] }
+    ];
+    return Promise.all(sample.map(q=>dbPut('questions', q)));
+  });
+}
+
+/*** Brier ***/
+async function computeUserBrier(asOf=null){
+  const forecasts=await dbGetAll('forecasts'); const questions=await dbGetAll('questions');
+  const qById=new Map(questions.map(q=>[q.id,q])); let sumB=0, n=0;
+  forecasts.forEach(f=>{
+    if(asOf && new Date(f.asOf) > new Date(asOf)) return;
+    const q=qById.get(f.questionId); if(!q || !q.outcome) return;
+    const k=q.answers.length; const probs=f.probs; const o=q.answers.map(a=>a.id===q.outcome.answerId?1:0);
+    const b=o.reduce((acc,ok,idx)=>acc+Math.pow((probs[idx]||0)-ok,2),0); sumB+=b; n++;
+  });
+  return {brier: n? (sumB/n) : null, count:n};
+}
+
+/*** Forecast Router ***/
+function routeForecast(){
+  const h=location.hash;
+  $('#nav-forecast').classList.toggle('active', h.startsWith('#/forecast'));
+  if(h==='#/forecast' || h==='#/forecast/main'){ $('#fc-main').style.display=''; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display='none'; renderForecastMain(); }
+  else if(h==='#/forecast/questions'){ $('#fc-main').style.display='none'; $('#fc-qlist').style.display=''; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display='none'; renderQuestionList(); }
+  else if(h.startsWith('#/forecast/q/')){ const id=h.split('/').pop(); openQuestionDetail(id); }
+  else if(h==='#/forecast/analysis'){ $('#fc-main').style.display='none'; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display=''; }
+}
+
+/*** Forecast Main ***/
+async function renderForecastMain(){
+  const asOf = $('#fc-asof').value || null;
+  const {brier,count}=await computeUserBrier(asOf);
+  $('#fc-brier').textContent = (brier==null)? '—' : brier.toFixed(3);
+  $('#fc-count').textContent = count||0;
+  const qs=await dbGetAll('questions'); const fs=await dbGetAll('forecasts'); const fByQ=new Map();
+  fs.forEach(f=>{ if(asOf && new Date(f.asOf)>new Date(asOf)) return; fByQ.set(f.questionId,f); });
+  const rows=[]; qs.forEach(q=>{ if(!q.outcome) return; const f=fByQ.get(q.id); if(!f) return; const o=q.answers.map(a=>a.id===q.outcome.answerId?1:0); const b=o.reduce((acc,ok,idx)=>acc+Math.pow((f.probs[idx]||0)-ok,2),0); rows.push({title:q.title,b}); });
+  rows.sort((a,b)=>a.b-b.b);
+  $('#fc-best').innerHTML = rows.length? rows.slice(0,5).map(r=>`<li>${esc(r.title)} (${r.b.toFixed(2)})</li>`).join('') : '<li class="muted">No resolved questions yet.</li>';
+  $('#fc-worst').innerHTML = rows.length? rows.slice(-5).reverse().map(r=>`<li>${esc(r.title)} (${r.b.toFixed(2)})</li>`).join('') : '<li class="muted">No resolved questions yet.</li>';
+  drawSpark('#fc-spark', fs, asOf); drawScatter('#fc-scatter', fs, asOf);
+}
+$('#fc-asof').onchange=renderForecastMain;
+function drawSpark(sel, forecasts, asOf){
+  const c=$(sel), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  const xs = forecasts.filter(f=>!asOf || new Date(f.asOf)<=new Date(asOf)).sort((a,b)=>new Date(a.asOf)-new Date(b.asOf)).map(f=> sum(f.probs)/f.probs.length );
+  if(xs.length<2) return; ctx.beginPath(); ctx.moveTo(10, c.height-10 - xs[0]*(c.height-20));
+  for(let i=1;i<xs.length;i++){ const x=10 + i*(c.width-20)/(xs.length-1); const y=c.height-10 - xs[i]*(c.height-20); ctx.lineTo(x,y); }
+  ctx.strokeStyle=themeColors().stroke; ctx.lineWidth=2; ctx.stroke();
+}
+function drawScatter(sel, forecasts, asOf){
+  const c=$(sel), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  const pts = forecasts.filter(f=>!asOf || new Date(f.asOf)<=new Date(asOf)).map(f=>({x:Math.random(), y:sum(f.probs)/f.probs.length}));
+  const pad=14, w=c.width-2*pad, h=c.height-2*pad; ctx.strokeStyle=themeColors().edge; ctx.strokeRect(pad,pad,w,h);
+  pts.forEach(p=>{ ctx.beginPath(); ctx.arc(pad+p.x*w, pad+p.y*h, 3, 0, Math.PI*2); ctx.fillStyle=themeColors().node; ctx.fill(); });
+}
+
+/*** Questions list ***/
+async function renderQuestionList(){
+  const q = (await dbGetAll('questions')).sort((a,b)=>new Date(a.closesAt)-new Date(b.closesAt));
+  const fs = await dbGetAll('forecasts'); const byQ=new Map(); fs.forEach(f=>byQ.set(f.questionId,(byQ.get(f.questionId)||0)+1));
+  const host=$('#fc-q-list'); host.innerHTML='';
+  if(!q.length){ host.innerHTML='<div class="item muted">No questions yet.</div>'; return; }
+  q.forEach(row=>{ const d=document.createElement('div'); d.className='item';
+    d.innerHTML = `<div class="t">${esc(row.title)}</div><div class="muted">Closing ${new Date(row.closesAt).toLocaleString()} • ${(byQ.get(row.id)||0)} forecasts</div><div class="muted"><a href="#/forecast/q/${row.id}">Open</a></div>`; host.appendChild(d); });
+}
+
+/*** Question detail ***/
+async function openQuestionDetail(qid){
+  const q=await dbGet('questions', qid);
+  $('#fc-main').style.display='none'; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display=''; $('#fc-analysis').style.display='none';
+  if(!q){ $('#fc-qdetail').innerHTML='<div class="muted">Not found.</div>'; return; } fc.curQ=q;
+  $('#fc-q-head').innerHTML = `<div><div style="font-weight:700">${esc(q.title)}</div><div class="muted">Closing ${new Date(q.closesAt).toLocaleString()}</div></div><div class="row" style="gap:8px"><button class="btn" id="fc-resolve">Resolve</button><a class="btn" href="#/forecast/questions">Back</a></div>`;
+  renderAnswerSliders(q); renderActivity(q); renderCrowd(q); renderNotesTab(q);
+  $('[data-fc-tab]').forEach(b=> b.onclick=()=>{ $('[data-fc-tab]').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+    ['forecast','activity','crowd','notes'].forEach(name=>{ $('#fc-tab-'+name).style.display = (b.dataset.fcTab===name)? '' : 'none'; });
+  });
+  $('#fc-resolve').onclick=async ()=>{ if(q.outcome){ alert('Already resolved.'); return; } const idx=prompt('Enter the winning answer index (1..N)'); const i=(parseInt(idx,10)||0)-1; if(i<0 || i>=q.answers.length) return; q.outcome={answerId:q.answers[i].id, at:now()}; await dbPut('questions', q); alert('Resolved. Dashboard will include it in Brier after you have a forecast saved.'); renderCrowd(q); };
+  $('#fc-save').onclick=()=>saveForecast(false); $('#fc-submit').onclick=()=>saveForecast(true);
+}
+async function saveForecast(submit=false){
+  const q=fc.curQ; if(!q) return; const sliders=$('[data-fc-prob]'); const probs=sliders.map(s=> parseInt(s.value,10)/100 );
+  const s=sum(probs); const norm = s>0? probs.map(p=>p/s) : probs.map(_=>0);
+  $('#fc-sumcheck').textContent='Sum: '+pct(sum(norm)*100/100)+' (normalized on save)';
+  const rec={ id:newid(), questionId:q.id, asOf:now(), probs:norm, submitted:submit };
+  await dbPut('forecasts', rec); await dbPut('events', {id:newid(), type:'forecast', questionId:q.id, at:rec.asOf}); renderActivity(q); renderCrowd(q); alert(submit?'Submitted!':'Saved.');
+}
+function renderAnswerSliders(q){
+  const host=$('#fc-answers'); host.innerHTML='';
+  q.answers.forEach((a,i)=>{ const row=document.createElement('div'); row.className='row'; row.style.margin='8px 0';
+    row.innerHTML = `<div style="flex:1">${esc(a.text)}</div><input type="range" min="0" max="100" step="1" value="${Math.floor(100/q.answers.length)}" data-fc-prob="${i}" style="width:240px"><span class="badge" id="fc-prob-${i}">${pct(100/q.answers.length)}</span>`;
+    host.appendChild(row);
+  });
+  $('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
+}
+async function renderActivity(q){
+  const events=(await dbGetAll('events')).filter(e=>e.questionId===q.id).sort((a,b)=>new Date(b.at)-new Date(a.at));
+  $('#fc-activity').textContent = events.length? events.map(e=>`• ${e.type} @ ${new Date(e.at).toLocaleString()}`).join('\n') : 'No activity yet.';
+}
+async function renderCrowd(q){
+  const fs=(await dbGetAll('forecasts')).filter(f=>f.questionId===q.id); const k=q.answers.length; const avg=new Array(k).fill(0);
+  if(fs.length){ fs.forEach(f=> f.probs.forEach((p,i)=> avg[i]+=p)); for(let i=0;i<k;i++) avg[i]/=fs.length; }
+  const host=$('#fc-crowd-bars'); host.innerHTML='';
+  q.answers.forEach((a,i)=>{ const pctStr=pct((avg[i]||0)*100); const row=document.createElement('div'); row.className='row'; row.style.margin='6px 0';
+    row.innerHTML = `<div style="width:40%">${esc(a.text)}</div><div style="flex:1;background:var(--chip);border:1px solid var(--line);border-radius:8px;overflow:hidden"><div style="height:12px;background:var(--link);width:${(avg[i]||0)*100}%"></div></div><span class="badge">${pctStr}</span>`; host.appendChild(row);
+  });
+}
+function renderNotesTab(q){
+  const words=new Set((q.title||'').toLowerCase().split(/\W+/).filter(w=>w.length>3));
+  const hits=st.notes.filter(n=>{ const bag=(n.title+' '+n.content).toLowerCase().split(/\W+/); return bag.some(w=>words.has(w)); });
+  $('#fc-notes-list').value = hits.length? hits.map((n,i)=>`${i+1}. ${n.title}\n`).join('') : '';
+  const div=$('#fc-notes-cluster'); div.innerHTML=''; hits.slice(0,12).forEach(n=>{ const card=document.createElement('div'); card.className='card'; card.style.width='220px'; card.innerHTML=`<div class="title">${esc(n.title)}</div><div class="preview">${esc((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</div><div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span></div>`; card.onclick=()=>{ location.hash='#/notecard'; load(n.id); renderLeft(); }; div.appendChild(card); });
+  $('#fc-notes-agent').onclick=async ()=>{
+    const P={system:"You are a helpful forecasting assistant.", user:"Question: {text}", model:"gpt-4o-mini", temperature:0.6};
+    const body={ model:P.model||'gpt-4o-mini', temperature:P.temperature ?? 0.6, input:[
+      {role:'system',content:P.system},
+      {role:'user',content:(P.user||'{text}').replaceAll('{text}', fc.curQ?.title||'')}
+    ], stream:false };
+    $('#fc-agent-output').textContent='Thinking...';
+    try{
+      const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(!r.ok) throw new Error(await r.text());
+      const data=await r.json();
+      const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
+      $('#fc-agent-output').textContent = text || '(no text)';
+    }catch(err){ $('#fc-agent-output').textContent='Agent error: '+err.message; }
+  };
+}
+
+/*** ===== Boot ===== ***/
+window.addEventListener('DOMContentLoaded', async ()=>{
+  canvas=$('#gcanvas'); ctx=canvas.getContext('2d');
+  initTheme(); $('#btn-theme').onclick=toggleTheme;
+  window.addEventListener('hashchange',()=>show()); show();
+  renderLeft(); renderProjectsBar(); renderLibrary();
+  resizeCanvas(); setupZoomPan(); bindGraphControls(); initPhysics(); renderCluster();
+  APP_READY=true;
+  await dbOpen(); await seedForecastingIfEmpty(); routeForecast();
+  // Demo seed if empty
+  if(st.notes.length===0){
+    const A={id:uid(),title:'Bank Funding Stress',content:'Deposits + MMFs. [[CRE Exposures]] [[Regional Banks]]',tags:['banking','risk','project:Atlas'],created_at:now(),updated_at:now(),debate:[]};
+    const B={id:uid(),title:'CRE Exposures',content:'Office vacancy high; maturities in 26-27. [[Policy Path]]',tags:['cre','risk','project:Borealis'],created_at:now(),updated_at:now(),debate:[]};
+    const C={id:uid(),title:'Policy Path',content:'Higher-for-longer; term premium.',tags:['policy','macro','project:Cascade'],created_at:now(),updated_at:now(),debate:[]};
+    const D={id:uid(),title:'Regional Banks',content:'Unrealized losses + deposit flight. [[Bank Funding Stress]]',tags:['banking','project:Drift'],created_at:now(),updated_at:now(),debate:[]};
+    st.notes.push(A,B,C,D); persist(); renderLeft(); renderProjectsBar(); renderLibrary(); initPhysics(); renderCluster();
+  }
+});
+
+/*** ===== Admin sync: shared forecasts.json ===== ***/
+(function(){
+  // Simple toast (no alerts)
+  if(!document.getElementById('wl-toast-host')){
+    const host=document.createElement('div'); host.id='wl-toast-host';
+    host.style.position='fixed'; host.style.right='12px'; host.style.bottom='12px';
+    host.style.display='flex'; host.style.flexDirection='column'; host.style.gap='8px'; host.style.zIndex='9999';
+    document.body.appendChild(host);
+  }
+  window.__wl_toast = function(msg){
+    try{
+      const host=document.getElementById('wl-toast-host'); const card=document.createElement('div');
+      card.textContent=msg; card.style.background='var(--panel)'; card.style.border='1px solid var(--line)';
+      card.style.borderRadius='10px'; card.style.padding='10px 12px'; card.style.boxShadow='0 6px 18px rgba(0,0,0,.28)'; card.style.color='var(--ink)';
+      host.appendChild(card); setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 350); }, 2200);
+    }catch(e){ /* no-op */ }
+  };
+
+  // Pull /forecasts.json and replace the questions store (so everyone sees the same list)
+  window.syncForecastsFromJSON = async function(force){
+    try{
+      if(!window.indexedDB || !window.dbh){ return; }
+      const res = await fetch('/forecasts.json?v=' + Date.now(), {cache:'no-store'});
+      if(!res.ok){ throw new Error('HTTP '+res.status); }
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('forecasts.json is not an array');
+
+      const tx = dbh.transaction(['questions'], 'readwrite'); const store = tx.objectStore('questions');
+      await new Promise((resolve,reject)=>{ const req=store.clear(); req.onsuccess=resolve; req.onerror=()=>reject(req.error); });
+
+      // Normalize and save
+      for (const q of data){
+        q.id = q.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()));
+        q.answers = (q.answers||[]).map(a=>({ id: a.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random())), text: a.text }));
+        q.created_at = q.created_at || new Date().toISOString();
+        await new Promise((resolve,reject)=>{ const put=store.put(q); put.onsuccess=resolve; put.onerror=()=>reject(put.error); });
+      }
+      await new Promise((resolve,reject)=>{ tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error); });
+
+      if(location.hash.startsWith('#/forecast')){ try{ routeForecast(); }catch(e){} }
+      __wl_toast('Forecasts synced from forecasts.json');
+    }catch(err){
+      console.error('syncForecastsFromJSON:', err);
+      __wl_toast('Could not load forecasts.json ('+ (err && err.message || err) + ')');
+    }
+  };
+
+  // Add a small "Refresh" button only on the Questions view
+  function ensureRefreshBtn(){
+    if(!document.getElementById('fc-refresh') && document.querySelector('#view-forecast .pane .row .btn[href="#/forecast/questions"]')){
+      const qsBtn = document.querySelector('#view-forecast .pane .row .btn[href="#/forecast/questions"]');
+      const btn=document.createElement('button'); btn.className='btn'; btn.id='fc-refresh'; btn.textContent='Refresh';
+      btn.onclick = ()=> window.syncForecastsFromJSON(true);
+      qsBtn.parentElement.appendChild(btn);
+    }
+  }
+  window.addEventListener('hashchange', ensureRefreshBtn);
+  document.addEventListener('DOMContentLoaded', ensureRefreshBtn);
+
+  // Auto-sync once the DB handle exists
+  const _oldDbOpen = window.dbOpen;
+  if (typeof _oldDbOpen === 'function'){
+    window.dbOpen = function(){
+      return _oldDbOpen().then(async()=>{
+        try{ await window.syncForecastsFromJSON(); }catch(e){} 
+      });
+    };
+  } else {
+    // Fallback: try after load
+    window.addEventListener('load', ()=>{ setTimeout(()=>window.syncForecastsFromJSON(), 1200); });
+  }
+})();
+</script>
+</body>
+</html>
