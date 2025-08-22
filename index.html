@@ -938,57 +938,46 @@ async function askAgent(){
     $('#debate-output').textContent = text || '(no text)';
   }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
 }
-(()=>{ const _b=$('#debate-ask'); if(_b) _b.onclick=askAgent; })();
-
-(()=>{
-  const _b=document.getElementById('debate-add');
-  if(!_b) return;
-  _b.onclick=()=>{
-    const outEl=document.getElementById('debate-output');
-    const bodyEl=document.getElementById('nc-content');
-    const titleEl=document.getElementById('nc-title');
-    const tagsEl=document.getElementById('nc-tags');
-    const out=(outEl?.textContent||'').trim();
-    if(!out){ window.toast?.('Nothing to add','Ask AI first'); return; }
+(function(){var el=document.getElementById('debate-ask'); if(el) el.onclick=askAgent;})();
+(function(){
+  var btn=document.getElementById('debate-add');
+  if(!btn) return;
+  btn.onclick=function(){
+    var outEl=document.getElementById('debate-output');
+    var titleEl=document.getElementById('nc-title');
+    var bodyEl=document.getElementById('nc-content');
+    var tagsEl=document.getElementById('nc-tags');
+    var text=(outEl && outEl.textContent ? outEl.textContent.trim() : '');
+    if(!text){ if(window.toast) toast('Nothing to add','Ask AI first'); return; }
     if(!bodyEl) return;
-
     if(!window.currentId){
       window.currentId=(window.uid? uid(): String(Date.now()));
-      const t=(window.now? now(): new Date().toISOString());
+      var t=(window.now? now(): new Date().toISOString());
       window.st=window.st||{notes:[]};
-      st.notes.push({
-        id: currentId,
-        title: (titleEl?.value||'Untitled').trim(),
-        content: bodyEl.value || '',
-        tags: (window.tagsOf? tagsOf(tagsEl?.value||''): []),
-        created_at: t, updated_at: t, debate: []
-      });
+      st.notes.push({id:currentId,title:(titleEl&&titleEl.value? titleEl.value.trim():'Untitled'),
+        content:bodyEl.value||'',tags:(window.tagsOf? tagsOf(tagsEl? tagsEl.value:'' ):[]),
+        created_at:t,updated_at:t,debate:[]});
       st.focusId=currentId;
     }
+    var agent=(document.getElementById('debate-agent')||{}).value || 'Agent';
+    var stamp=new Date().toLocaleString();
+    var divider="\n\n---\n["+agent+" • "+stamp+"]\n";
+    bodyEl.value = bodyEl.value ? (bodyEl.value + divider + text) : text;
 
-    const agent = document.getElementById('debate-agent')?.value || 'Agent';
-    const stamp = new Date().toLocaleString();
-    const divider = `
-
----
-[${agent} • ${stamp}]
-`;
-    bodyEl.value = (bodyEl.value ? bodyEl.value + divider + out : out);
-
-    const idx = (Array.isArray(st?.notes)? st.notes.findIndex(n=>n.id===currentId) : -1);
-    if(idx>=0){
-      st.notes[idx].content = bodyEl.value;
-      st.notes[idx].updated_at = (window.now? now(): new Date().toISOString());
-      st.notes[idx].debate = st.notes[idx].debate || [];
-      st.notes[idx].debate.push({who:agent, text:out, at:(window.now? now(): new Date().toISOString())});
+    if(window.st && Array.isArray(st.notes)){
+      var i=st.notes.findIndex(function(n){return n.id===currentId;});
+      if(i>=0){
+        st.notes[i].content=bodyEl.value;
+        st.notes[i].updated_at=(window.now? now(): new Date().toISOString());
+        st.notes[i].debate=st.notes[i].debate||[];
+        st.notes[i].debate.push({who:agent,text:text,at:(window.now? now(): new Date().toISOString())});
+      }
+      if(window.persist) persist();
+      if(window.renderLeft) renderLeft();
     }
-
-    window.persist?.();
-    window.renderLeft?.();
-    window.toast?.('Added to note','AI output appended.');
+    if(window.toast) toast('Added to note','AI output appended.');
   };
 })();
-
 
 /*** ===== Projects bar ===== ***/
 function projectsMap(){ const m={}; st.notes.forEach(n=> (n.tags||[]).forEach(t=>{ const l=t.toLowerCase(); if(l.startsWith('project')||l.startsWith('proj:')) (m[t]=m[t]||[]).push(n.id); })); return m; }
@@ -1035,27 +1024,32 @@ function themeColors(){
   const cs=getComputedStyle(document.documentElement);
   return { edge:cs.getPropertyValue('--g-edge').trim()||'#cbd5e1', node:cs.getPropertyValue('--g-node').trim()||'#0ea5e9', stroke:cs.getPropertyValue('--g-stroke').trim()||'#0f172a', label:cs.getPropertyValue('--g-label').trim()||'#0f172a', focus:cs.getPropertyValue('--g-focus').trim()||'#fb7185', bg:cs.getPropertyValue('--g-bg').trim()||'#ffffff' };
 }
-
 function resizeCanvas() {
-  if (!window.canvas) window.canvas = document.getElementById('gcanvas');
-  if (!window.canvas) return;
-  if (!window.ctx) {
-    try { window.ctx = canvas.getContext('2d'); } catch (e) {}
+  if (!window.canvas) {
+    window.canvas = document.getElementById('gcanvas');
   }
-  const rect = canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : { width: 2, height: 2 };
+  if (!window.canvas) return;
+
+  if (!window.ctx) {
+    try {
+      window.ctx = canvas.getContext('2d');
+    } catch (e) {
+      // ignore if context not available
+    }
+  }
+
+  const rect = canvas.getBoundingClientRect
+    ? canvas.getBoundingClientRect()
+    : { width: 2, height: 2 };
+
   const dpr = window.devicePixelRatio || 1;
-  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
+  canvas.width = Math.max(2, Math.floor(rect.width * dpr));
   canvas.height = Math.max(2, Math.floor(rect.height * dpr));
+
   if (typeof draw === 'function') draw();
 }
-catch(e){} }
-  var rect = (canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : {width:2,height:2});
-  var dpr = window.devicePixelRatio || 1;
-  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
-  canvas.height = Math.max(2, Math.floor(rect.height * dpr));
-  if(typeof draw==='function') draw();
-}
-window.addEventListener('resize', ()=>{ if(!window.canvas) window.canvas=document.getElementById('gcanvas'); if(!window.canvas) return; resizeCanvas(); if(window.sim && typeof sim.alpha==='function') try{ sim.alpha(0.2).restart(); }catch(e){} });
+
+window.addEventListener('resize', ()=>{ resizeCanvas(); if(sim) sim.alpha(0.2).restart(); });
 
 function simTags(A,B){ const a=new Set((A||[]).map(s=>s.toLowerCase())); const b=new Set((B||[]).map(s=>s.toLowerCase())); if(a.size===0 && b.size===0) return 0; let inter=0; a.forEach(t=>{ if(b.has(t)) inter++; }); const uni=a.size+b.size-inter; return inter/uni; }
 
