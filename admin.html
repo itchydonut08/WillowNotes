@@ -29,7 +29,7 @@
   <div class="row">
     <a class="btn" href="./index.html#%2Fforecast">← Back to App</a>
     <button class="btn" id="btn-load">Load current /forecasts.json</button>
-    <button class="btn" id="btn-download">Download forecasts.json</button>
+    <button class="btn" id="btn-copy">Copy forecasts.json</button>
   </div>
 </header>
 
@@ -135,10 +135,33 @@ function edit(id){
   render();
 }
 
-document.getElementById('btn-download').onclick = ()=>{
-  const blob = new Blob([JSON.stringify(state.items, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=url; a.download='forecasts.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500);
+// NEW: Copy forecasts.json to clipboard
+document.getElementById('btn-copy').onclick = async ()=>{
+  const txt = JSON.stringify(state.items, null, 2);
+  const btn = document.getElementById('btn-copy');
+  const old = btn.textContent;
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(txt);
+    }else{
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    btn.textContent = 'Copied!';
+  }catch(e){
+    console.error('Copy failed:', e);
+    btn.textContent = 'Copy failed';
+  }finally{
+    btn.disabled = true;
+    setTimeout(()=>{ btn.textContent = old; btn.disabled = false; }, 1200);
+  }
 };
 
 document.getElementById('btn-load').onclick = async()=>{
