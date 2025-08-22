@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+<html lang="en" data-theme="dark"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Willow — Notes • Library • Physics Graph • Forecasting</title>
@@ -52,26 +50,6 @@ textarea{min-height:260px;resize:vertical}
 .proj .count{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.35);border-radius:999px;padding:2px 6px;font-size:11px}
 .badge{border:1px solid var(--line);padding:2px 6px;border-radius:999px;font-size:11px;background:var(--btn);color:var(--ink)}
 .gctrls{display:flex;gap:14px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-
-/* ============ UX Additions (toasts + modal) ============ */
-#toasts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:9999}
-.toast{background:var(--panel);border:1px solid var(--line);border-left:6px solid #10b981;border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.25);min-width:220px;max-width:380px;display:flex;align-items:flex-start;gap:10px}
-.toast.warn{border-left-color:#f59e0b}
-.toast.err{border-left-color:#ef4444}
-.toast .t-close{margin-left:auto;cursor:pointer;border:none;background:transparent;color:var(--muted);font-size:16px;line-height:1;padding:0}
-.toast .t-title{font-weight:700;margin-right:6px}
-.toast .t-text{font-size:13px;color:var(--ink)}
-.shake{animation:shake .32s cubic-bezier(.36,.07,.19,.97) both}
-@keyframes shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
-/* Modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9998}
-.modal{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:720px;width:min(92vw,720px);padding:12px;display:flex;flex-direction:column;gap:10px}
-.modal h3{margin:0;font-size:16px}
-.modal .actions{display:flex;gap:10px;justify-content:flex-end}
-.modal textarea{min-height:160px}
-.badge.kbd{font-family:ui-monospace, monospace; font-size:11px; border-style:solid; border-width:1px; padding:2px 6px; border-radius:6px}
-
-.small{font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -81,9 +59,9 @@ textarea{min-height:260px;resize:vertical}
   </div>
   <nav class="nav">
     <a href="#/notecard" id="nav-notecard" class="active">Notecard</a>
-    <a href="#/library" id="nav-library">Library</a>
-    <a href="#/graph" id="nav-graph">Graph</a>
-    <a href="#/forecast" id="nav-forecast">Forecast</a>
+    <a href="#/library" id="nav-library" class="">Library</a>
+    <a href="#/graph" id="nav-graph" class="">Graph</a>
+    <a href="#/forecast" id="nav-forecast" class="">Forecast</a>
     <span class="muted">•</span>
     <button id="btn-export" class="btn">Export</button>
     <label class="btn" style="cursor:pointer"><input id="file-import" type="file" accept="application/json" style="display:none"> Import</label>
@@ -93,13 +71,13 @@ textarea{min-height:260px;resize:vertical}
 
 <main class="wrap">
   <!-- ===== Notecard ===== -->
-  <section id="view-notecard" class="grid-3">
+  <section id="view-notecard" class="grid-3" style="">
     <aside class="pane">
       <div class="tabs">
         <button id="tab-notes" class="tab active">Notes</button>
         <button id="tab-suggestions" class="tab">Suggestions</button>
       </div>
-      <div id="left-list" class="list"></div>
+      <div id="left-list" class="list"><div class="item"><div class="t">Drift Note 39</div><div class="muted">This is a note titled Drift Note 39. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Equinox Note 25</div><div class="muted">This is a note titled Equinox Note 25. It discusses insights and references [[Policy Path]] [[Inflation Watch]] [[Equino…</div></div><div class="item"><div class="t">Borealis Note 17</div><div class="muted">This is a note titled Borealis Note 17. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Borealis Note 37</div><div class="muted">This is a note titled Borealis Note 37. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]] …</div></div><div class="item"><div class="t">Borealis Note 87</div><div class="muted">This is a note titled Borealis Note 87. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div></div><div class="item"><div class="t">Cascade Note 38</div><div class="muted">This is a note titled Cascade Note 38. It discusses insights and references [[Inflation Watch]] [[Regional Banks]].</div></div><div class="item"><div class="t">Atlas Note 56</div><div class="muted">This is a note titled Atlas Note 56. It discusses insights and references [[Energy Shock]] [[Regional Banks]].</div></div><div class="item"><div class="t">Borealis Note 72</div><div class="muted">This is a note titled Borealis Note 72. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div></div><div class="item"><div class="t">Cascade Note 28</div><div class="muted">This is a note titled Cascade Note 28. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]] [[Drift No…</div></div><div class="item"><div class="t">Bank Funding Stress</div><div class="muted">Core topic: Bank Funding Stress. See links to other cores where relevant.</div></div><div class="item"><div class="t">Regional Banks</div><div class="muted">Core topic: Regional Banks. See links to other cores where relevant.</div></div><div class="item"><div class="t">CRE Exposures</div><div class="muted">Core topic: CRE Exposures. See links to other cores where relevant.</div></div><div class="item"><div class="t">Policy Path</div><div class="muted">Core topic: Policy Path. See links to other cores where relevant.</div></div><div class="item"><div class="t">Inflation Watch</div><div class="muted">Core topic: Inflation Watch. See links to other cores where relevant.</div></div><div class="item"><div class="t">Dollar Cycle</div><div class="muted">Core topic: Dollar Cycle. See links to other cores where relevant.</div></div><div class="item"><div class="t">Energy Shock</div><div class="muted">Core topic: Energy Shock. See links to other cores where relevant.</div></div><div class="item"><div class="t">Drift Note 74</div><div class="muted">This is a note titled Drift Note 74. It discusses insights and references [[Inflation Watch]] [[Regional Banks]].</div></div><div class="item"><div class="t">Drift Note 84</div><div class="muted">This is a note titled Drift Note 84. It discusses insights and references [[Dollar Cycle]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Cascade Note 8</div><div class="muted">This is a note titled Cascade Note 8. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Drift Note 24</div><div class="muted">This is a note titled Drift Note 24. It discusses insights and references [[Energy Shock]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Equinox Note 85</div><div class="muted">This is a note titled Equinox Note 85. It discusses insights and references [[CRE Exposures]] [[Regional Banks]] [[Equin…</div></div><div class="item"><div class="t">Drift Note 89</div><div class="muted">This is a note titled Drift Note 89. It discusses insights and references [[Dollar Cycle]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Atlas Note 76</div><div class="muted">This is a note titled Atlas Note 76. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]] [[Atl…</div></div><div class="item"><div class="t">Cascade Note 18</div><div class="muted">This is a note titled Cascade Note 18. It discusses insights and references [[CRE Exposures]] [[Policy Path]].</div></div><div class="item"><div class="t">Equinox Note 80</div><div class="muted">This is a note titled Equinox Note 80. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Equinox Note 20</div><div class="muted">This is a note titled Equinox Note 20. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div></div><div class="item"><div class="t">Atlas Note 11</div><div class="muted">This is a note titled Atlas Note 11. It discusses insights and references [[Energy Shock]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Borealis Note 82</div><div class="muted">This is a note titled Borealis Note 82. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[…</div></div><div class="item"><div class="t">Atlas Note 61</div><div class="muted">This is a note titled Atlas Note 61. It discusses insights and references [[Regional Banks]] [[Dollar Cycle]] [[Borealis…</div></div><div class="item"><div class="t">Atlas Note 81</div><div class="muted">This is a note titled Atlas Note 81. It discusses insights and references [[Policy Path]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Equinox Note 60</div><div class="muted">This is a note titled Equinox Note 60. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Drift Note 49</div><div class="muted">This is a note titled Drift Note 49. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equ…</div></div><div class="item"><div class="t">Atlas Note 16</div><div class="muted">This is a note titled Atlas Note 16. It discusses insights and references [[CRE Exposures]] [[Dollar Cycle]] [[Borealis …</div></div><div class="item"><div class="t">Drift Note 59</div><div class="muted">This is a note titled Drift Note 59. It discusses insights and references [[Inflation Watch]] [[Energy Shock]].</div></div><div class="item"><div class="t">Equinox Note 45</div><div class="muted">This is a note titled Equinox Note 45. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div></div><div class="item"><div class="t">Atlas Note 71</div><div class="muted">This is a note titled Atlas Note 71. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Cascade Note 63</div><div class="muted">This is a note titled Cascade Note 63. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div></div><div class="item"><div class="t">Cascade Note 93</div><div class="muted">This is a note titled Cascade Note 93. It discusses insights and references [[Policy Path]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Equinox Note 30</div><div class="muted">This is a note titled Equinox Note 30. It discusses insights and references [[Regional Banks]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Equinox Note 35</div><div class="muted">This is a note titled Equinox Note 35. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Drift Note 64</div><div class="muted">This is a note titled Drift Note 64. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[Bo…</div></div><div class="item"><div class="t">Borealis Note 7</div><div class="muted">This is a note titled Borealis Note 7. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]] [[At…</div></div><div class="item"><div class="t">Cascade Note 53</div><div class="muted">This is a note titled Cascade Note 53. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div></div><div class="item"><div class="t">Equinox Note 70</div><div class="muted">This is a note titled Equinox Note 70. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[B…</div></div><div class="item"><div class="t">Atlas Note 31</div><div class="muted">This is a note titled Atlas Note 31. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[Equ…</div></div><div class="item"><div class="t">Drift Note 29</div><div class="muted">This is a note titled Drift Note 29. It discusses insights and references [[Dollar Cycle]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Equinox Note 50</div><div class="muted">This is a note titled Equinox Note 50. It discusses insights and references [[Policy Path]] [[Energy Shock]].</div></div><div class="item"><div class="t">Cascade Note 73</div><div class="muted">This is a note titled Cascade Note 73. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[E…</div></div><div class="item"><div class="t">Drift Note 54</div><div class="muted">This is a note titled Drift Note 54. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Cascade Note 78</div><div class="muted">This is a note titled Cascade Note 78. It discusses insights and references [[Regional Banks]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Cascade Note 68</div><div class="muted">This is a note titled Cascade Note 68. It discusses insights and references [[CRE Exposures]] [[Energy Shock]].</div></div><div class="item"><div class="t">Atlas Note 6</div><div class="muted">This is a note titled Atlas Note 6. It discusses insights and references [[CRE Exposures]] [[Regional Banks]].</div></div><div class="item"><div class="t">Atlas Note 91</div><div class="muted">This is a note titled Atlas Note 91. It discusses insights and references [[Policy Path]] [[Dollar Cycle]] [[Cascade Not…</div></div><div class="item"><div class="t">Cascade Note 43</div><div class="muted">This is a note titled Cascade Note 43. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[C…</div></div><div class="item"><div class="t">Atlas Note 51</div><div class="muted">This is a note titled Atlas Note 51. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div></div><div class="item"><div class="t">Equinox Note 90</div><div class="muted">This is a note titled Equinox Note 90. It discusses insights and references [[CRE Exposures]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Equinox Note 5</div><div class="muted">This is a note titled Equinox Note 5. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Borealis Note 32</div><div class="muted">This is a note titled Borealis Note 32. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div></div><div class="item"><div class="t">Borealis Note 42</div><div class="muted">This is a note titled Borealis Note 42. It discusses insights and references [[Policy Path]] [[Regional Banks]].</div></div><div class="item"><div class="t">Borealis Note 77</div><div class="muted">This is a note titled Borealis Note 77. It discusses insights and references [[Regional Banks]] [[Energy Shock]].</div></div><div class="item"><div class="t">Equinox Note 15</div><div class="muted">This is a note titled Equinox Note 15. It discusses insights and references [[Inflation Watch]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Atlas Note 1</div><div class="muted">This is a note titled Atlas Note 1. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Cascade Note 88</div><div class="muted">This is a note titled Cascade Note 88. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]] [[Bo…</div></div><div class="item"><div class="t">Borealis Note 2</div><div class="muted">This is a note titled Borealis Note 2. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div></div><div class="item"><div class="t">Borealis Note 47</div><div class="muted">This is a note titled Borealis Note 47. It discusses insights and references [[Regional Banks]] [[Policy Path]].</div></div><div class="item"><div class="t">Drift Note 34</div><div class="muted">This is a note titled Drift Note 34. It discusses insights and references [[Inflation Watch]] [[Regional Banks]] [[Borea…</div></div><div class="item"><div class="t">Borealis Note 22</div><div class="muted">This is a note titled Borealis Note 22. It discusses insights and references [[Inflation Watch]] [[Policy Path]] [[Borea…</div></div><div class="item"><div class="t">Drift Note 19</div><div class="muted">This is a note titled Drift Note 19. It discusses insights and references [[Inflation Watch]] [[Dollar Cycle]] [[Atlas N…</div></div><div class="item"><div class="t">Borealis Note 27</div><div class="muted">This is a note titled Borealis Note 27. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Drift Note 69</div><div class="muted">This is a note titled Drift Note 69. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Cascade Note 83</div><div class="muted">This is a note titled Cascade Note 83. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Atlas Note 36</div><div class="muted">This is a note titled Atlas Note 36. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Borealis Note 52</div><div class="muted">This is a note titled Borealis Note 52. It discusses insights and references [[Energy Shock]] [[Policy Path]] [[Drift No…</div></div><div class="item"><div class="t">Atlas Note 46</div><div class="muted">This is a note titled Atlas Note 46. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[Atl…</div></div><div class="item"><div class="t">Equinox Note 55</div><div class="muted">This is a note titled Equinox Note 55. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]] …</div></div><div class="item"><div class="t">Atlas Note 41</div><div class="muted">This is a note titled Atlas Note 41. It discusses insights and references [[Regional Banks]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Borealis Note 12</div><div class="muted">This is a note titled Borealis Note 12. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div></div><div class="item"><div class="t">Atlas Note 21</div><div class="muted">This is a note titled Atlas Note 21. It discusses insights and references [[Dollar Cycle]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Borealis Note 92</div><div class="muted">This is a note titled Borealis Note 92. It discusses insights and references [[Policy Path]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Borealis Note 67</div><div class="muted">This is a note titled Borealis Note 67. It discusses insights and references [[Regional Banks]] [[CRE Exposures]] [[Equi…</div></div><div class="item"><div class="t">Cascade Note 48</div><div class="muted">This is a note titled Cascade Note 48. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Borealis Note 57</div><div class="muted">This is a note titled Borealis Note 57. It discusses insights and references [[Energy Shock]] [[Regional Banks]].</div></div><div class="item"><div class="t">Atlas Note 86</div><div class="muted">This is a note titled Atlas Note 86. It discusses insights and references [[Policy Path]] [[CRE Exposures]].</div></div><div class="item"><div class="t">Drift Note 9</div><div class="muted">This is a note titled Drift Note 9. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Borealis Note 62</div><div class="muted">This is a note titled Borealis Note 62. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Drift Note 4</div><div class="muted">This is a note titled Drift Note 4. It discusses insights and references [[Inflation Watch]] [[Policy Path]].</div></div><div class="item"><div class="t">Cascade Note 3</div><div class="muted">This is a note titled Cascade Note 3. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Drift Note 44</div><div class="muted">This is a note titled Drift Note 44. It discusses insights and references [[Energy Shock]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Cascade Note 58</div><div class="muted">This is a note titled Cascade Note 58. It discusses insights and references [[Inflation Watch]] [[Energy Shock]] [[Casca…</div></div><div class="item"><div class="t">Equinox Note 65</div><div class="muted">This is a note titled Equinox Note 65. It discusses insights and references [[Policy Path]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Atlas Note 26</div><div class="muted">This is a note titled Atlas Note 26. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Cascade Note 33</div><div class="muted">This is a note titled Cascade Note 33. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div></div><div class="item"><div class="t">Cascade Note 23</div><div class="muted">This is a note titled Cascade Note 23. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div></div><div class="item"><div class="t">Equinox Note 40</div><div class="muted">This is a note titled Equinox Note 40. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[…</div></div><div class="item"><div class="t">Drift Note 14</div><div class="muted">This is a note titled Drift Note 14. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div></div><div class="item"><div class="t">Equinox Note 10</div><div class="muted">This is a note titled Equinox Note 10. It discusses insights and references [[Energy Shock]] [[CRE Exposures]] [[Drift N…</div></div><div class="item"><div class="t">Cascade Note 13</div><div class="muted">This is a note titled Cascade Note 13. It discusses insights and references [[CRE Exposures]] [[Regional Banks]] [[Atlas…</div></div><div class="item"><div class="t">Atlas Note 66</div><div class="muted">This is a note titled Atlas Note 66. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]].</div></div><div class="item"><div class="t">Equinox Note 75</div><div class="muted">This is a note titled Equinox Note 75. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div></div><div class="item"><div class="t">Drift Note 79</div><div class="muted">This is a note titled Drift Note 79. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]] [[Borealis N…</div></div></div>
     </aside>
     <section class="pane">
       <input id="nc-title" type="text" placeholder="Title (new note)">
@@ -113,7 +91,6 @@ textarea{min-height:260px;resize:vertical}
       </div>
       <input id="nc-tags" type="text" placeholder="#Tags comma or #prefix">
       <div id="tag-chips" class="chips" style="margin-top:6px"></div>
-
       <div class="row" style="margin-top:10px">
         <select id="debate-agent" style="width:auto">
           <option value="Historian">Historian</option>
@@ -125,9 +102,7 @@ textarea{min-height:260px;resize:vertical}
         <button id="debate-ask" class="btn">Ask AI</button>
         <button id="debate-add" class="btn">Add to note</button>
       </div>
-      <div class="row space" style="margin-top:6px"><div class="muted">AI inserts history</div><span class="small">Tip: <span class="badge kbd">⌘/Ctrl</span> + <span class="badge kbd">Enter</span> to ask</span></div>
       <pre id="debate-output" class="mono" style="white-space:pre-wrap"></pre>
-      <div id="debate-history" class="list"></div>
     </section>
     <aside class="pane">
       <div class="row space">
@@ -139,414 +114,1295 @@ textarea{min-height:260px;resize:vertical}
   </section>
 
   <!-- ===== Library ===== -->
-  <section id="view-library" style="display:none">
+  <section id="view-library" style="display: none;">
     <div class="pane">
       <h3 style="margin:0 0 8px">LIBRARY</h3>
-      <div class="projects-bar" id="projects-bar"></div>
+      <div id="projects-bar" class="projects-bar"><div class="proj"><b>project:Atlas</b> <span class="count">19</span></div><div class="proj"><b>project:Borealis</b> <span class="count">19</span></div><div class="proj"><b>project:Cascade</b> <span class="count">19</span></div><div class="proj"><b>project:Drift</b> <span class="count">18</span></div><div class="proj"><b>project:Equinox</b> <span class="count">18</span></div></div>
       <div class="lib-controls row" style="flex-wrap:wrap">
         <input id="lib-search" type="text" placeholder="Search titles/content" style="flex:1;min-width:220px">
         <input id="lib-tags" type="text" placeholder="#tag1, #tag2" style="min-width:200px">
         <span class="muted">Min links</span><input id="lib-min" type="range" min="0" max="10" step="1" value="0"><span id="lib-min-val" class="badge">0</span>
         <span class="muted">Card size</span><input id="lib-size" type="range" min="160" max="320" step="10" value="220">
-        <label class="row"><span class="muted">Newest first</span><input id="lib-sort" type="checkbox" checked style="margin-left:6px"></label>
+        <label class="row"><span class="muted">Newest first</span><input id="lib-sort" type="checkbox" checked="" style="margin-left:6px"></label>
         <span id="lib-active-project" class="chip" style="display:none;cursor:pointer" title="Click to clear">Project: -</span>
         <button id="lib-clear" class="btn">Clear</button>
       </div>
-      <div id="lib-grid" class="lib-grid" style="display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))"></div>
+      <div id="lib-grid" class="lib-grid" style="display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+    <article class="card" data-id="675f93dd-bb1e-4cc5-9ec8-64387eaa87d3">
+      <div class="title">Drift Note 39</div>
+      <div class="preview">This is a note titled Drift Note 39. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="9c985329-c911-4adb-a884-7bc89c26ee1b">
+      <div class="title">Equinox Note 25</div>
+      <div class="preview">This is a note titled Equinox Note 25. It discusses insights and references [[Policy Path]] [[Inflation Watch]] [[Equinox Note 15]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="d2c97838-3454-42f9-b1a2-ffe7f3860b15">
+      <div class="title">Borealis Note 17</div>
+      <div class="preview">This is a note titled Borealis Note 17. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="b31244b7-698f-40da-9124-9ea9a37c33a8">
+      <div class="title">Borealis Note 37</div>
+      <div class="preview">This is a note titled Borealis Note 37. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]] [[Equinox Note 15]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="43f3a530-8562-4679-a52f-8c01586a3d90">
+      <div class="title">Borealis Note 87</div>
+      <div class="preview">This is a note titled Borealis Note 87. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="766e5813-6465-40b3-a7bb-8eb38a85fba1">
+      <div class="title">Cascade Note 38</div>
+      <div class="preview">This is a note titled Cascade Note 38. It discusses insights and references [[Inflation Watch]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="75860447-611e-4c46-8959-5b166e30e7ea">
+      <div class="title">Atlas Note 56</div>
+      <div class="preview">This is a note titled Atlas Note 56. It discusses insights and references [[Energy Shock]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="a5bc57d4-09b1-4f4c-9734-0cb9d0123108">
+      <div class="title">Borealis Note 72</div>
+      <div class="preview">This is a note titled Borealis Note 72. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="69c95764-2390-4f4f-acbd-8d90472f3ec8">
+      <div class="title">Cascade Note 28</div>
+      <div class="preview">This is a note titled Cascade Note 28. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]] [[Drift Note 9]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="dd29b50f-79c5-4cdc-ac50-1af5e88b7ed4">
+      <div class="title">Bank Funding Stress</div>
+      <div class="preview">Core topic: Bank Funding Stress. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">39 links</span></div>
+    </article>
+    <article class="card" data-id="f2003005-2ee3-4581-a5ce-3d8a4fc8d748">
+      <div class="title">Regional Banks</div>
+      <div class="preview">Core topic: Regional Banks. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">19 links</span></div>
+    </article>
+    <article class="card" data-id="102531e5-773c-4e60-ab24-901c181c9a92">
+      <div class="title">CRE Exposures</div>
+      <div class="preview">Core topic: CRE Exposures. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">21 links</span></div>
+    </article>
+    <article class="card" data-id="11ac5244-6d85-425f-8c58-1a29bf5cf2e3">
+      <div class="title">Policy Path</div>
+      <div class="preview">Core topic: Policy Path. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">23 links</span></div>
+    </article>
+    <article class="card" data-id="8311ff5a-8f64-4ca2-9176-0cb71b611c59">
+      <div class="title">Inflation Watch</div>
+      <div class="preview">Core topic: Inflation Watch. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">21 links</span></div>
+    </article>
+    <article class="card" data-id="7889ae95-2a04-42a9-bf18-6ba38177af85">
+      <div class="title">Dollar Cycle</div>
+      <div class="preview">Core topic: Dollar Cycle. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">31 links</span></div>
+    </article>
+    <article class="card" data-id="53d8c1fd-6cd5-4c25-a9d7-2f7678ca335b">
+      <div class="title">Energy Shock</div>
+      <div class="preview">Core topic: Energy Shock. See links to other cores where relevant.</div>
+      <div class="meta"><span class="badge">#2 tags</span><span class="badge">32 links</span></div>
+    </article>
+    <article class="card" data-id="034e2922-b549-4ea4-89e1-00da390f3cfa">
+      <div class="title">Drift Note 74</div>
+      <div class="preview">This is a note titled Drift Note 74. It discusses insights and references [[Inflation Watch]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="46cf5e69-374b-45cb-a358-9e35ee8759c0">
+      <div class="title">Drift Note 84</div>
+      <div class="preview">This is a note titled Drift Note 84. It discusses insights and references [[Dollar Cycle]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="038358d2-0459-43e2-bbca-a33e4a19a597">
+      <div class="title">Cascade Note 8</div>
+      <div class="preview">This is a note titled Cascade Note 8. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="1a685c47-e13d-4348-bc7b-40e8eb2902c6">
+      <div class="title">Drift Note 24</div>
+      <div class="preview">This is a note titled Drift Note 24. It discusses insights and references [[Energy Shock]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="217504d8-6843-4b10-a256-dc8405591be6">
+      <div class="title">Equinox Note 85</div>
+      <div class="preview">This is a note titled Equinox Note 85. It discusses insights and references [[CRE Exposures]] [[Regional Banks]] [[Equinox Note 75]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="57184b8a-c4fb-4931-b0be-ec02fa2c1579">
+      <div class="title">Drift Note 89</div>
+      <div class="preview">This is a note titled Drift Note 89. It discusses insights and references [[Dollar Cycle]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="5aed348e-16ae-4b34-9409-50abf54e828e">
+      <div class="title">Atlas Note 76</div>
+      <div class="preview">This is a note titled Atlas Note 76. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]] [[Atlas Note 46]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="0b94a66b-1949-4558-9ffb-d87b6aeacbce">
+      <div class="title">Cascade Note 18</div>
+      <div class="preview">This is a note titled Cascade Note 18. It discusses insights and references [[CRE Exposures]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="aee7a8b1-059d-4aa2-99ee-54b251f34cc1">
+      <div class="title">Equinox Note 80</div>
+      <div class="preview">This is a note titled Equinox Note 80. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="628295f5-6db3-46c1-962b-130c7df78e7f">
+      <div class="title">Equinox Note 20</div>
+      <div class="preview">This is a note titled Equinox Note 20. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="752da658-ee29-44e8-88bb-40e90edcd09f">
+      <div class="title">Atlas Note 11</div>
+      <div class="preview">This is a note titled Atlas Note 11. It discusses insights and references [[Energy Shock]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="955ff07b-c316-4095-989e-1cae284c8511">
+      <div class="title">Borealis Note 82</div>
+      <div class="preview">This is a note titled Borealis Note 82. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 25]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="af1913bc-4a40-4973-b735-f221110481e6">
+      <div class="title">Atlas Note 61</div>
+      <div class="preview">This is a note titled Atlas Note 61. It discusses insights and references [[Regional Banks]] [[Dollar Cycle]] [[Borealis Note 42]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="6b80a6e8-b5ff-4dd6-ae62-185733f5f3ae">
+      <div class="title">Atlas Note 81</div>
+      <div class="preview">This is a note titled Atlas Note 81. It discusses insights and references [[Policy Path]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="c1d7fdbb-9b45-4738-912e-20e4a1fb0552">
+      <div class="title">Equinox Note 60</div>
+      <div class="preview">This is a note titled Equinox Note 60. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="7d962d56-b76f-4eb9-b6ca-c90e44ba3028">
+      <div class="title">Drift Note 49</div>
+      <div class="preview">This is a note titled Drift Note 49. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 35]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="3c8e250e-8067-428a-854a-55b49b1e2ca5">
+      <div class="title">Atlas Note 16</div>
+      <div class="preview">This is a note titled Atlas Note 16. It discusses insights and references [[CRE Exposures]] [[Dollar Cycle]] [[Borealis Note 12]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="76197a70-7dec-4af0-88a1-aa67cafcc4f1">
+      <div class="title">Drift Note 59</div>
+      <div class="preview">This is a note titled Drift Note 59. It discusses insights and references [[Inflation Watch]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="9695f4be-af60-462b-ac4e-561c20957211">
+      <div class="title">Equinox Note 45</div>
+      <div class="preview">This is a note titled Equinox Note 45. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="e5489868-0552-4128-86f7-4803d9264cfe">
+      <div class="title">Atlas Note 71</div>
+      <div class="preview">This is a note titled Atlas Note 71. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="c994c7e0-e6c3-4cb7-b54c-27d8bb576f7d">
+      <div class="title">Cascade Note 63</div>
+      <div class="preview">This is a note titled Cascade Note 63. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="ae17ea55-38da-44c0-b3f8-ccc45c7e249e">
+      <div class="title">Cascade Note 93</div>
+      <div class="preview">This is a note titled Cascade Note 93. It discusses insights and references [[Policy Path]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="11b6aea4-b4e7-46a0-a3af-a2a0d4a26e47">
+      <div class="title">Equinox Note 30</div>
+      <div class="preview">This is a note titled Equinox Note 30. It discusses insights and references [[Regional Banks]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="181850fd-9807-42b6-81e8-06a4f5bf6fd6">
+      <div class="title">Equinox Note 35</div>
+      <div class="preview">This is a note titled Equinox Note 35. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="22d6bbfb-ce0f-4e56-8ee6-87bf02650dc0">
+      <div class="title">Drift Note 64</div>
+      <div class="preview">This is a note titled Drift Note 64. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[Borealis Note 57]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="6ce0a0e2-9435-4b15-9d53-3690304778d0">
+      <div class="title">Borealis Note 7</div>
+      <div class="preview">This is a note titled Borealis Note 7. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]] [[Atlas Note 1]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="6bb67ebf-7bf3-49d0-b043-d55e5343dc6a">
+      <div class="title">Cascade Note 53</div>
+      <div class="preview">This is a note titled Cascade Note 53. It discusses insights and references [[Dollar Cycle]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="e0605865-f661-4092-a29d-b15bf0965057">
+      <div class="title">Equinox Note 70</div>
+      <div class="preview">This is a note titled Equinox Note 70. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[Borealis Note 12]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="08587cf0-2939-4187-8762-c9c43368ae15">
+      <div class="title">Atlas Note 31</div>
+      <div class="preview">This is a note titled Atlas Note 31. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[Equinox Note 30]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="4237a2d9-589a-4cfa-9c43-46a065d8db1b">
+      <div class="title">Drift Note 29</div>
+      <div class="preview">This is a note titled Drift Note 29. It discusses insights and references [[Dollar Cycle]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="69c2f27e-c234-47b1-a961-c7e0e7dfdaa2">
+      <div class="title">Equinox Note 50</div>
+      <div class="preview">This is a note titled Equinox Note 50. It discusses insights and references [[Policy Path]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="83be05cf-458d-49a4-8a29-2be17d0d7f21">
+      <div class="title">Cascade Note 73</div>
+      <div class="preview">This is a note titled Cascade Note 73. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 20]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="390f337b-6a50-449a-99e9-1f76ec2c0bc5">
+      <div class="title">Drift Note 54</div>
+      <div class="preview">This is a note titled Drift Note 54. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="f9d43289-0420-4b4a-9221-7954916d22f5">
+      <div class="title">Cascade Note 78</div>
+      <div class="preview">This is a note titled Cascade Note 78. It discusses insights and references [[Regional Banks]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="2f10b9c5-8124-4f07-887e-618ffd1eced5">
+      <div class="title">Cascade Note 68</div>
+      <div class="preview">This is a note titled Cascade Note 68. It discusses insights and references [[CRE Exposures]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="21b62cd6-4be2-48b0-9143-103665655c1b">
+      <div class="title">Atlas Note 6</div>
+      <div class="preview">This is a note titled Atlas Note 6. It discusses insights and references [[CRE Exposures]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="c1d08242-8e2b-4fe1-91be-aecd808ae0a9">
+      <div class="title">Atlas Note 91</div>
+      <div class="preview">This is a note titled Atlas Note 91. It discusses insights and references [[Policy Path]] [[Dollar Cycle]] [[Cascade Note 38]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="e8de4ac2-a90d-418a-a408-996b05d2c2d0">
+      <div class="title">Cascade Note 43</div>
+      <div class="preview">This is a note titled Cascade Note 43. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[Cascade Note 28]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="e2440304-4d59-4fbe-abac-de11d4fac5ed">
+      <div class="title">Atlas Note 51</div>
+      <div class="preview">This is a note titled Atlas Note 51. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="9d9ca594-23fc-4cdd-838e-e67d98439805">
+      <div class="title">Equinox Note 90</div>
+      <div class="preview">This is a note titled Equinox Note 90. It discusses insights and references [[CRE Exposures]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="e2de6343-c723-4366-a6b7-dd4a0342d5aa">
+      <div class="title">Equinox Note 5</div>
+      <div class="preview">This is a note titled Equinox Note 5. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="1388d0b6-7b1c-42e5-818d-64deb20bf439">
+      <div class="title">Borealis Note 32</div>
+      <div class="preview">This is a note titled Borealis Note 32. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="3e09c9ae-8f1b-492a-8004-228d1288355b">
+      <div class="title">Borealis Note 42</div>
+      <div class="preview">This is a note titled Borealis Note 42. It discusses insights and references [[Policy Path]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="b4c1b76c-016d-434a-9b58-1716167d130f">
+      <div class="title">Borealis Note 77</div>
+      <div class="preview">This is a note titled Borealis Note 77. It discusses insights and references [[Regional Banks]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="916c75ad-b500-4494-aad5-27603ac7ec2e">
+      <div class="title">Equinox Note 15</div>
+      <div class="preview">This is a note titled Equinox Note 15. It discusses insights and references [[Inflation Watch]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">5 links</span></div>
+    </article>
+    <article class="card" data-id="88d42293-cb84-4b1e-a32b-0da23f73515c">
+      <div class="title">Atlas Note 1</div>
+      <div class="preview">This is a note titled Atlas Note 1. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="735d0bcc-4ecb-42d6-81fb-4437a10c9721">
+      <div class="title">Cascade Note 88</div>
+      <div class="preview">This is a note titled Cascade Note 88. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]] [[Borealis Note 67]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="4ab6648b-3a97-432e-9501-e3e11cf975f8">
+      <div class="title">Borealis Note 2</div>
+      <div class="preview">This is a note titled Borealis Note 2. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="ea3ef4cc-1e23-47db-a8bd-f25a27f6d469">
+      <div class="title">Borealis Note 47</div>
+      <div class="preview">This is a note titled Borealis Note 47. It discusses insights and references [[Regional Banks]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="2213619a-b9f5-446c-9fe1-ea7eb8784e28">
+      <div class="title">Drift Note 34</div>
+      <div class="preview">This is a note titled Drift Note 34. It discusses insights and references [[Inflation Watch]] [[Regional Banks]] [[Borealis Note 17]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="ff8d0e6a-b739-457e-b247-82cf79d49f44">
+      <div class="title">Borealis Note 22</div>
+      <div class="preview">This is a note titled Borealis Note 22. It discusses insights and references [[Inflation Watch]] [[Policy Path]] [[Borealis Note 12]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="b548530c-d558-46e6-b7b6-9db9972f9dfc">
+      <div class="title">Drift Note 19</div>
+      <div class="preview">This is a note titled Drift Note 19. It discusses insights and references [[Inflation Watch]] [[Dollar Cycle]] [[Atlas Note 11]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="d3c571be-a6f8-4f1a-9e85-b27a5ab0642a">
+      <div class="title">Borealis Note 27</div>
+      <div class="preview">This is a note titled Borealis Note 27. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="afeeb0ec-da60-4210-a7bd-a27e94cbbde9">
+      <div class="title">Drift Note 69</div>
+      <div class="preview">This is a note titled Drift Note 69. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="2014a8a6-460d-4dc5-b913-1693abb1c0fc">
+      <div class="title">Cascade Note 83</div>
+      <div class="preview">This is a note titled Cascade Note 83. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="07db0f90-bc37-49e1-9683-a9fd8b362766">
+      <div class="title">Atlas Note 36</div>
+      <div class="preview">This is a note titled Atlas Note 36. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="561b4207-e378-48d4-90c9-6dc21b0e906c">
+      <div class="title">Borealis Note 52</div>
+      <div class="preview">This is a note titled Borealis Note 52. It discusses insights and references [[Energy Shock]] [[Policy Path]] [[Drift Note 19]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="a977e5ee-da19-4757-9b91-b0ee6f5eafa6">
+      <div class="title">Atlas Note 46</div>
+      <div class="preview">This is a note titled Atlas Note 46. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[Atlas Note 16]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="260c6c5e-38d2-41de-8be8-6ad755d70482">
+      <div class="title">Equinox Note 55</div>
+      <div class="preview">This is a note titled Equinox Note 55. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]] [[Atlas Note 31]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="79847a82-583e-4d09-a036-9ec2db1a4f13">
+      <div class="title">Atlas Note 41</div>
+      <div class="preview">This is a note titled Atlas Note 41. It discusses insights and references [[Regional Banks]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="5d00dcc4-70f8-44e6-ba85-d5d833a735cc">
+      <div class="title">Borealis Note 12</div>
+      <div class="preview">This is a note titled Borealis Note 12. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">5 links</span></div>
+    </article>
+    <article class="card" data-id="dcbcf710-df53-4f04-b062-a5f85775f9dd">
+      <div class="title">Atlas Note 21</div>
+      <div class="preview">This is a note titled Atlas Note 21. It discusses insights and references [[Dollar Cycle]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="28eaced3-2403-4d31-88e0-019a9a39e79e">
+      <div class="title">Borealis Note 92</div>
+      <div class="preview">This is a note titled Borealis Note 92. It discusses insights and references [[Policy Path]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="7453f722-69ca-4388-b21b-ce8c98b78801">
+      <div class="title">Borealis Note 67</div>
+      <div class="preview">This is a note titled Borealis Note 67. It discusses insights and references [[Regional Banks]] [[CRE Exposures]] [[Equinox Note 15]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">4 links</span></div>
+    </article>
+    <article class="card" data-id="5983cabc-02da-4908-9d51-7e7e388eb1b1">
+      <div class="title">Cascade Note 48</div>
+      <div class="preview">This is a note titled Cascade Note 48. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="a32d6222-5107-4976-92a4-4bf7861e540c">
+      <div class="title">Borealis Note 57</div>
+      <div class="preview">This is a note titled Borealis Note 57. It discusses insights and references [[Energy Shock]] [[Regional Banks]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="cf805590-57d7-4cee-bcfa-e142023cd445">
+      <div class="title">Atlas Note 86</div>
+      <div class="preview">This is a note titled Atlas Note 86. It discusses insights and references [[Policy Path]] [[CRE Exposures]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="d957273b-5b81-4465-b6b8-2ef1085cc789">
+      <div class="title">Drift Note 9</div>
+      <div class="preview">This is a note titled Drift Note 9. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="ec2dc1f0-450f-414e-a536-0683e02d295b">
+      <div class="title">Borealis Note 62</div>
+      <div class="preview">This is a note titled Borealis Note 62. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="1ec7322a-a015-4235-8233-7c1a75fc5dfd">
+      <div class="title">Drift Note 4</div>
+      <div class="preview">This is a note titled Drift Note 4. It discusses insights and references [[Inflation Watch]] [[Policy Path]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="f3fd6a40-ac68-4382-95d2-403fe2420d7d">
+      <div class="title">Cascade Note 3</div>
+      <div class="preview">This is a note titled Cascade Note 3. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="015bb0ef-3152-44d0-beac-a38040e231c1">
+      <div class="title">Drift Note 44</div>
+      <div class="preview">This is a note titled Drift Note 44. It discusses insights and references [[Energy Shock]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="af7f20f5-beca-4172-84d4-ece8ccb1f7a9">
+      <div class="title">Cascade Note 58</div>
+      <div class="preview">This is a note titled Cascade Note 58. It discusses insights and references [[Inflation Watch]] [[Energy Shock]] [[Cascade Note 3]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="10595702-be3d-4273-b8c0-484ecdc721d5">
+      <div class="title">Equinox Note 65</div>
+      <div class="preview">This is a note titled Equinox Note 65. It discusses insights and references [[Policy Path]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="f35ec366-467f-4160-9e3d-4973ee1ce64d">
+      <div class="title">Atlas Note 26</div>
+      <div class="preview">This is a note titled Atlas Note 26. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="545e4efe-4c90-40ed-b1eb-c2078d610b1c">
+      <div class="title">Cascade Note 33</div>
+      <div class="preview">This is a note titled Cascade Note 33. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="2a4d4a04-084c-427d-9569-3e8e50f8fe5c">
+      <div class="title">Cascade Note 23</div>
+      <div class="preview">This is a note titled Cascade Note 23. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="791dd819-502f-44df-a198-1b80469de908">
+      <div class="title">Equinox Note 40</div>
+      <div class="preview">This is a note titled Equinox Note 40. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[Cascade Note 33]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="f7ef27d4-3b11-451a-a1d6-f09a49045bfe">
+      <div class="title">Drift Note 14</div>
+      <div class="preview">This is a note titled Drift Note 14. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="fb2c3830-5f25-4260-98fc-fca633bb007a">
+      <div class="title">Equinox Note 10</div>
+      <div class="preview">This is a note titled Equinox Note 10. It discusses insights and references [[Energy Shock]] [[CRE Exposures]] [[Drift Note 4]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="ba90e30b-d488-456a-93e2-99008a974e99">
+      <div class="title">Cascade Note 13</div>
+      <div class="preview">This is a note titled Cascade Note 13. It discusses insights and references [[CRE Exposures]] [[Regional Banks]] [[Atlas Note 6]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="907a79ec-1c02-495b-8f72-b89963804c41">
+      <div class="title">Atlas Note 66</div>
+      <div class="preview">This is a note titled Atlas Note 66. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">2 links</span></div>
+    </article>
+    <article class="card" data-id="c2be80e7-a546-4a5c-b170-1dc8e2c88593">
+      <div class="title">Equinox Note 75</div>
+      <div class="preview">This is a note titled Equinox Note 75. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article>
+    <article class="card" data-id="b5f21e88-75cc-410d-99f4-2298f1803c94">
+      <div class="title">Drift Note 79</div>
+      <div class="preview">This is a note titled Drift Note 79. It discusses insights and references [[Dollar Cycle]] [[Energy Shock]] [[Borealis Note 32]].</div>
+      <div class="meta"><span class="badge">#3 tags</span><span class="badge">3 links</span></div>
+    </article></div>
     </div>
   </section>
 
   <!-- ===== Graph ===== -->
-  <section id="view-graph" style="display:none">
+  <section id="view-graph" style="display: none;">
     <div class="pane">
+      <h3 style="margin:0 0 8px">GRAPH (Physics)</h3>
       <div class="gctrls">
-        <span class="muted">Physics Graph (placeholder)</span>
-        <button id="btn-redraw" class="btn">Redraw</button>
+        <span class="muted">Breadth</span><input id="gr-breadth" type="range" min="0" max="10" step="1" value="0"><span id="gr-breadth-val" class="badge">0</span>
+        <span class="muted">Depth</span><input id="gr-depth" type="range" min="1" max="6" step="1" value="3"><span id="gr-depth-val" class="badge">3</span>
+        <span class="muted">G (attraction)</span><input id="gr-G" type="range" min="0" max="200" step="5" value="60"><span id="gr-G-val" class="badge">60</span>
+        <span class="muted">Collision +padding</span><input id="gr-pad" type="range" min="0" max="20" step="1" value="6"><span id="gr-pad-val" class="badge">6</span>
+        <span class="muted">Link base</span><input id="gr-link" type="range" min="40" max="220" step="5" value="110"><span id="gr-link-val" class="badge">110</span>
+        <span class="muted">Similarity weight</span><input id="gr-simw" type="range" min="0" max="2" step="0.1" value="1"><span id="gr-simw-val" class="badge">1.0</span>
+        <button id="gr-reset-focus" class="btn">Clear focus</button>
+        <button id="gr-pause" class="btn">Pause</button>
+        <button id="gr-reheat" class="btn">Reheat</button>
+        <button id="gr-resetview" class="btn">Reset View</button>
       </div>
       <div id="gwrap">
-        <canvas id="gcanvas"></canvas>
-        <div id="gtooltip" class="tooltip"></div>
+        <canvas id="gcanvas" width="2" height="2" style="cursor: grab;"></canvas>
+        <div id="gtooltip" class="tooltip" style="opacity: 0; left: 574px; top: 174px;">Dollar Cycle  deg 31</div>
+      </div>
+      <div class="muted" style="margin-top:8px">Zoom: wheel/pinch • Pan: drag background • Drag a node to move it • Click node to focus (center &amp; filter by Depth).</div>
+    </div>
+
+    <div class="pane" id="cluster-pane" style="margin-top:16px">
+      <div class="row space">
+        <h3 style="margin:0">GRAPH: Card Cluster</h3>
+        <div class="row"><span class="muted">Card size</span><input id="cl-size" type="range" min="160" max="320" step="10" value="220"><span class="muted">Depth</span><input id="cl-depth" type="range" min="1" max="5" step="1" value="1"></div>
+      </div>
+      <div class="grid-3" style="grid-template-columns:220px 1fr;gap:16px">
+        <aside><div class="muted">Focus Note</div><div id="cl-focus" class="note-card"><div style="font-weight:700">Bank Funding Stress</div><div class="mono" style="white-space:pre-wrap">Core topic: Bank Funding Stress. See links to other cores where relevant.</div><div class="chips" style="margin-top:6px"><span class="chip">#core</span><span class="chip">#macro</span></div></div><div class="muted" style="margin:8px 0">Linked notes</div><div id="cl-links" class="mono" style="font-size:12px">• (1) Borealis Note 2
+• (1) Cascade Note 3
+• (1) Equinox Note 5
+• (1) Borealis Note 7
+• (1) Cascade Note 8
+• (1) Drift Note 9
+• (1) Borealis Note 12
+• (1) Borealis Note 17
+• (1) Cascade Note 23
+• (1) Atlas Note 26
+• (1) Borealis Note 27
+• (1) Atlas Note 31
+• (1) Borealis Note 32
+• (1) Cascade Note 33
+• (1) Borealis Note 37
+• (1) Drift Note 39
+• (1) Equinox Note 40
+• (1) Cascade Note 43
+• (1) Equinox Note 45
+• (1) Atlas Note 46
+• (1) Cascade Note 48
+• (1) Drift Note 49
+• (1) Atlas Note 51
+• (1) Drift Note 54
+• (1) Equinox Note 55
+• (1) Borealis Note 62
+• (1) Cascade Note 63
+• (1) Drift Note 64
+• (1) Atlas Note 66
+• (1) Equinox Note 70
+• (1) Atlas Note 71
+• (1) Cascade Note 73
+• (1) Equinox Note 75
+• (1) Atlas Note 76
+• (1) Equinox Note 80
+• (1) Borealis Note 82
+• (1) Cascade Note 83
+• (1) Borealis Note 87
+• (1) Cascade Note 88</div></aside>
+        <section id="cl-canvas" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start"><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 2</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 2. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#cre</span><span class="chip">#growth</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="4ab6648b-3a97-432e-9501-e3e11cf975f8">Open</button><button class="btn" data-link="Borealis Note 2">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 3</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 3. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#cre</span><span class="chip">#payments</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="f3fd6a40-ac68-4382-95d2-403fe2420d7d">Open</button><button class="btn" data-link="Cascade Note 3">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 5</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 5. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#energy</span><span class="chip">#payments</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="e2de6343-c723-4366-a6b7-dd4a0342d5aa">Open</button><button class="btn" data-link="Equinox Note 5">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 7</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 7. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]] [[Atlas Note 1]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#payments</span><span class="chip">#fx</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="6ce0a0e2-9435-4b15-9d53-3690304778d0">Open</button><button class="btn" data-link="Borealis Note 7">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 8</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 8. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#rates</span><span class="chip">#liquidity</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="038358d2-0459-43e2-bbca-a33e4a19a597">Open</button><button class="btn" data-link="Cascade Note 8">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Drift Note 9</div><div class="mono" style="white-space:pre-wrap">This is a note titled Drift Note 9. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Drift</span><span class="chip">#macro</span><span class="chip">#fx</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="d957273b-5b81-4465-b6b8-2ef1085cc789">Open</button><button class="btn" data-link="Drift Note 9">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 12</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 12. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#liquidity</span><span class="chip">#markets</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="5d00dcc4-70f8-44e6-ba85-d5d833a735cc">Open</button><button class="btn" data-link="Borealis Note 12">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 17</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 17. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#markets</span><span class="chip">#fx</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="d2c97838-3454-42f9-b1a2-ffe7f3860b15">Open</button><button class="btn" data-link="Borealis Note 17">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 23</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 23. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#growth</span><span class="chip">#inflation</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="2a4d4a04-084c-427d-9569-3e8e50f8fe5c">Open</button><button class="btn" data-link="Cascade Note 23">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 26</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 26. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#liquidity</span><span class="chip">#credit</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="f35ec366-467f-4160-9e3d-4973ee1ce64d">Open</button><button class="btn" data-link="Atlas Note 26">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 27</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 27. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#fx</span><span class="chip">#inflation</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="d3c571be-a6f8-4f1a-9e85-b27a5ab0642a">Open</button><button class="btn" data-link="Borealis Note 27">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 31</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 31. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[Equinox Note 30]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#payments</span><span class="chip">#rates</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="08587cf0-2939-4187-8762-c9c43368ae15">Open</button><button class="btn" data-link="Atlas Note 31">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 32</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 32. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#inflation</span><span class="chip">#risk</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="1388d0b6-7b1c-42e5-818d-64deb20bf439">Open</button><button class="btn" data-link="Borealis Note 32">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 33</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 33. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#policy</span><span class="chip">#inflation</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="545e4efe-4c90-40ed-b1eb-c2078d610b1c">Open</button><button class="btn" data-link="Cascade Note 33">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 37</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 37. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]] [[Equinox Note 15]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#inflation</span><span class="chip">#energy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="b31244b7-698f-40da-9124-9ea9a37c33a8">Open</button><button class="btn" data-link="Borealis Note 37">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Drift Note 39</div><div class="mono" style="white-space:pre-wrap">This is a note titled Drift Note 39. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Drift</span><span class="chip">#markets</span><span class="chip">#risk</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="675f93dd-bb1e-4cc5-9ec8-64387eaa87d3">Open</button><button class="btn" data-link="Drift Note 39">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 40</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 40. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[Cascade Note 33]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#markets</span><span class="chip">#policy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="791dd819-502f-44df-a198-1b80469de908">Open</button><button class="btn" data-link="Equinox Note 40">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 43</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 43. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]] [[Cascade Note 28]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#payments</span><span class="chip">#cre</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="e8de4ac2-a90d-418a-a408-996b05d2c2d0">Open</button><button class="btn" data-link="Cascade Note 43">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 45</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 45. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#credit</span><span class="chip">#payments</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="9695f4be-af60-462b-ac4e-561c20957211">Open</button><button class="btn" data-link="Equinox Note 45">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 46</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 46. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[Atlas Note 16]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#cre</span><span class="chip">#growth</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="a977e5ee-da19-4757-9b91-b0ee6f5eafa6">Open</button><button class="btn" data-link="Atlas Note 46">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 48</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 48. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#rates</span><span class="chip">#credit</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="5983cabc-02da-4908-9d51-7e7e388eb1b1">Open</button><button class="btn" data-link="Cascade Note 48">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Drift Note 49</div><div class="mono" style="white-space:pre-wrap">This is a note titled Drift Note 49. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 35]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Drift</span><span class="chip">#banking</span><span class="chip">#risk</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="7d962d56-b76f-4eb9-b6ca-c90e44ba3028">Open</button><button class="btn" data-link="Drift Note 49">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 51</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 51. It discusses insights and references [[Bank Funding Stress]] [[Regional Banks]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#credit</span><span class="chip">#banking</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="e2440304-4d59-4fbe-abac-de11d4fac5ed">Open</button><button class="btn" data-link="Atlas Note 51">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Drift Note 54</div><div class="mono" style="white-space:pre-wrap">This is a note titled Drift Note 54. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Drift</span><span class="chip">#risk</span><span class="chip">#payments</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="390f337b-6a50-449a-99e9-1f76ec2c0bc5">Open</button><button class="btn" data-link="Drift Note 54">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 55</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 55. It discusses insights and references [[Bank Funding Stress]] [[Inflation Watch]] [[Atlas Note 31]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#energy</span><span class="chip">#banking</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="260c6c5e-38d2-41de-8be8-6ad755d70482">Open</button><button class="btn" data-link="Equinox Note 55">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 62</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 62. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#banking</span><span class="chip">#markets</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="ec2dc1f0-450f-414e-a536-0683e02d295b">Open</button><button class="btn" data-link="Borealis Note 62">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 63</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 63. It discusses insights and references [[Bank Funding Stress]] [[Energy Shock]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#cre</span><span class="chip">#liquidity</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="c994c7e0-e6c3-4cb7-b54c-27d8bb576f7d">Open</button><button class="btn" data-link="Cascade Note 63">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Drift Note 64</div><div class="mono" style="white-space:pre-wrap">This is a note titled Drift Note 64. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]] [[Borealis Note 57]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Drift</span><span class="chip">#markets</span><span class="chip">#energy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="22d6bbfb-ce0f-4e56-8ee6-87bf02650dc0">Open</button><button class="btn" data-link="Drift Note 64">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 66</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 66. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#macro</span><span class="chip">#rates</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="907a79ec-1c02-495b-8f72-b89963804c41">Open</button><button class="btn" data-link="Atlas Note 66">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 70</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 70. It discusses insights and references [[Energy Shock]] [[Bank Funding Stress]] [[Borealis Note 12]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#fx</span><span class="chip">#housing</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="e0605865-f661-4092-a29d-b15bf0965057">Open</button><button class="btn" data-link="Equinox Note 70">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 71</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 71. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#policy</span><span class="chip">#fintech</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="e5489868-0552-4128-86f7-4803d9264cfe">Open</button><button class="btn" data-link="Atlas Note 71">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 73</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 73. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 20]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#risk</span><span class="chip">#fx</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="83be05cf-458d-49a4-8a29-2be17d0d7f21">Open</button><button class="btn" data-link="Cascade Note 73">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 75</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 75. It discusses insights and references [[CRE Exposures]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#payments</span><span class="chip">#growth</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="c2be80e7-a546-4a5c-b170-1dc8e2c88593">Open</button><button class="btn" data-link="Equinox Note 75">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Atlas Note 76</div><div class="mono" style="white-space:pre-wrap">This is a note titled Atlas Note 76. It discusses insights and references [[Dollar Cycle]] [[Bank Funding Stress]] [[Atlas Note 46]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Atlas</span><span class="chip">#fx</span><span class="chip">#macro</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="5aed348e-16ae-4b34-9409-50abf54e828e">Open</button><button class="btn" data-link="Atlas Note 76">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Equinox Note 80</div><div class="mono" style="white-space:pre-wrap">This is a note titled Equinox Note 80. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Equinox</span><span class="chip">#housing</span><span class="chip">#growth</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="aee7a8b1-059d-4aa2-99ee-54b251f34cc1">Open</button><button class="btn" data-link="Equinox Note 80">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 82</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 82. It discusses insights and references [[Bank Funding Stress]] [[Dollar Cycle]] [[Equinox Note 25]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#credit</span><span class="chip">#energy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="955ff07b-c316-4095-989e-1cae284c8511">Open</button><button class="btn" data-link="Borealis Note 82">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 83</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 83. It discusses insights and references [[Bank Funding Stress]] [[CRE Exposures]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#payments</span><span class="chip">#fintech</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="2014a8a6-460d-4dc5-b913-1693abb1c0fc">Open</button><button class="btn" data-link="Cascade Note 83">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Borealis Note 87</div><div class="mono" style="white-space:pre-wrap">This is a note titled Borealis Note 87. It discusses insights and references [[Bank Funding Stress]] [[Policy Path]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Borealis</span><span class="chip">#cre</span><span class="chip">#policy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="43f3a530-8562-4679-a52f-8c01586a3d90">Open</button><button class="btn" data-link="Borealis Note 87">[[Link]]</button></div></article><article class="note-card" style="width: 220px;"><div style="font-weight:700">Cascade Note 88</div><div class="mono" style="white-space:pre-wrap">This is a note titled Cascade Note 88. It discusses insights and references [[Policy Path]] [[Bank Funding Stress]] [[Borealis Note 67]].</div><div class="chips" style="margin-top:6px"><span class="chip">#project:Cascade</span><span class="chip">#cre</span><span class="chip">#energy</span></div><div class="row" style="margin-top:6px"><button class="btn" data-open="735d0bcc-4ecb-42d6-81fb-4437a10c9721">Open</button><button class="btn" data-link="Cascade Note 88">[[Link]]</button></div></article></section>
       </div>
     </div>
   </section>
 
   <!-- ===== Forecast ===== -->
-  <section id="view-forecast" style="display:none">
+  <section id="view-forecast" style="display: none;">
     <div class="pane">
       <div class="row space">
-        <h3 style="margin:0">Daily Forecasts</h3>
-        <div class="row">
-          <span class="small">Next auto-generate: <span id="next-forecast-time" class="badge">--</span></span>
-          <button id="btn-force-forecast" class="btn" title="Generate today's forecasts now">Generate now</button>
+        <h3 style="margin:0">FORECASTING</h3>
+        <div class="row" style="gap:8px">
+          <a class="btn" href="#/forecast">Main</a>
+          <a class="btn" href="#/forecast/questions">Questions</a> <button class="btn" id="fc-refresh" title="Reload shared questions">Refresh</button>
+          <a class="btn" href="#/forecast/analysis">Analysis</a>
         </div>
       </div>
-      <p class="muted small">Forecasts auto-create daily at your set time by scraping public market pages (via a CORS-friendly proxy if configured). If scraping is blocked, a deterministic fallback ensures everyone sees the same set for the day.</p>
-      <div class="row" style="flex-wrap:wrap;gap:8px;margin-bottom:8px">
-        <label class="row">Daily time (local): <input id="forecast-hour" type="time" value="09:00" style="width:auto"></label>
-        <label class="row">CORS proxy (optional): <input id="proxy-url" type="text" placeholder="https://example-worker.workers.dev/fetch?url=" style="min-width:320px"></label>
-        <button id="btn-save-forecast-settings" class="btn">Save settings</button>
+    </div>
+
+    <div id="fc-main" class="pane" style="margin-top: 12px;">
+      <div class="row space">
+        <div class="row" style="gap:24px">
+          <div><div style="font-size:28px;font-weight:800" id="fc-brier">—</div><div class="muted">Brier Score</div></div>
+          <div><div style="font-size:28px;font-weight:800" id="fc-count">0</div><div class="muted">Forecasts</div></div>
+        </div>
+        <div class="row" style="gap:8px"><span class="muted">As of date</span><input id="fc-asof" type="date"></div>
       </div>
-      <div id="forecast-list" class="list"></div>
+      <div class="row" style="gap:16px;align-items:flex-start;margin-top:12px">
+        <canvas id="fc-spark" width="520" height="120" style="border:1px solid var(--line);border-radius:10px;background:var(--panel)"></canvas>
+        <canvas id="fc-scatter" width="520" height="160" style="border:1px solid var(--line);border-radius:10px;background:var(--panel)"></canvas>
+      </div>
+      <div class="row" style="gap:16px;align-items:flex-start;margin-top:12px">
+        <div style="flex:1"><div class="muted">Best forecasts</div><ol id="fc-best" class="mono"><li class="muted">No resolved questions yet.</li></ol></div>
+        <div style="flex:1"><div class="muted">Worst forecasts</div><ol id="fc-worst" class="mono"><li class="muted">No resolved questions yet.</li></ol></div>
+      </div>
+    </div>
+
+    <div id="fc-qlist" class="pane" style="margin-top:12px;display:none">
+      <div class="row" style="gap:10px;align-items:flex-end">
+        <div style="flex:1"><label class="muted">Search</label><input id="fc-q-search" type="text" placeholder="Find a question"></div>
+        <div><label class="muted">Sort by</label><select id="fc-q-sort"><option value="date">Date</option><option value="new">New forecasts</option></select></div>
+        <button class="btn" id="fc-q-new">New Question</button>
+      </div>
+      <div id="fc-q-list" class="list" style="margin-top:8px"></div>
+    </div>
+
+    <div id="fc-qdetail" class="pane" style="margin-top:12px;display:none">
+      <div id="fc-q-head" class="row space"></div>
+      <div class="tabs" style="margin-top:8px">
+        <button class="tab active" data-fc-tab="forecast">Forecast</button>
+        <button class="tab" data-fc-tab="activity">Activity</button>
+        <button class="tab" data-fc-tab="crowd">Crowd forecast</button>
+        <button class="tab" data-fc-tab="notes">NOTES</button>
+      </div>
+      <div id="fc-tab-forecast" class="pane" style="border:none;padding:0;margin-top:8px">
+        <div id="fc-answers"></div>
+        <div class="row space" style="margin-top:8px">
+          <div class="muted mono" id="fc-sumcheck">Probabilities must sum to 100%.</div>
+          <div class="row" style="gap:8px">
+            <button class="btn" id="fc-save">Save</button>
+            <button class="btn" id="fc-submit">Submit</button>
+          </div>
+        </div>
+      </div>
+      <div id="fc-tab-activity" class="pane" style="display:none;border:none;padding:0;margin-top:8px"><div id="fc-activity" class="mono muted">No activity yet.</div></div>
+      <div id="fc-tab-crowd" class="pane" style="display:none;border:none;padding:0;margin-top:8px"><div class="row space"><div class="muted">Aggregate distribution</div></div><div id="fc-crowd-bars" style="margin-top:8px"></div></div>
+      <div id="fc-tab-notes" class="pane" style="display:none;border:none;padding:0;margin-top:8px">
+        <div class="row space"><div class="muted">Relevant NOTES</div><button class="btn" id="fc-notes-agent">Ask Note Forecast Agent</button></div>
+        <div class="row" style="gap:16px;align-items:flex-start;margin-top:8px">
+          <textarea id="fc-notes-list" class="mono" style="height:200px;flex:1" placeholder="Matched notes will appear here..."></textarea>
+          <div id="fc-notes-cluster" style="flex:1;min-height:200px;border:1px dashed var(--line);border-radius:10px;padding:8px"></div>
+        </div>
+        <pre id="fc-agent-output" class="mono" style="white-space:pre-wrap;margin-top:8px"></pre>
+      </div>
+    </div>
+
+    <div id="fc-analysis" class="pane" style="margin-top:12px;display:none">
+      <h3 style="margin:0 0 8px">FORECASTING: Analysis</h3>
+      <div class="row" style="gap:16px">
+        <textarea class="mono" style="height:260px;flex:1" placeholder="[Group/individual analysis of outcomes, patterns, etc.]"></textarea>
+        <textarea class="mono" style="height:260px;flex:1" placeholder="[Patterns relative to NOTES: linkages vs accuracy, misses &amp; blind spots, etc.]"></textarea>
+      </div>
     </div>
   </section>
 </main>
 
-<!-- Toasts container -->
-<div id="toasts"></div>
+<div class="footer">Local-first. All data is in your browser (localStorage + IndexedDB). © 2025</div>
 
 <script>
-/* ====================== Storage Helpers ====================== */
-const LS = {
-  notes: () => JSON.parse(localStorage.getItem('willow.notes')||'[]'),
-  saveNotes: (arr) => localStorage.setItem('willow.notes', JSON.stringify(arr)),
-  debates: () => JSON.parse(localStorage.getItem('willow.debates')||'[]'),
-  saveDebates: (arr) => localStorage.setItem('willow.debates', JSON.stringify(arr)),
-  forecasts: () => JSON.parse(localStorage.getItem('willow.forecasts')||'{}'), // by date
-  saveForecasts: (obj) => localStorage.setItem('willow.forecasts', JSON.stringify(obj)),
-  fcfg: () => JSON.parse(localStorage.getItem('willow.forecast.cfg')||'{}'),
-  saveFcfg: (cfg) => localStorage.setItem('willow.forecast.cfg', JSON.stringify(cfg)),
-};
+/*** ===== Helpers / Globals ===== ***/
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => (''+s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(36));
+const now = () => new Date().toISOString();
 
-/* ====================== Toasts ====================== */
-function toast(type, title, text, ms=3500){
-  const wrap = document.getElementById('toasts');
-  const el = document.createElement('div');
-  el.className = 'toast'+(type?(' '+type):'');
-  el.innerHTML = `<span class="t-title">${title||''}</span><span class="t-text">${text||''}</span><button class="t-close" aria-label="Close">×</button>`;
-  el.querySelector('.t-close').onclick = ()=>{el.remove();};
-  wrap.appendChild(el);
-  setTimeout(()=>{if(el.isConnected) el.classList.add('shake');}, 80);
-  if(ms>0) setTimeout(()=>{el.remove();}, ms);
+let canvas, ctx, transform = {k:1,x:0,y:0}, APP_READY=false;
+
+/*** ===== Theme ===== ***/
+const THEME_KEY='willow_theme';
+function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); if(APP_READY && ctx) draw(); }
+function initTheme(){
+  const saved = localStorage.getItem(THEME_KEY);
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark':'light'));
+}
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const nxt = cur==='dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, nxt); applyTheme(nxt);
 }
 
-/* ====================== Routing & Theme ====================== */
-const views = {
-  '#/notecard':'view-notecard','#/library':'view-library','#/graph':'view-graph','#/forecast':'view-forecast'
-};
+/*** ===== App State ===== ***/
+const st = { notes: JSON.parse(localStorage.getItem('wl_notes')||'[]'), focusId: localStorage.getItem('wl_focusId')||null, projFilter: localStorage.getItem('wl_proj')||null, prompts:{} };
+const persist = () => { localStorage.setItem('wl_notes', JSON.stringify(st.notes)); localStorage.setItem('wl_focusId', st.focusId||''); localStorage.setItem('wl_proj', st.projFilter||''); };
+
+/*** ===== Graph helpers ===== ***/
+function extractLinks(text){ const out=[]; if(!text) return out; const re=/\[\[([^\]]+)\]\]/g; let m; while((m=re.exec(text))!==null) out.push(m[1].trim()); return out; }
+function buildGraph(){
+  const titleToId={}; st.notes.forEach(n=>{ if(n.title) titleToId[n.title]=n.id; });
+  const edges=[]; st.notes.forEach(n=>{ extractLinks(n.content).forEach(t=>{ const to=titleToId[t]; if(to && to!==n.id) edges.push({source:n.id,target:to}); }); });
+  return {edges};
+}
+function degreeMap(edges){ const d={}; edges.forEach(e=>{ d[e.source]=(d[e.source]||0)+1; d[e.target]=(d[e.target]||0)+1; }); return d; }
+function neighborsMap(edges){ const map={}; edges.forEach(e=>{ (map[e.source]=map[e.source]||new Set()).add(e.target); (map[e.target]=map[e.target]||new Set()).add(e.source); }); return map; }
+
+/*** ===== Router ===== ***/
 function show(h){
-  document.querySelectorAll('main > section').forEach(s=>s.style.display='none');
-  const id = views[h]||'view-notecard';
-  document.getElementById(id).style.display='block';
-  document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active', a.getAttribute('href')===h));
-  if(id==='view-library') renderLibrary();
-  if(id==='view-forecast') renderForecastList();
+  h = h || location.hash || '#/notecard';
+  $('#nav-notecard').classList.toggle('active', h==='#/notecard');
+  $('#nav-library').classList.toggle('active', h==='#/library');
+  $('#nav-graph').classList.toggle('active', h==='#/graph');
+  $('#nav-forecast').classList.toggle('active', h.startsWith('#/forecast'));
+  $('#view-notecard').style.display = h==='#/notecard' ? '' : 'none';
+  $('#view-library').style.display = h==='#/library' ? '' : 'none';
+  $('#view-graph').style.display = h==='#/graph' ? '' : 'none';
+  $('#view-forecast').style.display = h.startsWith('#/forecast') ? '' : 'none';
+  if(h==='#/library'){ renderProjectsBar(); renderLibrary(); }
+  if(h==='#/graph'){ initPhysics(); renderCluster(); }
+  if(h.startsWith('#/forecast')){ routeForecast(); }
 }
-window.addEventListener('hashchange',()=>show(location.hash));
-show(location.hash||'#/notecard');
 
-document.getElementById('btn-theme').onclick=()=>{
-  const dark = document.documentElement.getAttribute('data-theme')==='dark';
-  document.documentElement.setAttribute('data-theme', dark?'light':'dark');
-  toast('', 'Theme', dark?'Light mode':'Dark mode');
+/*** ===== Notecard ===== ***/
+let leftMode='notes', currentId=null;
+function renderLeft(){
+  const host=$('#left-list'); host.innerHTML='';
+  if(leftMode==='notes'){
+    if(st.notes.length===0){ host.innerHTML='<div class="item muted">No notes saved.</div>'; return; }
+    st.notes.slice().sort((a,b)=>new Date(b.updated_at||b.created_at)-new Date(a.updated_at||a.created_at)).forEach(n=>{
+      const d=document.createElement('div'); d.className='item';
+      d.innerHTML = `<div class="t">${esc(n.title||'(untitled)')}</div><div class="muted">${esc((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</div>`;
+      d.onclick=()=>load(n.id); host.appendChild(d);
+    });
+  } else { renderSuggestions(); }
+}
+function chipTags(){ const t=tagsOf($('#nc-tags').value); $('#tag-chips').innerHTML=t.map(x=>`<span class="chip">#${esc(x)}</span>`).join(''); }
+function load(id){
+  const n=st.notes.find(x=>x.id===id); if(!n) return; currentId=id; st.focusId=id; persist();
+  $('#nc-title').value=n.title||''; $('#nc-content').value=n.content||''; $('#nc-tags').value=(n.tags||[]).join(', '); chipTags();
+}
+const tagsOf = s => (s||'').split(',').map(x=>x.trim().replace(/^#/, '')).filter(Boolean);
+const draft = ()=>({ id: currentId||uid(), title: $('#nc-title').value.trim(), content: $('#nc-content').value, tags: tagsOf($('#nc-tags').value) });
+
+function suggestFor(n){
+  const {edges}=buildGraph(); const deg=degreeMap(edges);
+  const kw = new Set((n.title||'').toLowerCase().split(/\W+/).filter(x=>x.length>3));
+  const out=[]; st.notes.forEach(m=>{
+    if(!m.title || m.id===n.id) return;
+    const tagI=(m.tags||[]).filter(t=>(n.tags||[]).includes(t));
+    const wordI=(m.title||'').toLowerCase().split(/\W+/).filter(x=>x.length>3 && kw.has(x));
+    const score = tagI.length*2 + wordI.length + (deg[m.id]||0)*0.1;
+    if(score>0) out.push({id:m.id,title:m.title,reason:`Tags: ${tagI.join(', ')||'-'} | Words: ${wordI.join(', ')||'-'} | Links: ${deg[m.id]||0}`});
+  });
+  out.sort((a,b)=>b.reason.length-a.reason.length); return out.slice(0,12);
+}
+function renderSuggestions(){
+  const host=$('#suggested'); host.innerHTML='';
+  const items=suggestFor(draft());
+  if(items.length===0){ host.innerHTML='<div class="item muted">No suggestions yet.</div>'; return; }
+  items.forEach(s=>{
+    const d=document.createElement('div'); d.className='item'; d.innerHTML=`<div class="t">${esc(s.title)}</div><div class="muted">${esc(s.reason)}</div>`;
+    d.onclick = ()=>{ const ta=$('#nc-content'); const txt=`[[${s.title}]]`; const p=ta.selectionStart||ta.value.length; ta.value=ta.value.slice(0,p)+txt+ta.value.slice(p); ta.selectionStart=ta.selectionEnd=p+txt.length; ta.focus(); };
+    host.appendChild(d);
+  });
+}
+$('#btn-run-suggest').onclick=renderSuggestions;
+$('#tab-notes').onclick=()=>{ leftMode='notes'; $('#tab-notes').classList.add('active'); $('#tab-suggestions').classList.remove('active'); renderLeft(); };
+$('#tab-suggestions').onclick=()=>{ leftMode='suggestions'; $('#tab-suggestions').classList.add('active'); $('#tab-notes').classList.remove('active'); renderLeft(); };
+$('#btn-new').onclick=()=>{ currentId=null; $('#nc-title').value=''; $('#nc-content').value=''; $('#nc-tags').value=''; chipTags(); };
+$('#btn-save').onclick=()=>{
+  const n=draft(); if(!n.title){ alert('Title, please.'); return; }
+  const i=st.notes.findIndex(x=>x.id===n.id); const t=now();
+  if(i>=0) st.notes[i]={...st.notes[i],...n,updated_at:t}; else st.notes.push({...n,created_at:t,updated_at:t,debate:[]});
+  persist(); renderLeft(); alert('Saved.');
 };
+$('#file-attach').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return; if(!currentId){ alert('Save the note first, then attach.'); return; }
+  const i=st.notes.findIndex(x=>x.id===currentId); st.notes[i].file={name:f.name,size:f.size,type:f.type}; persist(); alert('Attached (metadata only).');
+};
+$('#nc-tags').oninput=chipTags;
 
-/* ====================== Notes ====================== */
-let currentNoteId = null;
-function renderLeftList(){
-  const list = document.getElementById('left-list');
-  const notes = LS.notes();
-  list.innerHTML = notes.map(n=>`<div class="item" data-id="${n.id}"><div class="t">${n.title||'(untitled)'}</div><div class="muted">${(n.content||'').slice(0,140)}</div></div>`).join('');
-  list.querySelectorAll('.item').forEach(it=>it.onclick=()=>openNote(it.getAttribute('data-id')));
-}
-function openNote(id){
-  const n = LS.notes().find(x=>x.id===id);
-  if(!n) return;
-  currentNoteId = id;
-  document.getElementById('nc-title').value = n.title||'';
-  document.getElementById('nc-content').value = n.content||'';
-  document.getElementById('nc-tags').value = (n.tags||[]).join(', ');
-  toast('', 'Opened', n.title||'(untitled)', 1800);
-}
-function saveNote(){
-  const title = document.getElementById('nc-title').value.trim();
-  const content = document.getElementById('nc-content').value;
-  const tags = document.getElementById('nc-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const notes = LS.notes();
-  if(currentNoteId){
-    const i = notes.findIndex(n=>n.id===currentNoteId);
-    if(i>=0){ notes[i] = {...notes[i], title, content, tags, updated:Date.now()}; }
-  }else{
-    const id = crypto.randomUUID();
-    notes.unshift({id, title, content, tags, created:Date.now(), updated:Date.now()});
-    currentNoteId = id;
-  }
-  LS.saveNotes(notes);
-  renderLeftList();
-  toast('', 'Saved', title||'(untitled)');
-}
-document.getElementById('btn-save').onclick=saveNote;
-document.getElementById('btn-new').onclick=()=>{ currentNoteId=null; document.getElementById('nc-title').value=''; document.getElementById('nc-content').value=''; document.getElementById('nc-tags').value=''; toast('warn','New note','Draft cleared',1800); };
-renderLeftList();
+/*** ===== Agents via GitHub Pages Function ===== ***/
+const defaultPrompts = {
+  "Historian": {"system":"You are a meticulous historian. Provide context and precedents.","user":"Note title: {title}\nNote text:\n{text}\nWrite 1-2 tight paragraphs with parallels and what to watch.","temperature":0.6,"model":"gpt-4o-mini"},
+  "Economist": {"system":"You are a pragmatic macroeconomist. Quantify where possible.","user":"Given the note {title}:\n{text}\nReturn bullets for mechanisms, data to check, and a base/alt scenario.","temperature":0.5,"model":"gpt-4o-mini"},
+  "Contrarian": {"system":"You challenge assumptions with evidence; be constructive.","user":"Critique key assumptions in {title}.\n{text}\nGive 3-5 counterpoints and 2 falsification tests.","temperature":0.7,"model":"gpt-4o-mini"},
+  "BlindSpot": {"system":"Identify omissions and risks.","user":"For {title}, list blind spots, missing stakeholders, and unintended consequences.\n{text}\nReturn a short checklist.","temperature":0.5,"model":"gpt-4o-mini"},
+  "Interconnectedness": {"system":"Map 2nd/3rd-order links across domains.","user":"Note {title}:\n{text}\nGive a compact map of 2nd/3rd-order effects and which prior notes to link to (just titles).","temperature":0.6,"model":"gpt-4o-mini"}
+};
+async function loadPrompts(){ try{ const res=await fetch('prompts.json',{cache:'no-store'}); st.prompts = res.ok? await res.json() : defaultPrompts; } catch{ st.prompts = defaultPrompts; } }
+loadPrompts();
 
-/* ====================== Debates (Ask AI) ====================== */
-function agentReply(agent, text){
-  // Lightweight on-device "style" transform to simulate an agent
-  const base = text.trim()||'(no content)';
-  switch(agent){
-    case 'Historian': return `From precedent:\n• 1870s analogue suggests patience.\n• ${base}`;
-    case 'Economist': return `Macro lens:\n• Labor/capacity constraints dominate.\n• ${base}`;
-    case 'Contrarian': return `Counterpoint:\n• Check priors; consensus crowded.\n• ${base}`;
-    case 'BlindSpot': return `What you're missing:\n• Hidden assumption about causality.\n• ${base}`;
-    case 'Interconnectedness': return `Network view:\n• Second/third-order effects matter.\n• ${base}`;
-    default: return base;
-  }
+function getOpenAIText(data) {
+  return (
+    data?.output_text ??
+    data?.output?.[0]?.content?.[0]?.text ??
+    data?.content?.[0]?.text ??
+    data?.choices?.[0]?.message?.content ??
+    data?.error?.message ??
+    ''
+  );
 }
-function renderDebateHistory(){
-  const box = document.getElementById('debate-history');
-  const rows = LS.debates().slice(0,50).map(d=>`<div class="item"><div class="t">${d.agent}</div><div class="muted">${new Date(d.ts).toLocaleString()}</div><div class="mono" style="white-space:pre-wrap">${d.text}</div></div>`).join('');
-  box.innerHTML = rows||'<div class="item"><div class="muted">No history yet.</div></div>';
-}
-renderDebateHistory();
 
 async function askAgent(){
-  const agent = document.getElementById('debate-agent').value;
-  const content = document.getElementById('nc-content').value||document.getElementById('nc-title').value;
-  const out = document.getElementById('debate-output');
-  out.textContent = 'Thinking…';
-  await new Promise(r=>setTimeout(r, 200)); // small UX delay
-  const reply = agentReply(agent, content);
-  out.textContent = reply;
-  const hist = LS.debates();
-  hist.unshift({agent, text: reply, ts: Date.now()});
-  LS.saveDebates(hist);
-  renderDebateHistory();
-  toast('', 'AI replied', agent+' wrote '+(reply.length>80?reply.slice(0,77)+'…':reply));
-}
-document.getElementById('debate-ask').onclick = askAgent;
-document.addEventListener('keydown', (e)=>{
-  if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ askAgent(); }
-});
-document.getElementById('debate-add').onclick = ()=>{
-  const out = document.getElementById('debate-output').textContent.trim();
-  if(!out){ toast('warn','Nothing to add','Ask AI first.'); return; }
-  const ta = document.getElementById('nc-content');
-  const sep = ta.value.endsWith('\\n')||ta.value==='' ? '' : '\\n\\n';
-  ta.value = ta.value + sep + '> ' + out.replace(/\\n/g,'\\n> ') + '\\n';
-  toast('', 'Added to note', 'AI output appended as quote.');
-};
-
-/* ====================== Library (minimal demo) ====================== */
-function seedDemoNotesOnce(){
-  const notes = LS.notes();
-  if(notes.length) return;
-  const sample = Array.from({length:12}, (_,i)=>({id:crypto.randomUUID(),title:`Sample Note ${i+1}`,content:`This is sample content with [[wikilinks]] and tags.`,tags:['demo','sample'],created:Date.now()-i*86400000,updated:Date.now()-i*86400000}));
-  LS.saveNotes(sample);
-}
-seedDemoNotesOnce();
-
-function renderLibrary(){
-  const grid = document.getElementById('lib-grid');
-  const notes = LS.notes();
-  grid.innerHTML = notes.map(n=>`<article class="card" data-id="${n.id}"><div class="title">${n.title||'(untitled)'}</div><div class="preview">${(n.content||'').slice(0,120)}</div><div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span><span class="badge">${(n.content.match(/\\[\\[/g)||[]).length} links</span></div></article>`).join('');
-  grid.querySelectorAll('.card').forEach(c=>c.onclick=()=>{location.hash='#/notecard'; openNote(c.getAttribute('data-id'));});
-}
-
-/* ====================== Graph (very light placeholder) ====================== */
-function drawGraph(){
-  const canvas = document.getElementById('gcanvas');
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width = canvas.clientWidth;
-  const h = canvas.height = canvas.clientHeight;
-  ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--g-stroke');
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for(let x=0;x<w;x+=8){
-    const y = h/2 + Math.sin(x/30)*40;
-    ctx.lineTo(x,y);
-  }
-  ctx.stroke();
-}
-window.addEventListener('resize', drawGraph);
-document.getElementById('btn-redraw').onclick=drawGraph;
-setTimeout(drawGraph,0);
-
-/* ====================== Forecasts ====================== */
-/**
- * Goals:
- * - Auto-generate forecasts daily at a configured local time
- * - Try to scrape public market pages using DOMParser through an optional CORS proxy
- * - If blocked, generate deterministic fallback items based on the date so everyone sees the same list
- * - Persist per-day results in localStorage to avoid duplicates
- */
-const DEFAULT_SOURCES = [
-  {name:'Polymarket: US CPI YoY', url:'https://polymarket.com/event/us-inflation-cpi-yoy', selector:'[data-testid="market-card"], article, a'},
-  {name:'Kalshi: Fed Rate by EOY', url:'https://kalshi.com/markets/fed-funds-rate', selector:'a, article'}
-];
-
-function xmur3(str){for(var i=0,h=1779033703^str.length;i<str.length;i++)h=Math.imul(h^str.charCodeAt(i),3432918353),h=h<<13|h>>>19;return function(){h=Math.imul(h^h>>>16,2246822507),h=Math.imul(h^h>>>13,3266489909);return(h^h>>>16)>>>0}}
-function mulberry32(a){return function(){var t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
-
-async function fetchThroughProxy(rawUrl, proxy){
-  const final = proxy ? proxy + encodeURIComponent(rawUrl) : rawUrl;
-  const res = await fetch(final, {mode: proxy ? 'cors' : 'cors'}); // may fail CORS without proxy
-  const txt = await res.text();
-  return new DOMParser().parseFromString(txt, 'text/html');
-}
-
-async function tryScrape(proxy){
-  const items = [];
-  for(const src of DEFAULT_SOURCES){
-    try{
-      const doc = await fetchThroughProxy(src.url, proxy);
-      // Very loose extraction: grab up to 5 distinct text blobs that look like market lines
-      const nodes = Array.from(doc.querySelectorAll(src.selector)).slice(0,8);
-      const picks = nodes.map(n=> (n.textContent||'').trim().replace(/\\s+/g,' ')).filter(t=>t.length>30).slice(0,3);
-      picks.forEach((t,idx)=>{
-        items.push({
-          id: crypto.randomUUID(),
-          source: src.name,
-          title: t.slice(0,80),
-          probability: Math.round(25 + Math.random()*50),
-          url: src.url
-        });
-      });
-    }catch(e){
-      console.warn('Scrape failed for', src.url, e);
-    }
-  }
-  return items;
-}
-
-function deterministicFallback(isoDate){
-  const seed = xmur3(isoDate)();
-  const rnd = mulberry32(seed);
-  const templates = [
-    ['US CPI YoY in next print ≥ 3.5%','Macro'],
-    ['Fed cuts at next meeting?','Rates'],
-    ['BTC closes week above prior high','Crypto'],
-    ['WTI settles above $90 this month','Energy'],
-    ['S&P 500 drawdown > 3% this week','Equities'],
-    ['EURUSD ends month > 1.11','FX'],
-  ];
-  const out = [];
-  for(let i=0;i<4;i++){
-    const t = templates[Math.floor(rnd()*templates.length)];
-    out.push({
-      id: `${isoDate}-${i}`,
-      source: 'Deterministic',
-      title: t[0],
-      probability: Math.round(30 + rnd()*50),
-      url: '#',
-      tag: t[1]
-    });
-  }
-  return out;
-}
-
-function renderForecastList(){
-  const list = document.getElementById('forecast-list');
-  const today = new Date().toISOString().slice(0,10);
-  const store = LS.forecasts();
-  const todays = store[today]||[];
-  list.innerHTML = (todays.length?todays:[]).map(f=>`
-    <div class="item" data-id="${f.id}">
-      <div class="t">${f.title}</div>
-      <div class="muted">${f.source} • ${f.probability}% • ${new Date(f.ts||Date.now()).toLocaleString()} ${f.url&&f.url!=='#' ? '• <a href="'+f.url+'" target="_blank">source</a>' : ''}</div>
-    </div>
-  `).join('') || '<div class="item"><div class="muted">No forecasts yet for today.</div></div>';
-}
-
-function scheduleNextRun(){
-  const cfg = {hour: '09:00', proxy: '', ...LS.fcfg()};
-  const [hh,mm] = cfg.hour.split(':').map(Number);
-  const now = new Date();
-  const next = new Date(now);
-  next.setHours(hh,mm,0,0);
-  if(next <= now){ next.setDate(next.getDate()+1); }
-  const span = document.getElementById('next-forecast-time');
-  span.textContent = next.toLocaleString();
-  // Set timeout for next run (cap at 24h)
-  const delay = Math.min(24*3600e3, next - now);
-  if(window._forecastTimer) clearTimeout(window._forecastTimer);
-  window._forecastTimer = setTimeout(()=>{ generateTodayForecasts(); }, delay);
-}
-
-async function generateTodayForecasts(force=false){
-  const cfg = {hour: '09:00', proxy: '', ...LS.fcfg()};
-  const today = new Date().toISOString().slice(0,10);
-  const all = LS.forecasts();
-  if(all[today] && all[today].length && !force){
-    renderForecastList();
-    toast('','Forecasts','Already generated for today.');
-    return;
-  }
-  toast('','Forecasts','Generating…');
-  let items = await tryScrape(cfg.proxy);
-  if(!items.length){
-    items = deterministicFallback(today);
-    toast('warn','Scrape blocked','Using deterministic fallback for today.');
-  }
-  const withTs = items.map(x=>({...x, ts: Date.now()}));
-  all[today] = withTs;
-  LS.saveForecasts(all);
-  renderForecastList();
-  toast('','Forecasts ready', `${withTs.length} items for ${today}`);
-  scheduleNextRun();
-}
-
-document.getElementById('btn-force-forecast').onclick=()=>generateTodayForecasts(true);
-document.getElementById('btn-save-forecast-settings').onclick=()=>{
-  const hour = (document.getElementById('forecast-hour').value||'09:00').slice(0,5);
-  const proxy = document.getElementById('proxy-url').value.trim();
-  LS.saveFcfg({hour, proxy});
-  toast('', 'Saved', 'Daily time & proxy updated.');
-  scheduleNextRun();
-};
-// Initialize forecast UI
-(function initForecast(){
-  const cfg = {hour: '09:00', proxy: '', ...LS.fcfg()};
-  document.getElementById('forecast-hour').value = cfg.hour;
-  document.getElementById('proxy-url').value = cfg.proxy||'';
-  scheduleNextRun();
-  // Also generate if today is empty and time has already passed
-  const [hh,mm] = cfg.hour.split(':').map(Number);
-  const now = new Date();
-  const timePassed = now.getHours()>hh || (now.getHours()===hh && now.getMinutes()>=mm);
-  const today = new Date().toISOString().slice(0,10);
-  const all = LS.forecasts();
-  if((!all[today] || !all[today].length) && timePassed){
-    generateTodayForecasts();
-  }else{
-    renderForecastList();
-  }
-})();
-
-/* ====================== Import / Export ====================== */
-document.getElementById('btn-export').onclick=()=>{
-  const blob = new Blob([JSON.stringify({
-    notes: LS.notes(),
-    debates: LS.debates(),
-    forecasts: LS.forecasts(),
-    forecast_cfg: LS.fcfg()
-  }, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'willow-export.json'; a.click();
-  URL.revokeObjectURL(url);
-  toast('', 'Exported', 'Data downloaded as JSON.');
-};
-document.getElementById('file-import').addEventListener('change', async (e)=>{
-  const file = e.target.files[0]; if(!file) return;
-  const text = await file.text();
+  const agentKey=$('#debate-agent').value;
+  const P = st.prompts[agentKey]||defaultPrompts[agentKey]||defaultPrompts.Historian;
+  const note=draft();
+  const body={ model:P.model||'gpt-4o-mini', temperature: P.temperature ?? 0.7, input:[
+    {role:'system',content:P.system||'You are a helpful assistant.'},
+    {role:'user',content:(P.user||'').replaceAll('{title}', note.title||'').replaceAll('{text}', note.content||'')}
+  ], stream:false };
+  $('#debate-output').textContent='Thinking...';
   try{
-    const data = JSON.parse(text);
-    if(data.notes) LS.saveNotes(data.notes);
-    if(data.debates) LS.saveDebates(data.debates);
-    if(data.forecasts) LS.saveForecasts(data.forecasts);
-    if(data.forecast_cfg) LS.saveFcfg(data.forecast_cfg);
-    renderLeftList(); renderDebateHistory(); renderForecastList();
-    toast('', 'Imported', file.name);
-  }catch(err){
-    console.error(err); toast('err','Import failed','Invalid JSON');
+    const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
+    $('#debate-output').textContent = text || '(no text)';
+  }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
+}
+$('#debate-ask').onclick=askAgent;
+$('#debate-add').onclick=()=>{
+  const t=$('#debate-output').textContent.trim(); if(!t){ alert('Ask AI first, or type something.'); return; }
+  const n=st.notes.find(x=>x.id===currentId); if(!n){ alert('Save the note first.'); return; }
+  n.debate=n.debate||[]; n.debate.push({who:$('#debate-agent').value,text:t,at:now()}); n.updated_at=now(); persist(); alert('Added to note.');
+};
+
+/*** ===== Projects bar ===== ***/
+function projectsMap(){ const m={}; st.notes.forEach(n=> (n.tags||[]).forEach(t=>{ const l=t.toLowerCase(); if(l.startsWith('project')||l.startsWith('proj:')) (m[t]=m[t]||[]).push(n.id); })); return m; }
+function renderProjectsBar(){
+  const bar=$('#projects-bar'); bar.innerHTML=''; const map=projectsMap(); const names=Object.keys(map).sort((a,b)=>a.localeCompare(b));
+  if(!names.length){ bar.innerHTML='<span class="muted">No projects yet. Add tags like "project:Atlas".</span>'; return; }
+  names.forEach(name=>{ const c=document.createElement('div'); c.className='proj'; c.innerHTML=`<b>${esc(name)}</b> <span class="count">${map[name].length}</span>`;
+    c.onclick=()=>{ st.projFilter=name; persist(); $('#lib-active-project').textContent=`Project: ${name}`; $('#lib-active-project').style.display='inline-flex'; renderLibrary(); };
+    bar.appendChild(c);
+  });
+}
+
+/*** ===== Library ===== ***/
+function renderLibrary(){
+  $('#lib-min-val').textContent=$('#lib-min').value;
+  const size=+$('#lib-size').value, search=$('#lib-search').value.toLowerCase(), tags=tagsOf($('#lib-tags').value);
+  const {edges}=buildGraph(); const deg=degreeMap(edges);
+  let items=st.notes.slice();
+  if(st.projFilter){ const set=new Set(projectsMap()[st.projFilter]||[]); items=items.filter(n=>set.has(n.id)); }
+  if(search) items=items.filter(n=> (n.title||'').toLowerCase().includes(search) || (n.content||'').toLowerCase().includes(search) );
+  if(tags.length) items=items.filter(n=>tags.every(t=>(n.tags||[]).includes(t)));
+  const min=+$('#lib-min').value; if(min>0) items=items.filter(n=>(deg[n.id]||0)>=min);
+  const newest=$('#lib-sort').checked; items.sort((a,b)=>(newest?1:-1)*(new Date(b.updated_at||b.created_at)-new Date(a.updated_at||a.created_at)));
+  const grid=$('#lib-grid'); grid.style.gridTemplateColumns=`repeat(auto-fill,minmax(${size}px,1fr))`;
+  grid.innerHTML= items.length ? items.map(n=>`
+    <article class="card" data-id="${n.id}">
+      <div class="title">${esc(n.title||'(untitled)')}</div>
+      <div class="preview">${esc((n.content||'').slice(0,140))}${(n.content||'').length>140?'…':''}</div>
+      <div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span><span class="badge">${(deg[n.id]||0)} links</span></div>
+    </article>`).join('') : '<div class="muted">No results.</div>';
+  $$('#lib-grid .card').forEach(c=>c.onclick=()=>{ const id=c.getAttribute('data-id'); st.focusId=id; persist(); location.hash='#/notecard'; load(id); renderLeft(); });
+}
+$('#lib-size').oninput=renderLibrary; $('#lib-search').oninput=renderLibrary; $('#lib-tags').oninput=renderLibrary;
+$('#lib-min').oninput=e=>{ $('#lib-min-val').textContent=e.target.value; renderLibrary(); };
+$('#lib-sort').onchange=renderLibrary;
+$('#lib-clear').onclick=()=>{ st.projFilter=null; $('#lib-active-project').style.display='none'; $('#lib-search').value=''; $('#lib-tags').value=''; $('#lib-min').value='0'; $('#lib-min-val').textContent='0'; persist(); renderProjectsBar(); renderLibrary(); };
+$('#lib-active-project').onclick=()=>$('#lib-clear').click();
+
+/*** ===== Physics Graph ===== ***/
+let sim=null, nodes=[], links=[];
+const g = { G:60, pad:6, linkBase:110, simW:1.0, paused:false, focusPull:0.6 };
+const tooltip = $('#gtooltip');
+function themeColors(){
+  const cs=getComputedStyle(document.documentElement);
+  return { edge:cs.getPropertyValue('--g-edge').trim()||'#cbd5e1', node:cs.getPropertyValue('--g-node').trim()||'#0ea5e9', stroke:cs.getPropertyValue('--g-stroke').trim()||'#0f172a', label:cs.getPropertyValue('--g-label').trim()||'#0f172a', focus:cs.getPropertyValue('--g-focus').trim()||'#fb7185', bg:cs.getPropertyValue('--g-bg').trim()||'#ffffff' };
+}
+function resizeCanvas(){ const rect=canvas.getBoundingClientRect(); const dpr=window.devicePixelRatio||1; canvas.width=Math.max(2,Math.floor(rect.width*dpr)); canvas.height=Math.max(2,Math.floor(rect.height*dpr)); if(APP_READY) draw(); }
+window.addEventListener('resize', ()=>{ resizeCanvas(); if(sim) sim.alpha(0.2).restart(); });
+
+function simTags(A,B){ const a=new Set((A||[]).map(s=>s.toLowerCase())); const b=new Set((B||[]).map(s=>s.toLowerCase())); if(a.size===0 && b.size===0) return 0; let inter=0; a.forEach(t=>{ if(b.has(t)) inter++; }); const uni=a.size+b.size-inter; return inter/uni; }
+
+function dataForPhysics(){
+  const {edges}=buildGraph(); const deg=degreeMap(edges);
+  const breadth=+$('#gr-breadth').value; const focus=st.focusId; const depth=+$('#gr-depth').value;
+  $('#gr-breadth-val').textContent=breadth; $('#gr-depth-val').textContent=depth;
+  let allowed=new Set(st.notes.map(n=>n.id));
+  if(focus){
+    const neigh=neighborsMap(edges); allowed=new Set([focus]); let frontier=new Set([focus]);
+    for(let d=0; d<depth; d++){ const nxt=new Set(); frontier.forEach(v=> (neigh[v]||new Set()).forEach(u=>nxt.add(u))); nxt.forEach(v=>allowed.add(v)); frontier=nxt; }
+  }
+  const nodelist = st.notes.filter(n=>allowed.has(n.id) && (deg[n.id]||0)>=breadth).map(n=>{
+    const k=deg[n.id]||0; const mass=1+Math.sqrt(k); const r=10+k*2;
+    return {id:n.id,title:n.title||'(untitled)',degree:k,mass,r,tags:n.tags||[],x:(Math.random()-0.5)*60,y:(Math.random()-0.5)*60};
+  });
+  const idTo=new Map(nodelist.map(n=>[n.id,n]));
+  const linklist = edges.filter(e=>idTo.has(e.source)&&idTo.has(e.target)).map(e=>{ const a=idTo.get(e.source), b=idTo.get(e.target); return {source:a,target:b,sim:simTags(a.tags,b.tags)}; });
+  return {nodelist, linklist};
+}
+
+function draw(){
+  if(!ctx) return; const dpr=window.devicePixelRatio||1; const col=themeColors();
+  ctx.save(); ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle=col.bg; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.translate(transform.x, transform.y); ctx.scale(transform.k, transform.k);
+  // edges (thicker/darker when touching focus)
+  links.forEach(l=>{
+    const isFocus=(l.source.id===st.focusId || l.target.id===st.focusId);
+    ctx.beginPath();
+    ctx.lineWidth = isFocus ? 3/transform.k : 1.25/transform.k;
+    ctx.strokeStyle = isFocus ? col.stroke : col.edge;
+    ctx.moveTo(l.source.x, l.source.y);
+    ctx.lineTo(l.target.x, l.target.y);
+    ctx.stroke();
+  });
+  // nodes
+  nodes.forEach(n=>{
+    ctx.beginPath();
+    ctx.fillStyle = (st.focusId===n.id) ? col.focus : col.node;
+    ctx.strokeStyle = col.stroke;
+    ctx.lineWidth = 1.5/transform.k;
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    // label
+    ctx.save(); ctx.scale(1/transform.k,1/transform.k); ctx.fillStyle=col.label; ctx.font='10px system-ui,sans-serif';
+    const text = n.title.length>34 ? n.title.slice(0,34)+'…' : n.title;
+    const labelX = (n.x*transform.k) - (ctx.measureText(text).width/2);
+    const labelY = (n.y*transform.k) - (n.r*transform.k + 6);
+    ctx.fillText(text, labelX, labelY); ctx.restore();
+  });
+  ctx.restore();
+}
+function nodeAtWorld(x,y){ for(let i=nodes.length-1;i>=0;i--){ const n=nodes[i]; const dx=x-n.x, dy=y-n.y; if(dx*dx+dy*dy <= (n.r+6)*(n.r+6)) return n; } return null; }
+function pointerToWorld(ev){ const rect=canvas.getBoundingClientRect(); const px=ev.clientX-rect.left, py=ev.clientY-rect.top; return { x:(px-transform.x)/transform.k, y:(py-transform.y)/transform.k }; }
+function handleHover(ev){ const rect=canvas.getBoundingClientRect(); const px=ev.clientX-rect.left, py=ev.clientY-rect.top; const w={x:(px-transform.x)/transform.k,y:(py-transform.y)/transform.k}; const n=nodeAtWorld(w.x,w.y); if(n){ tooltip.style.opacity=1; tooltip.style.left=(ev.clientX+12)+'px'; tooltip.style.top=(ev.clientY+12)+'px'; tooltip.textContent=`${n.title}  deg ${n.degree}`; canvas.style.cursor='pointer'; } else { tooltip.style.opacity=0; canvas.style.cursor='grab'; } }
+
+let isDragging=false, dragNode=null;
+function setupZoomPan(){
+  // wheel zoom about cursor
+  canvas.addEventListener('wheel', (ev)=>{
+    ev.preventDefault();
+    const scale=Math.pow(1.0015, -ev.deltaY);
+    const rect=canvas.getBoundingClientRect(); const mx=ev.clientX-rect.left, my=ev.clientY-rect.top;
+    const kNew=Math.min(6, Math.max(0.2, transform.k*scale));
+    transform.x = mx - (mx - transform.x) * (kNew/transform.k);
+    transform.y = my - (my - transform.y) * (kNew/transform.k);
+    transform.k = kNew; draw();
+  }, {passive:false});
+  // pan / drag
+  let panning=false, panStart=null, startTransform=null;
+  canvas.addEventListener('mousedown', (ev)=>{ const w=pointerToWorld(ev); const n=nodeAtWorld(w.x,w.y);
+    if(n){ isDragging=true; dragNode=n; canvas.style.cursor='grabbing'; n.fx=n.x; n.fy=n.y; if(sim) sim.alphaTarget(0.6).restart(); ev.preventDefault(); }
+    else { panning=true; panStart={x:ev.clientX,y:ev.clientY}; startTransform={...transform}; canvas.style.cursor='grabbing'; }
+  });
+  window.addEventListener('mousemove', (ev)=>{
+    if(isDragging && dragNode){ const w=pointerToWorld(ev); dragNode.fx=w.x; dragNode.fy=w.y; draw(); return; }
+    if(panning){ transform.x=startTransform.x+(ev.clientX-panStart.x); transform.y=startTransform.y+(ev.clientY-panStart.y); draw(); }
+    else { handleHover(ev); }
+  });
+  window.addEventListener('mouseup', ()=>{ if(isDragging && dragNode){ dragNode.fx=null; dragNode.fy=null; if(sim) sim.alphaTarget(0).restart(); } isDragging=false; dragNode=null; canvas.style.cursor='grab'; panning=false; });
+  canvas.addEventListener('click', (ev)=>{ const w=pointerToWorld(ev); const n=nodeAtWorld(w.x,w.y); if(n){ st.focusId=n.id; persist(); initPhysics(); renderCluster(); } });
+}
+function updateLinkForce(){ if(!sim) return; const flink=sim.force('link'); flink.distance(d=>{ const base=+$('#gr-link').value; const simW=+$('#gr-simw').value; const dist=Math.max(40, base*(1 - 0.45*simW*(d.sim||0))); return dist; }); flink.strength(d=>{ const simW=+$('#gr-simw').value; return Math.min(0.9, 0.06*(1 + 1.4*simW*(d.sim||0))); }); }
+function initPhysics(){
+  const {nodelist, linklist} = dataForPhysics(); nodes=nodelist; links=linklist;
+  const dpr=window.devicePixelRatio||1; const cx=(canvas.width/dpr)/2, cy=(canvas.height/dpr)/2; transform={k:1,x:cx,y:cy};
+  if(sim) sim.stop();
+  const flink=d3.forceLink(links).id(d=>d.id);
+  const fAttract=d3.forceManyBody().strength(d=>+$('#gr-G').value * d.mass).theta(0.9);
+  const fRepel=d3.forceManyBody().strength(d=>-18*(1+0.2)).theta(0.9);
+  const pad=+$('#gr-pad').value;
+  const focus=st.focusId;
+  const fCollide=d3.forceCollide().radius(d=>d.r + pad + ((focus && d.id===focus)? Math.max(2, pad*1.2) : 0)).iterations(2);
+  const fFocus=d3.forceRadial(0, 0, 0).strength(d => (focus && d.id===focus)? g.focusPull : 0);
+  sim = d3.forceSimulation(nodes).force('link',flink).force('attract',fAttract).force('repel',fRepel).force('collide',fCollide).force('focus',fFocus).force('center', d3.forceCenter(0,0)).velocityDecay(0.35).alphaMin(0.02).alpha(0.9).on('tick', draw);
+  updateLinkForce();
+  $('#gr-breadth-val').textContent=$('#gr-breadth').value; $('#gr-depth-val').textContent=$('#gr-depth').value; $('#gr-G-val').textContent=$('#gr-G').value; $('#gr-pad-val').textContent=$('#gr-pad').value; $('#gr-link-val').textContent=$('#gr-link').value; $('#gr-simw-val').textContent=(+$('#gr-simw').value).toFixed(1);
+  canvas.style.cursor='grab'; if(g.paused) sim.stop(); draw();
+}
+
+/*** ===== Card Cluster ===== ***/
+function renderCluster(){
+  const size=+$('#cl-size').value, depth=+$('#cl-depth').value, focus=st.focusId;
+  const {edges}=buildGraph(); const neigh=neighborsMap(edges);
+  const focusNote=st.notes.find(n=>n.id===focus);
+  $('#cl-focus').innerHTML = focusNote ? `<div style="font-weight:700">${esc(focusNote.title||'(untitled)')}</div><div class="mono" style="white-space:pre-wrap">${esc((focusNote.content||'').slice(0,220))}${(focusNote.content||'').length>220?'…':''}</div><div class="chips" style="margin-top:6px">${(focusNote.tags||[]).map(t=>`<span class="chip">#${esc(t)}</span>`).join('')}</div>` : '<div class="muted">No focus selected.</div>';
+  const canvasEl=$('#cl-canvas'); canvasEl.innerHTML=''; $('#cl-links').textContent=''; if(!focusNote) return;
+  const seen=new Set([focus]); let frontier=new Set([focus]); const levels={[focus]:0};
+  for(let d=0; d<depth; d++){ const nxt=new Set(); frontier.forEach(v=> (neigh[v]||new Set()).forEach(u=>{ if(!seen.has(u)){ seen.add(u); nxt.add(u); levels[u]=d+1; } })); frontier=nxt; }
+  seen.delete(focus);
+  $('#cl-links').textContent=Array.from(seen).map(id=>`• (${levels[id]}) ${st.notes.find(x=>x.id===id)?.title||id}`).join('\n');
+  Array.from(seen).forEach(id=>{
+    const n=st.notes.find(x=>x.id===id); if(!n) return;
+    const card=document.createElement('article'); card.className='note-card'; card.style.width=size+'px';
+    card.innerHTML = `<div style="font-weight:700">${esc(n.title||'(untitled)')}</div><div class="mono" style="white-space:pre-wrap">${esc((n.content||'').slice(0,160))}${(n.content||'').length>160?'…':''}</div><div class="chips" style="margin-top:6px">${(n.tags||[]).map(t=>`<span class="chip">#${esc(t)}</span>`).join('')}</div><div class="row" style="margin-top:6px"><button class="btn" data-open="${n.id}">Open</button><button class="btn" data-link="${n.title}">[[Link]]</button></div>`;
+    canvasEl.appendChild(card);
+  });
+  $$('[data-open]').forEach(b=> b.onclick=()=>{ const id=b.getAttribute('data-open'); location.hash='#/notecard'; load(id); renderLeft(); });
+  $$('[data-link]').forEach(b=> b.onclick=()=>{ const title=b.getAttribute('data-link'); location.hash='#/notecard'; const ta=$('#nc-content'); const txt=`[[${title}]]`; const p=ta.selectionStart||ta.value.length; ta.value=ta.value.slice(0,p)+txt+ta.value.slice(p); ta.selectionStart=ta.selectionEnd=p+txt.length; ta.focus(); });
+}
+$('#cl-size').oninput=renderCluster; $('#cl-depth').oninput=renderCluster;
+
+/*** ===== Import/Export ===== ***/
+$('#btn-export').onclick=()=>{ const data=JSON.stringify({notes:st.notes},null,2); const url=URL.createObjectURL(new Blob([data],{type:'application/json'})); const a=document.createElement('a'); a.href=url; a.download='willow_export.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); };
+$('#file-import').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ const text=await f.text(); const data=JSON.parse(text); st.notes = Array.isArray(data) ? data : (Array.isArray(data.notes)? data.notes : []); persist(); alert('Imported.'); renderLeft(); renderProjectsBar(); renderLibrary(); if(APP_READY){ initPhysics(); renderCluster(); } }catch{ alert('Invalid JSON.'); } };
+
+/*** ===== Bind Graph Controls ===== ***/
+function bindGraphControls(){
+  $('#gr-G').oninput=()=>{ $('#gr-G-val').textContent=$('#gr-G').value; if(sim){ sim.force('attract').strength(d=>+$('#gr-G').value*d.mass); sim.alpha(0.25).restart(); } };
+  $('#gr-pad').oninput=()=>{ $('#gr-pad-val').textContent=$('#gr-pad').value; if(sim){ const focus=st.focusId; sim.force('collide').radius(d=>d.r + +$('#gr-pad').value + (focus && d.id===focus ? Math.max(2,+$('#gr-pad').value*1.2):0)); sim.alpha(0.25).restart(); } };
+  $('#gr-link').oninput=()=>{ $('#gr-link-val').textContent=$('#gr-link').value; updateLinkForce(); if(sim) sim.alpha(0.25).restart(); };
+  $('#gr-simw').oninput=()=>{ $('#gr-simw-val').textContent=(+$('#gr-simw').value).toFixed(1); updateLinkForce(); if(sim) sim.alpha(0.25).restart(); };
+  $('#gr-breadth').oninput=()=>{ initPhysics(); };
+  $('#gr-depth').oninput=()=>{ initPhysics(); };
+  $('#gr-reset-focus').onclick=()=>{ st.focusId=null; persist(); initPhysics(); renderCluster(); };
+  $('#gr-pause').onclick=()=>{ g.paused=!g.paused; if(g.paused){ if(sim) sim.stop(); $('#gr-pause').textContent='Resume'; } else { if(sim) sim.alpha(0.35).restart(); $('#gr-pause').textContent='Pause'; } };
+  $('#gr-reheat').onclick=()=>{ if(sim) sim.alpha(0.9).restart(); };
+  $('#gr-resetview').onclick=()=>{ const dpr=window.devicePixelRatio||1; const cx=(canvas.width/dpr)/2, cy=(canvas.height/dpr)/2; transform={k:1,x:cx,y:cy}; draw(); };
+}
+
+/*** ===== IndexedDB (Forecast DB) ===== ***/
+const DB_NAME='willow_db', DB_VER=1; let dbh=null;
+function dbOpen(){ return new Promise((resolve,reject)=>{ const req=indexedDB.open(DB_NAME, DB_VER); req.onupgradeneeded=(e)=>{ const db=e.target.result;
+  if(!db.objectStoreNames.contains('questions')){ const qs=db.createObjectStore('questions',{keyPath:'id'}); qs.createIndex('closesAt','closesAt',{unique:false}); }
+  if(!db.objectStoreNames.contains('forecasts')){ const fs=db.createObjectStore('forecasts',{keyPath:'id'}); fs.createIndex('byQ','questionId',{unique:false}); }
+  if(!db.objectStoreNames.contains('events')){ db.createObjectStore('events',{keyPath:'id'}); }
+}; req.onsuccess=()=>{ dbh=req.result; resolve(); }; req.onerror=()=>reject(req.error); }); }
+function dbTx(name, mode='readonly'){ return dbh.transaction(name, mode).objectStore(name); }
+function dbGetAll(store, index=null, key=null){ return new Promise((res,rej)=>{ const s=dbTx(store); const src=index? s.index(index) : s; const req = key!==null? src.getAll(key) : src.getAll(); req.onsuccess=()=>res(req.result); req.onerror=()=>rej(req.error); }); }
+function dbPut(store, value){ return new Promise((res,rej)=>{ const s=dbTx(store,'readwrite'); const req=s.put(value); req.onsuccess=()=>res(); req.onerror=()=>rej(req.error); }); }
+function dbGet(store, key){ return new Promise((res,rej)=>{ const s=dbTx(store); const req=s.get(key); req.onsuccess=()=>res(req.result||null); req.onerror=()=>rej(req.error); }); }
+
+const fc = { asOf:null, curQ:null };
+function pct(n){ return Math.round(n)+'%'; }
+function sum(arr){ return arr.reduce((a,b)=>a+(+b||0),0); }
+function newid(){ return crypto.randomUUID ? crypto.randomUUID() : uid(); }
+
+function seedForecastingIfEmpty(){
+  return dbGetAll('questions').then(all=>{ if(all.length) return;
+    const nowISO=new Date().toISOString();
+    const sample=[
+      { id:newid(), title:"When will Moody's or S&P downgrade the U.S. sovereign debt rating?", closesAt:"2025-12-01T04:00:00.000Z", answers:[{id:'a1',text:'Before Oct 1, 2025'},{id:'a2',text:'Between Oct–Dec 2025'},{id:'a3',text:'In 2026 or later'}], outcome:null, created_at:nowISO, tags:['rating','policy'] },
+      { id:newid(), title:"Where will 10-year Treasury yields be on October 1?", closesAt:"2025-10-01T04:00:00.000Z", answers:[{id:'b1',text:'Below 3.5%'},{id:'b2',text:'3.5–4.25%'},{id:'b3',text:'4.25–5.0%'},{id:'b4',text:'Above 5.0%'}], outcome:null, created_at:nowISO, tags:['rates','macro'] }
+    ];
+    return Promise.all(sample.map(q=>dbPut('questions', q)));
+  });
+}
+
+/*** Brier ***/
+async function computeUserBrier(asOf=null){
+  const forecasts=await dbGetAll('forecasts'); const questions=await dbGetAll('questions');
+  const qById=new Map(questions.map(q=>[q.id,q])); let sumB=0, n=0;
+  forecasts.forEach(f=>{
+    if(asOf && new Date(f.asOf) > new Date(asOf)) return;
+    const q=qById.get(f.questionId); if(!q || !q.outcome) return;
+    const k=q.answers.length; const probs=f.probs; const o=q.answers.map(a=>a.id===q.outcome.answerId?1:0);
+    const b=o.reduce((acc,ok,idx)=>acc+Math.pow((probs[idx]||0)-ok,2),0); sumB+=b; n++;
+  });
+  return {brier: n? (sumB/n) : null, count:n};
+}
+
+/*** Forecast Router ***/
+function routeForecast(){
+  const h=location.hash;
+  $('#nav-forecast').classList.toggle('active', h.startsWith('#/forecast'));
+  if(h==='#/forecast' || h==='#/forecast/main'){ $('#fc-main').style.display=''; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display='none'; renderForecastMain(); }
+  else if(h==='#/forecast/questions'){ $('#fc-main').style.display='none'; $('#fc-qlist').style.display=''; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display='none'; renderQuestionList(); }
+  else if(h.startsWith('#/forecast/q/')){ const id=h.split('/').pop(); openQuestionDetail(id); }
+  else if(h==='#/forecast/analysis'){ $('#fc-main').style.display='none'; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display='none'; $('#fc-analysis').style.display=''; }
+}
+
+/*** Forecast Main ***/
+async function renderForecastMain(){
+  const asOf = $('#fc-asof').value || null;
+  const {brier,count}=await computeUserBrier(asOf);
+  $('#fc-brier').textContent = (brier==null)? '—' : brier.toFixed(3);
+  $('#fc-count').textContent = count||0;
+  const qs=await dbGetAll('questions'); const fs=await dbGetAll('forecasts'); const fByQ=new Map();
+  fs.forEach(f=>{ if(asOf && new Date(f.asOf)>new Date(asOf)) return; fByQ.set(f.questionId,f); });
+  const rows=[]; qs.forEach(q=>{ if(!q.outcome) return; const f=fByQ.get(q.id); if(!f) return; const o=q.answers.map(a=>a.id===q.outcome.answerId?1:0); const b=o.reduce((acc,ok,idx)=>acc+Math.pow((f.probs[idx]||0)-ok,2),0); rows.push({title:q.title,b}); });
+  rows.sort((a,b)=>a.b-b.b);
+  $('#fc-best').innerHTML = rows.length? rows.slice(0,5).map(r=>`<li>${esc(r.title)} (${r.b.toFixed(2)})</li>`).join('') : '<li class="muted">No resolved questions yet.</li>';
+  $('#fc-worst').innerHTML = rows.length? rows.slice(-5).reverse().map(r=>`<li>${esc(r.title)} (${r.b.toFixed(2)})</li>`).join('') : '<li class="muted">No resolved questions yet.</li>';
+  drawSpark('#fc-spark', fs, asOf); drawScatter('#fc-scatter', fs, asOf);
+}
+$('#fc-asof').onchange=renderForecastMain;
+function drawSpark(sel, forecasts, asOf){
+  const c=$(sel), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  const xs = forecasts.filter(f=>!asOf || new Date(f.asOf)<=new Date(asOf)).sort((a,b)=>new Date(a.asOf)-new Date(b.asOf)).map(f=> sum(f.probs)/f.probs.length );
+  if(xs.length<2) return; ctx.beginPath(); ctx.moveTo(10, c.height-10 - xs[0]*(c.height-20));
+  for(let i=1;i<xs.length;i++){ const x=10 + i*(c.width-20)/(xs.length-1); const y=c.height-10 - xs[i]*(c.height-20); ctx.lineTo(x,y); }
+  ctx.strokeStyle=themeColors().stroke; ctx.lineWidth=2; ctx.stroke();
+}
+function drawScatter(sel, forecasts, asOf){
+  const c=$(sel), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  const pts = forecasts.filter(f=>!asOf || new Date(f.asOf)<=new Date(asOf)).map(f=>({x:Math.random(), y:sum(f.probs)/f.probs.length}));
+  const pad=14, w=c.width-2*pad, h=c.height-2*pad; ctx.strokeStyle=themeColors().edge; ctx.strokeRect(pad,pad,w,h);
+  pts.forEach(p=>{ ctx.beginPath(); ctx.arc(pad+p.x*w, pad+p.y*h, 3, 0, Math.PI*2); ctx.fillStyle=themeColors().node; ctx.fill(); });
+}
+
+/*** Questions list ***/
+async function renderQuestionList(){
+  const q = (await dbGetAll('questions')).sort((a,b)=>new Date(a.closesAt)-new Date(b.closesAt));
+  const fs = await dbGetAll('forecasts'); const byQ=new Map(); fs.forEach(f=>byQ.set(f.questionId,(byQ.get(f.questionId)||0)+1));
+  const host=$('#fc-q-list'); host.innerHTML='';
+  if(!q.length){ host.innerHTML='<div class="item muted">No questions yet.</div>'; return; }
+  q.forEach(row=>{ const d=document.createElement('div'); d.className='item';
+    d.innerHTML = `<div class="t">${esc(row.title)}</div><div class="muted">Closing ${new Date(row.closesAt).toLocaleString()} • ${(byQ.get(row.id)||0)} forecasts</div><div class="muted"><a href="#/forecast/q/${row.id}">Open</a></div>`; host.appendChild(d); });
+}
+$('#fc-q-new').onclick=async ()=>{
+  const ttl=prompt('Question title?'); if(!ttl) return;
+  const closes=prompt('Closes ISO (e.g., 2025-12-31T04:00:00.000Z)'); if(!closes) return;
+  const opts=prompt('Answer options (comma separated)'); if(!opts) return;
+  const q={ id:newid(), title:ttl, closesAt:closes, answers:opts.split(',').map(s=>({id:newid(),text:s.trim()})), outcome:null, created_at:now(), tags:[] };
+  await dbPut('questions', q); renderQuestionList();
+};
+
+/*** Question detail ***/
+async function openQuestionDetail(qid){
+  const q=await dbGet('questions', qid);
+  $('#fc-main').style.display='none'; $('#fc-qlist').style.display='none'; $('#fc-qdetail').style.display=''; $('#fc-analysis').style.display='none';
+  if(!q){ $('#fc-qdetail').innerHTML='<div class="muted">Not found.</div>'; return; } fc.curQ=q;
+  $('#fc-q-head').innerHTML = `<div><div style="font-weight:700">${esc(q.title)}</div><div class="muted">Closing ${new Date(q.closesAt).toLocaleString()}</div></div><div class="row" style="gap:8px"><button class="btn" id="fc-resolve">Resolve</button><a class="btn" href="#/forecast/questions">Back</a></div>`;
+  renderAnswerSliders(q); renderActivity(q); renderCrowd(q); renderNotesTab(q);
+  $$('[data-fc-tab]').forEach(b=> b.onclick=()=>{ $$('[data-fc-tab]').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+    ['forecast','activity','crowd','notes'].forEach(name=>{ $('#fc-tab-'+name).style.display = (b.dataset.fcTab===name)? '' : 'none'; });
+  });
+  $('#fc-resolve').onclick=async ()=>{ if(q.outcome){ alert('Already resolved.'); return; } const idx=prompt('Enter the winning answer index (1..N)'); const i=(parseInt(idx,10)||0)-1; if(i<0 || i>=q.answers.length) return; q.outcome={answerId:q.answers[i].id, at:now()}; await dbPut('questions', q); alert('Resolved. Dashboard will include it in Brier after you have a forecast saved.'); renderCrowd(q); };
+  $('#fc-save').onclick=()=>saveForecast(false); $('#fc-submit').onclick=()=>saveForecast(true);
+}
+async function saveForecast(submit=false){
+  const q=fc.curQ; if(!q) return; const sliders=$$('[data-fc-prob]'); const probs=sliders.map(s=> parseInt(s.value,10)/100 );
+  const s=sum(probs); const norm = s>0? probs.map(p=>p/s) : probs.map(_=>0);
+  $('#fc-sumcheck').textContent='Sum: '+pct(sum(norm)*100/100)+' (normalized on save)';
+  const rec={ id:newid(), questionId:q.id, asOf:now(), probs:norm, submitted:submit };
+  await dbPut('forecasts', rec); await dbPut('events', {id:newid(), type:'forecast', questionId:q.id, at:rec.asOf}); renderActivity(q); renderCrowd(q); alert(submit?'Submitted!':'Saved.');
+}
+function renderAnswerSliders(q){
+  const host=$('#fc-answers'); host.innerHTML='';
+  q.answers.forEach((a,i)=>{ const row=document.createElement('div'); row.className='row'; row.style.margin='8px 0';
+    row.innerHTML = `<div style="flex:1">${esc(a.text)}</div><input type="range" min="0" max="100" step="1" value="${Math.floor(100/q.answers.length)}" data-fc-prob="${i}" style="width:240px"><span class="badge" id="fc-prob-${i}">${pct(100/q.answers.length)}</span>`;
+    host.appendChild(row);
+  });
+  $$('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
+}
+async function renderActivity(q){
+  const events=(await dbGetAll('events')).filter(e=>e.questionId===q.id).sort((a,b)=>new Date(b.at)-new Date(a.at));
+  $('#fc-activity').textContent = events.length? events.map(e=>`• ${e.type} @ ${new Date(e.at).toLocaleString()}`).join('\n') : 'No activity yet.';
+}
+async function renderCrowd(q){
+  const fs=(await dbGetAll('forecasts')).filter(f=>f.questionId===q.id); const k=q.answers.length; const avg=new Array(k).fill(0);
+  if(fs.length){ fs.forEach(f=> f.probs.forEach((p,i)=> avg[i]+=p)); for(let i=0;i<k;i++) avg[i]/=fs.length; }
+  const host=$('#fc-crowd-bars'); host.innerHTML='';
+  q.answers.forEach((a,i)=>{ const pctStr=pct((avg[i]||0)*100); const row=document.createElement('div'); row.className='row'; row.style.margin='6px 0';
+    row.innerHTML = `<div style="width:40%">${esc(a.text)}</div><div style="flex:1;background:var(--chip);border:1px solid var(--line);border-radius:8px;overflow:hidden"><div style="height:12px;background:var(--link);width:${(avg[i]||0)*100}%"></div></div><span class="badge">${pctStr}</span>`; host.appendChild(row);
+  });
+}
+function renderNotesTab(q){
+  const words=new Set((q.title||'').toLowerCase().split(/\W+/).filter(w=>w.length>3));
+  const hits=st.notes.filter(n=>{ const bag=(n.title+' '+n.content).toLowerCase().split(/\W+/); return bag.some(w=>words.has(w)); });
+  $('#fc-notes-list').value = hits.length? hits.map((n,i)=>`${i+1}. ${n.title}\n`).join('') : '';
+  const div=$('#fc-notes-cluster'); div.innerHTML=''; hits.slice(0,12).forEach(n=>{ const card=document.createElement('div'); card.className='card'; card.style.width='220px'; card.innerHTML=`<div class="title">${esc(n.title)}</div><div class="preview">${esc((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</div><div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span></div>`; card.onclick=()=>{ location.hash='#/notecard'; load(n.id); renderLeft(); }; div.appendChild(card); });
+  $('#fc-notes-agent').onclick=async ()=>{
+  const P={system:"You are a helpful note-taking assistant. Summarize and improve the note.", user:"{text}", model:"gpt-4o-mini", temperature:0.6};
+  const note=draft();
+  const body={ model:P.model||'gpt-4o-mini', temperature:P.temperature ?? 0.6, input:[
+    {role:'system',content:P.system},
+    {role:'user',content:(P.user||'{text}').replaceAll('{title}', note.title||'').replaceAll('{text}', (note?.content||'').trim())}
+  ], stream:false };
+  $('#fc-agent-output').textContent='Thinking...';
+  try{
+    const r=await fetch('/api/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    const text = (data?.output_text ?? data?.output?.[0]?.content?.[0]?.text ?? data?.content?.[0]?.text ?? data?.choices?.[0]?.message?.content ?? data?.error?.message ?? '');
+    $('#fc-agent-output').textContent = text || '(no text)';
+  }catch(err){ $('#fc-agent-output').textContent='Agent error: '+err.message; }
+};
+}
+
+/*** ===== Boot ===== ***/
+window.addEventListener('DOMContentLoaded', async ()=>{
+  canvas=$('#gcanvas'); ctx=canvas.getContext('2d');
+  initTheme(); $('#btn-theme').onclick=toggleTheme;
+  window.addEventListener('hashchange',()=>show()); show();
+  renderLeft(); renderProjectsBar(); renderLibrary();
+  resizeCanvas(); setupZoomPan(); bindGraphControls(); initPhysics(); renderCluster();
+  APP_READY=true;
+  await dbOpen(); await seedForecastingIfEmpty(); routeForecast();
+  // Demo seed if empty
+  if(st.notes.length===0){
+    const A={id:uid(),title:'Bank Funding Stress',content:'Deposits + MMFs. [[CRE Exposures]] [[Regional Banks]]',tags:['banking','risk','project:Atlas'],created_at:now(),updated_at:now(),debate:[]};
+    const B={id:uid(),title:'CRE Exposures',content:'Office vacancy high; maturities in 26-27. [[Policy Path]]',tags:['cre','risk','project:Borealis'],created_at:now(),updated_at:now(),debate:[]};
+    const C={id:uid(),title:'Policy Path',content:'Higher-for-longer; term premium.',tags:['policy','macro','project:Cascade'],created_at:now(),updated_at:now(),debate:[]};
+    const D={id:uid(),title:'Regional Banks',content:'Unrealized losses + deposit flight. [[Bank Funding Stress]]',tags:['banking','project:Drift'],created_at:now(),updated_at:now(),debate:[]};
+    st.notes.push(A,B,C,D); persist(); renderLeft(); renderProjectsBar(); renderLibrary(); initPhysics(); renderCluster();
   }
 });
-
-/* ====================== Nav links ====================== */
-document.getElementById('nav-notecard').onclick=()=>location.hash='#/notecard';
-document.getElementById('nav-library').onclick=()=>location.hash='#/library';
-document.getElementById('nav-graph').onclick=()=>location.hash='#/graph';
-document.getElementById('nav-forecast').onclick=()=>location.hash='#/forecast';
 </script>
-</body>
-</html>
+
+
+
+<!-- Willow: shared forecasts sync + toast -->
+<script>
+// Lightweight toast (no alerts)
+(function ensureToast(){
+  if(document.getElementById('wl-toast-host')) return;
+  const host = document.createElement('div');
+  host.id = 'wl-toast-host';
+  host.style.position='fixed'; host.style.right='12px'; host.style.bottom='12px';
+  host.style.display='flex'; host.style.flexDirection='column'; host.style.gap='8px'; host.style.zIndex='9999';
+  document.body.appendChild(host);
+})();
+function toast(msg){
+  const host = document.getElementById('wl-toast-host');
+  const card = document.createElement('div');
+  card.textContent = msg;
+  card.style.background='var(--panel)';
+  card.style.border='1px solid var(--line)';
+  card.style.borderRadius='10px';
+  card.style.padding='10px 12px';
+  card.style.boxShadow='0 6px 18px rgba(0,0,0,0.28)';
+  card.style.color='var(--ink)';
+  host.appendChild(card);
+  setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 350); }, 2200);
+}
+
+// Replace all questions with /forecasts.json content (shared across users)
+async function syncForecastsFromJSON(force=false){
+  try{
+    const res = await fetch('/forecasts.json?v=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    if(!Array.isArray(data)) throw new Error('forecasts.json must be an array');
+
+    // Wipe and refill "questions"
+    const tx = dbh.transaction(['questions'], 'readwrite');
+    const s = tx.objectStore('questions');
+
+    await new Promise((resolve, reject)=>{
+      const req = s.clear();
+      req.onsuccess = ()=>resolve();
+      req.onerror = ()=>reject(req.error);
+    });
+
+    // Put all incoming questions
+    await Promise.all(data.map(q=>{
+      q.id = q.id || (crypto.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(36));
+      q.answers = q.answers || [];
+      q.created_at = q.created_at || new Date().toISOString();
+      return new Promise((resolve,reject)=>{
+        const put = s.put(q);
+        put.onsuccess=()=>resolve();
+        put.onerror=()=>reject(put.error);
+      });
+    }));
+
+    await new Promise((resolve,reject)=>{
+      tx.oncomplete = ()=>resolve();
+      tx.onerror = ()=>reject(tx.error);
+      tx.onabort = ()=>reject(tx.error);
+    });
+
+    // If we're on forecast views, re-render
+    if (location.hash.startsWith('#/forecast')) {
+      if (typeof routeForecast === 'function') routeForecast();
+    }
+    toast('Forecasts updated from forecasts.json');
+  }catch(err){
+    console.error('syncForecastsFromJSON error', err);
+    toast('Could not load forecasts.json ('+err.message+'). Using local data.');
+  }
+}
+
+// Wait for DB to exist, then sync once
+function whenDBReady(cb){ if(window.dbh) cb(); else setTimeout(()=>whenDBReady(cb), 60); }
+
+// Wire the Refresh button
+document.addEventListener('click', (e)=>{
+  const t = e.target;
+  if (t && t.id === 'fc-refresh') { e.preventDefault(); whenDBReady(()=>syncForecastsFromJSON(true)); }
+});
+
+// Auto-sync on load (non-destructive if /forecasts.json present)
+window.addEventListener('load', ()=>{
+  whenDBReady(()=>{
+    // ensure some structure exists if file missing
+    if (typeof seedForecastingIfEmpty==='function') seedForecastingIfEmpty().then(()=>syncForecastsFromJSON());
+    else syncForecastsFromJSON();
+  });
+});
+</script>
+
+</body></html>
