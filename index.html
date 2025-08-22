@@ -711,7 +711,7 @@ textarea{min-height:260px;resize:vertical}
         <h3 style="margin:0">FORECASTING</h3>
         <div class="row" style="gap:8px">
           <a class="btn" href="#/forecast">Main</a>
-          <a class="btn" href="#/forecast/questions">Questions</a> <button class="btn" id="fc-refresh" title="Reload shared questions">Refresh</button>
+          <a class="btn" href="#/forecast/questions">Questions</a>
           <a class="btn" href="#/forecast/analysis">Analysis</a>
         </div>
       </div>
@@ -739,7 +739,7 @@ textarea{min-height:260px;resize:vertical}
       <div class="row" style="gap:10px;align-items:flex-end">
         <div style="flex:1"><label class="muted">Search</label><input id="fc-q-search" type="text" placeholder="Find a question"></div>
         <div><label class="muted">Sort by</label><select id="fc-q-sort"><option value="date">Date</option><option value="new">New forecasts</option></select></div>
-        <button class="btn" id="fc-q-new">New Question</button>
+        
       </div>
       <div id="fc-q-list" class="list" style="margin-top:8px"></div>
     </div>
@@ -939,55 +939,11 @@ async function askAgent(){
   }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
 }
 $('#debate-ask').onclick=askAgent;
-$('#debate-add').onclick = () => {
-  const out = $('#debate-output').textContent.trim();
-  if (!out) {
-    toast('Nothing to add', 'Ask AI first, or type something.');
-    return;
-  }
-
-  const titleEl = $('#nc-title');
-  const bodyEl  = $('#nc-content');
-
-  // Ensure we have a note to append to. If none, auto-create one.
-  let id = currentId;
-  if (!id) {
-    id = uid();
-    const t = now();
-    st.notes.push({
-      id,
-      title: (titleEl.value || 'Untitled').trim(),
-      content: bodyEl.value || '',
-      tags: tagsOf($('#nc-tags').value),
-      created_at: t,
-      updated_at: t,
-      debate: []
-    });
-    currentId = id;
-    st.focusId = id;
-  }
-
-  // Append nicely with a divider + agent + timestamp
-  const agent = $('#debate-agent').value;
-  const stamp = new Date().toLocaleString();
-  const divider = `\n\n---\n[${agent} • ${stamp}]\n`;
-  bodyEl.value = (bodyEl.value ? bodyEl.value + divider + out : out);
-
-  // Persist changes to the note content
-  const i = st.notes.findIndex(n => n.id === id);
-  if (i >= 0) {
-    st.notes[i].content   = bodyEl.value;
-    st.notes[i].updated_at = now();
-    st.notes[i].debate = st.notes[i].debate || [];
-    st.notes[i].debate.push({ who: agent, text: out, at: now() });
-  }
-
-  persist();
-  renderLeft(); // optional: refresh the left list preview
-
-  toast('Added to note', 'AI output appended.');
+$('#debate-add').onclick=()=>{
+  const t=$('#debate-output').textContent.trim(); if(!t){ alert('Ask AI first, or type something.'); return; }
+  const n=st.notes.find(x=>x.id===currentId); if(!n){ alert('Save the note first.'); return; }
+  n.debate=n.debate||[]; n.debate.push({who:$('#debate-agent').value,text:t,at:now()}); n.updated_at=now(); persist(); alert('Added to note.');
 };
-
 
 /*** ===== Projects bar ===== ***/
 function projectsMap(){ const m={}; st.notes.forEach(n=> (n.tags||[]).forEach(t=>{ const l=t.toLowerCase(); if(l.startsWith('project')||l.startsWith('proj:')) (m[t]=m[t]||[]).push(n.id); })); return m; }
@@ -1034,7 +990,16 @@ function themeColors(){
   const cs=getComputedStyle(document.documentElement);
   return { edge:cs.getPropertyValue('--g-edge').trim()||'#cbd5e1', node:cs.getPropertyValue('--g-node').trim()||'#0ea5e9', stroke:cs.getPropertyValue('--g-stroke').trim()||'#0f172a', label:cs.getPropertyValue('--g-label').trim()||'#0f172a', focus:cs.getPropertyValue('--g-focus').trim()||'#fb7185', bg:cs.getPropertyValue('--g-bg').trim()||'#ffffff' };
 }
-function resizeCanvas(){ const rect=canvas.getBoundingClientRect(); const dpr=window.devicePixelRatio||1; canvas.width=Math.max(2,Math.floor(rect.width*dpr)); canvas.height=Math.max(2,Math.floor(rect.height*dpr)); if(APP_READY) draw(); }
+function resizeCanvas(){
+  if(!window.canvas) window.canvas = document.getElementById('gcanvas');
+  if(!window.canvas) return; // graph not rendered yet
+  if(!window.ctx){ try{ window.ctx = canvas.getContext('2d'); }catch(e){} }
+  var rect = (canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : {width:2,height:2});
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.max(2, Math.floor(rect.width  * dpr));
+  canvas.height = Math.max(2, Math.floor(rect.height * dpr));
+  if(typeof draw==='function') draw();
+}
 window.addEventListener('resize', ()=>{ resizeCanvas(); if(sim) sim.alpha(0.2).restart(); });
 
 function simTags(A,B){ const a=new Set((A||[]).map(s=>s.toLowerCase())); const b=new Set((B||[]).map(s=>s.toLowerCase())); if(a.size===0 && b.size===0) return 0; let inter=0; a.forEach(t=>{ if(b.has(t)) inter++; }); const uni=a.size+b.size-inter; return inter/uni; }
@@ -1357,96 +1322,78 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 </script>
 
 
-
-<!-- Willow: shared forecasts sync + toast -->
 <script>
-// Lightweight toast (no alerts)
-(function ensureToast(){
-  if(document.getElementById('wl-toast-host')) return;
-  const host = document.createElement('div');
-  host.id = 'wl-toast-host';
-  host.style.position='fixed'; host.style.right='12px'; host.style.bottom='12px';
-  host.style.display='flex'; host.style.flexDirection='column'; host.style.gap='8px'; host.style.zIndex='9999';
-  document.body.appendChild(host);
-})();
-function toast(msg){
-  const host = document.getElementById('wl-toast-host');
-  const card = document.createElement('div');
-  card.textContent = msg;
-  card.style.background='var(--panel)';
-  card.style.border='1px solid var(--line)';
-  card.style.borderRadius='10px';
-  card.style.padding='10px 12px';
-  card.style.boxShadow='0 6px 18px rgba(0,0,0,0.28)';
-  card.style.color='var(--ink)';
-  host.appendChild(card);
-  setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 350); }, 2200);
-}
-
-// Replace all questions with /forecasts.json content (shared across users)
-async function syncForecastsFromJSON(force=false){
-  try{
-    const res = await fetch('/forecasts.json?v=' + Date.now(), {cache:'no-store'});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    if(!Array.isArray(data)) throw new Error('forecasts.json must be an array');
-
-    // Wipe and refill "questions"
-    const tx = dbh.transaction(['questions'], 'readwrite');
-    const s = tx.objectStore('questions');
-
-    await new Promise((resolve, reject)=>{
-      const req = s.clear();
-      req.onsuccess = ()=>resolve();
-      req.onerror = ()=>reject(req.error);
-    });
-
-    // Put all incoming questions
-    await Promise.all(data.map(q=>{
-      q.id = q.id || (crypto.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(36));
-      q.answers = q.answers || [];
-      q.created_at = q.created_at || new Date().toISOString();
-      return new Promise((resolve,reject)=>{
-        const put = s.put(q);
-        put.onsuccess=()=>resolve();
-        put.onerror=()=>reject(put.error);
-      });
-    }));
-
-    await new Promise((resolve,reject)=>{
-      tx.oncomplete = ()=>resolve();
-      tx.onerror = ()=>reject(tx.error);
-      tx.onabort = ()=>reject(tx.error);
-    });
-
-    // If we're on forecast views, re-render
-    if (location.hash.startsWith('#/forecast')) {
-      if (typeof routeForecast === 'function') routeForecast();
-    }
-    toast('Forecasts updated from forecasts.json');
-  }catch(err){
-    console.error('syncForecastsFromJSON error', err);
-    toast('Could not load forecasts.json ('+err.message+'). Using local data.');
+/*** ===== Admin sync: shared forecasts.json ===== ***/
+(function(){
+  // Simple toast (no alerts)
+  if(!document.getElementById('wl-toast-host')){
+    const host=document.createElement('div'); host.id='wl-toast-host';
+    host.style.position='fixed'; host.style.right='12px'; host.style.bottom='12px';
+    host.style.display='flex'; host.style.flexDirection='column'; host.style.gap='8px'; host.style.zIndex='9999';
+    document.body.appendChild(host);
   }
-}
+  window.__wl_toast = function(msg){
+    try{
+      const host=document.getElementById('wl-toast-host'); const card=document.createElement('div');
+      card.textContent=msg; card.style.background='var(--panel)'; card.style.border='1px solid var(--line)';
+      card.style.borderRadius='10px'; card.style.padding='10px 12px'; card.style.boxShadow='0 6px 18px rgba(0,0,0,.28)'; card.style.color='var(--ink)';
+      host.appendChild(card); setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 350); }, 2200);
+    }catch(e){ /* no-op */ }
+  };
 
-// Wait for DB to exist, then sync once
-function whenDBReady(cb){ if(window.dbh) cb(); else setTimeout(()=>whenDBReady(cb), 60); }
+  // Pull /forecasts.json and replace the questions store (so everyone sees the same list)
+  window.syncForecastsFromJSON = async function(force){
+    try{
+      if(!window.indexedDB || !window.dbh){ return; }
+      const res = await fetch('/forecasts.json?v=' + Date.now(), {cache:'no-store'});
+      if(!res.ok){ throw new Error('HTTP '+res.status); }
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('forecasts.json is not an array');
 
-// Wire the Refresh button
-document.addEventListener('click', (e)=>{
-  const t = e.target;
-  if (t && t.id === 'fc-refresh') { e.preventDefault(); whenDBReady(()=>syncForecastsFromJSON(true)); }
-});
+      const tx = dbh.transaction(['questions'], 'readwrite'); const store = tx.objectStore('questions');
+      await new Promise((resolve,reject)=>{ const req=store.clear(); req.onsuccess=resolve; req.onerror=()=>reject(req.error); });
 
-// Auto-sync on load (non-destructive if /forecasts.json present)
-window.addEventListener('load', ()=>{
-  whenDBReady(()=>{
-    // ensure some structure exists if file missing
-    if (typeof seedForecastingIfEmpty==='function') seedForecastingIfEmpty().then(()=>syncForecastsFromJSON());
-    else syncForecastsFromJSON();
-  });
-});
+      // Normalize and save
+      for (const q of data){
+        q.id = q.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()));
+        q.answers = (q.answers||[]).map(a=>({ id: a.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random())), text: a.text }));
+        q.created_at = q.created_at || new Date().toISOString();
+        await new Promise((resolve,reject)=>{ const put=store.put(q); put.onsuccess=resolve; put.onerror=()=>reject(put.error); });
+      }
+      await new Promise((resolve,reject)=>{ tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error); });
+
+      if(location.hash.startsWith('#/forecast')){ try{ routeForecast(); }catch{} }
+      __wl_toast('Forecasts synced from forecasts.json');
+    }catch(err){
+      console.error('syncForecastsFromJSON:', err);
+      __wl_toast('Could not load forecasts.json ('+ (err && err.message || err) + ')');
+    }
+  };
+
+  // Add a small "Refresh" button only on the Questions view
+  function ensureRefreshBtn(){
+    if(!document.getElementById('fc-refresh') && document.querySelector('#view-forecast .pane .row .btn[href="#/forecast/questions"]')){
+      const qsBtn = document.querySelector('#view-forecast .pane .row .btn[href="#/forecast/questions"]');
+      const btn=document.createElement('button'); btn.className='btn'; btn.id='fc-refresh'; btn.textContent='Refresh';
+      btn.onclick = ()=> window.syncForecastsFromJSON(true);
+      qsBtn.parentElement.appendChild(btn);
+    }
+  }
+  window.addEventListener('hashchange', ensureRefreshBtn);
+  document.addEventListener('DOMContentLoaded', ensureRefreshBtn);
+
+  // Auto-sync once the DB handle exists
+  const _oldDbOpen = window.dbOpen;
+  if (typeof _oldDbOpen === 'function'){
+    window.dbOpen = function(){
+      return _oldDbOpen().then(async()=>{
+        try{ await window.syncForecastsFromJSON(); }catch{} 
+      });
+    };
+  } else {
+    // Fallback: try after load
+    window.addEventListener('load', ()=>{ setTimeout(()=>window.syncForecastsFromJSON(), 1200); });
+  }
+})();
 </script>
-
 </body></html>
