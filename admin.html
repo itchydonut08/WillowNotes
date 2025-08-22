@@ -7,7 +7,7 @@
   <style>
     :root{
       --ink:#e5e7eb; --muted:#9ca3af; --bg:#0b1020; --panel:#0f172a;
-      --line:#1f2937; --btn:#111827; --good:#10b981; --warn:#f59e0b; --bad:#ef4444;
+      --line:#1f2937; --btn:#111827;
     }
     *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans",sans-serif}
     header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:var(--panel)}
@@ -21,7 +21,6 @@
     .list .item{padding:10px;border-top:1px dashed var(--line)}
     .badge{border:1px solid var(--line);padding:2px 6px;border-radius:999px;font-size:11px;background:var(--btn)}
     .code{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:12px;background:#0b1225;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:360px;overflow:auto}
-    .tag{border:1px solid var(--line);border-radius:999px;padding:2px 6px;margin-right:6px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
   </style>
 </head>
 <body>
@@ -65,24 +64,24 @@
 <script>
 const state = { items: [] };
 const uid = ()=> (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random()));
-
-function escapeHtml(s){ return (''+s).replace(/[&<>\"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\\'':'&#39;'}[m])); }
+const esc = s => (''+s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
 function render(){
   const host = document.getElementById('list'); host.innerHTML='';
   if(!state.items.length){ host.innerHTML='<div class="muted">No questions yet.</div>'; }
-  state.items.forEach((q,i)=>{
+  state.items.forEach((q)=>{
     const div = document.createElement('div'); div.className='item';
     const answers = (q.answers||[]).map(a=>a.text).join(' | ');
-    div.innerHTML = `
-      <div><strong>${escapeHtml(q.title)}</strong></div>
-      <div class="muted">Closes: ${new Date(q.closesAt).toLocaleString()} • Tags: ${(q.tags||[]).join(', ')||'-'}</div>
-      <div class="muted">Answers: ${escapeHtml(answers)}</div>
-      <div class="row" style="margin-top:6px">
-        <button class="btn" data-ed="${q.id}">Edit</button>
-        <button class="btn" data-del="${q.id}">Delete</button>
-        <label class="btn"><input type="checkbox" ${q.outcome? 'checked':''} data-resolve="${q.id}"> Resolved</label>
-      </div>`;
+    div.innerHTML =
+      '<div><strong>' + esc(q.title) + '</strong></div>' +
+      '<div class="muted">Closes: ' + new Date(q.closesAt).toLocaleString() +
+      ' • Tags: ' + esc((q.tags||[]).join(', ')||'-') + '</div>' +
+      '<div class="muted">Answers: ' + esc(answers) + '</div>' +
+      '<div class="row" style="margin-top:6px">' +
+        '<button class="btn" data-ed="' + q.id + '">Edit</button>' +
+        '<button class="btn" data-del="' + q.id + '">Delete</button>' +
+        '<label class="btn"><input type="checkbox" ' + (q.outcome? 'checked':'') + ' data-resolve="' + q.id + '"> Resolved</label>' +
+      '</div>';
     host.appendChild(div);
   });
   document.getElementById('json').textContent = JSON.stringify(state.items, null, 2);
