@@ -467,7 +467,7 @@ function renderLibrary(){
       <div class="preview">${esc((n.content||'').slice(0,140))}${(n.content||'').length>140?'…':''}</div>
       <div class="meta"><span class="badge">#${(n.tags||[]).length} tags</span><span class="badge">${(deg[n.id]||0)} links</span></div>
     </article>`).join('') : '<div class="muted">No results.</div>';
-  $('#lib-grid .card').forEach(c=>c.onclick=()=>{ const id=c.getAttribute('data-id'); st.focusId=id; persist(); location.hash='#/notecard'; load(id); renderLeft(); });
+  $$('#lib-grid .card').forEach(c=>c.onclick=()=>{ const id=c.getAttribute('data-id'); st.focusId=id; persist(); location.hash='#/notecard'; load(id); renderLeft(); });
 }
 $('#lib-size').oninput=renderLibrary; $('#lib-search').oninput=renderLibrary; $('#lib-tags').oninput=renderLibrary;
 $('#lib-min').oninput=e=>{ $('#lib-min-val').textContent=e.target.value; renderLibrary(); };
@@ -626,8 +626,8 @@ function renderCluster(){
     card.innerHTML = `<div style="font-weight:700">${esc(n.title||'(untitled)')}</div><div class="mono" style="white-space:pre-wrap">${esc((n.content||'').slice(0,160))}${(n.content||'').length>160?'…':''}</div><div class="chips" style="margin-top:6px">${(n.tags||[]).map(t=>`<span class="chip">#${esc(t)}</span>`).join('')}</div><div class="row" style="margin-top:6px"><button class="btn" data-open="${n.id}">Open</button><button class="btn" data-link="${n.title}">[[Link]]</button></div>`;
     canvasEl.appendChild(card);
   });
-  $('[data-open]').forEach(b=> b.onclick=()=>{ const id=b.getAttribute('data-open'); location.hash='#/notecard'; load(id); renderLeft(); });
-  $('[data-link]').forEach(b=> b.onclick=()=>{ const title=b.getAttribute('data-link'); location.hash='#/notecard'; const ta=$('#nc-content'); const txt=`[[${title}]]`; const p=ta.selectionStart||ta.value.length; ta.value=ta.value.slice(0,p)+txt+ta.value.slice(p); ta.selectionStart=ta.selectionEnd=p+txt.length; ta.focus(); });
+  $$('[data-open]').forEach(b=> b.onclick=()=>{ const id=b.getAttribute('data-open'); location.hash='#/notecard'; load(id); renderLeft(); });
+  $$('[data-link]').forEach(b=> b.onclick=()=>{ const title=b.getAttribute('data-link'); location.hash='#/notecard'; const ta=$('#nc-content'); const txt=`[[${title}]]`; const p=ta.selectionStart||ta.value.length; ta.value=ta.value.slice(0,p)+txt+ta.value.slice(p); ta.selectionStart=ta.selectionEnd=p+txt.length; ta.focus(); });
 }
 $('#cl-size').oninput=renderCluster; $('#cl-depth').oninput=renderCluster;
 
@@ -746,7 +746,7 @@ async function openQuestionDetail(qid){
   if(!q){ $('#fc-qdetail').innerHTML='<div class="muted">Not found.</div>'; return; } fc.curQ=q;
   $('#fc-q-head').innerHTML = `<div><div style="font-weight:700">${esc(q.title)}</div><div class="muted">Closing ${new Date(q.closesAt).toLocaleString()}</div></div><div class="row" style="gap:8px"><button class="btn" id="fc-resolve">Resolve</button><a class="btn" href="#/forecast/questions">Back</a></div>`;
   renderAnswerSliders(q); renderActivity(q); renderCrowd(q); renderNotesTab(q);
-  $('[data-fc-tab]').forEach(b=> b.onclick=()=>{ $('[data-fc-tab]').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+  $$('[data-fc-tab]').forEach(b=> b.onclick=()=>{ $$('[data-fc-tab]').forEach(x=>x.classList.remove('active')); b.classList.add('active');
     ['forecast','activity','crowd','notes'].forEach(name=>{ $('#fc-tab-'+name).style.display = (b.dataset.fcTab===name)? '' : 'none'; });
   });
   $('#fc-resolve').onclick=async ()=>{ if(q.outcome){ alert('Already resolved.'); return; } const idx=prompt('Enter the winning answer index (1..N)'); const i=(parseInt(idx,10)||0)-1; if(i<0 || i>=q.answers.length) return; q.outcome={answerId:q.answers[i].id, at:now()}; await dbPut('questions', q); alert('Resolved. Dashboard will include it in Brier after you have a forecast saved.'); renderCrowd(q); };
@@ -765,7 +765,7 @@ function renderAnswerSliders(q){
     row.innerHTML = `<div style="flex:1">${esc(a.text)}</div><input type="range" min="0" max="100" step="1" value="${Math.floor(100/q.answers.length)}" data-fc-prob="${i}" style="width:240px"><span class="badge" id="fc-prob-${i}">${pct(100/q.answers.length)}</span>`;
     host.appendChild(row);
   });
-  $('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
+  $$('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
 }
 async function renderActivity(q){
   const events=(await dbGetAll('events')).filter(e=>e.questionId===q.id).sort((a,b)=>new Date(b.at)-new Date(a.at));
