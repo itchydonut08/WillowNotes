@@ -939,11 +939,55 @@ async function askAgent(){
   }catch(err){ $('#debate-output').textContent='Agent error: '+err.message; }
 }
 $('#debate-ask').onclick=askAgent;
-$('#debate-add').onclick=()=>{
-  const t=$('#debate-output').textContent.trim(); if(!t){ alert('Ask AI first, or type something.'); return; }
-  const n=st.notes.find(x=>x.id===currentId); if(!n){ alert('Save the note first.'); return; }
-  n.debate=n.debate||[]; n.debate.push({who:$('#debate-agent').value,text:t,at:now()}); n.updated_at=now(); persist(); alert('Added to note.');
+$('#debate-add').onclick = () => {
+  const out = $('#debate-output').textContent.trim();
+  if (!out) {
+    toast('Nothing to add', 'Ask AI first, or type something.');
+    return;
+  }
+
+  const titleEl = $('#nc-title');
+  const bodyEl  = $('#nc-content');
+
+  // Ensure we have a note to append to. If none, auto-create one.
+  let id = currentId;
+  if (!id) {
+    id = uid();
+    const t = now();
+    st.notes.push({
+      id,
+      title: (titleEl.value || 'Untitled').trim(),
+      content: bodyEl.value || '',
+      tags: tagsOf($('#nc-tags').value),
+      created_at: t,
+      updated_at: t,
+      debate: []
+    });
+    currentId = id;
+    st.focusId = id;
+  }
+
+  // Append nicely with a divider + agent + timestamp
+  const agent = $('#debate-agent').value;
+  const stamp = new Date().toLocaleString();
+  const divider = `\n\n---\n[${agent} • ${stamp}]\n`;
+  bodyEl.value = (bodyEl.value ? bodyEl.value + divider + out : out);
+
+  // Persist changes to the note content
+  const i = st.notes.findIndex(n => n.id === id);
+  if (i >= 0) {
+    st.notes[i].content   = bodyEl.value;
+    st.notes[i].updated_at = now();
+    st.notes[i].debate = st.notes[i].debate || [];
+    st.notes[i].debate.push({ who: agent, text: out, at: now() });
+  }
+
+  persist();
+  renderLeft(); // optional: refresh the left list preview
+
+  toast('Added to note', 'AI output appended.');
 };
+
 
 /*** ===== Projects bar ===== ***/
 function projectsMap(){ const m={}; st.notes.forEach(n=> (n.tags||[]).forEach(t=>{ const l=t.toLowerCase(); if(l.startsWith('project')||l.startsWith('proj:')) (m[t]=m[t]||[]).push(n.id); })); return m; }
