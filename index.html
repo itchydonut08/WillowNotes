@@ -254,7 +254,7 @@ textarea{min-height:260px;resize:vertical}
 <script>
 /*** ===== Helpers / Globals ===== ***/
 const $ = s => document.querySelector(s);
-const $ = s => Array.from(document.querySelectorAll(s) || []);
+const $$ = s => Array.from(document.querySelectorAll(s) || []);
 const esc = s => (''+s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(36));
 const now = () => new Date().toISOString();
