@@ -1,0 +1,81 @@
+[
+  {
+    "id": "dea8a881-9d4a-4dfb-a472-b6e86c98ecee",
+    "title": "Where will the 10\u2011year U.S. Treasury yield be on Dec 31, 2025?",
+    "closesAt": "2025-12-31T21:00:00.000Z",
+    "answers": [
+      {
+        "id": "4a6e8a85-785a-43f9-886f-1c3c080ecc50",
+        "text": "Below 3.5%"
+      },
+      {
+        "id": "d8f7f2cf-13b7-4f50-800d-e788a38451c5",
+        "text": "3.5\u20134.25%"
+      },
+      {
+        "id": "d41dd36a-f4d5-4d1f-9897-33207d037051",
+        "text": "4.25\u20135.0%"
+      },
+      {
+        "id": "dfd49a06-93e5-4d5c-8ad9-0855efb026df",
+        "text": "Above 5.0%"
+      }
+    ],
+    "outcome": null,
+    "created_at": "2025-08-22T17:34:10.425655Z",
+    "tags": [
+      "rates",
+      "macro"
+    ]
+  },
+  {
+    "id": "603a2b1e-9c16-4a6d-ad59-7e4b96401492",
+    "title": "Will the S&P 500 close above 6,000 on Dec 31, 2025?",
+    "closesAt": "2025-12-31T21:00:00.000Z",
+    "answers": [
+      {
+        "id": "9a481f65-32d4-4c71-a0c3-4c781219944b",
+        "text": "Yes"
+      },
+      {
+        "id": "0f7825b9-9986-49ef-9f00-c6b01e1bb854",
+        "text": "No"
+      }
+    ],
+    "outcome": null,
+    "created_at": "2025-08-22T17:34:10.425709Z",
+    "tags": [
+      "equities",
+      "macro"
+    ]
+  },
+  {
+    "id": "9e1babb7-c063-409e-b47c-969ecb7ea7dc",
+    "title": "What will core CPI (YoY) print for November 2025 (released Dec)?",
+    "closesAt": "2025-12-15T13:30:00.000Z",
+    "answers": [
+      {
+        "id": "ef2c552e-b921-4e6e-9294-83b2605450bd",
+        "text": "\u2264 3.0%"
+      },
+      {
+        "id": "e861968d-e647-40fd-bee1-61050ea08a7c",
+        "text": "3.0\u20133.4%"
+      },
+      {
+        "id": "b706208c-4196-4e3e-a37f-03b4d32dca95",
+        "text": "3.5\u20133.9%"
+      },
+      {
+        "id": "8c5d30c0-6358-4380-baf9-b3551a8be4e9",
+        "text": "\u2265 4.0%"
+      }
+    ],
+    "outcome": null,
+    "created_at": "2025-08-22T17:34:10.425756Z",
+    "tags": [
+      "inflation",
+      "macro"
+    ]
+  }
+]

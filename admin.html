@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Willow — Forecast Admin</title>
+  <style>
+    :root{
+      --ink:#e5e7eb; --muted:#9ca3af; --bg:#0b1020; --panel:#0f172a;
+      --line:#1f2937; --btn:#111827; --good:#10b981; --warn:#f59e0b; --bad:#ef4444;
+    }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans",sans-serif}
+    header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:var(--panel)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    .pane{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{background:var(--btn);border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;color:var(--ink)}
+    input[type="text"],input[type="datetime-local"],textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--panel);color:var(--ink);font:inherit}
+    textarea{min-height:100px}
+    h2{margin:0 0 8px} .muted{color:var(--muted)}
+    .list .item{padding:10px;border-top:1px dashed var(--line)}
+    .badge{border:1px solid var(--line);padding:2px 6px;border-radius:999px;font-size:11px;background:var(--btn)}
+    .code{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:12px;background:#0b1225;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:360px;overflow:auto}
+    .tag{border:1px solid var(--line);border-radius:999px;padding:2px 6px;margin-right:6px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+  </style>
+</head>
+<body>
+<header>
+  <div><strong>Willow — Forecast Admin</strong> <span class="badge">writes /forecasts.json</span></div>
+  <div class="row">
+    <a class="btn" href="./index.html#%2Fforecast">← Back to App</a>
+    <button class="btn" id="btn-load">Load current /forecasts.json</button>
+    <button class="btn" id="btn-download">Download forecasts.json</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="pane">
+    <h2>New Question</h2>
+    <div class="row" style="gap:12px">
+      <input id="q-title" type="text" placeholder="Financial question title">
+      <input id="q-close" type="datetime-local">
+      <input id="q-tags" type="text" placeholder="tags e.g. rates,macro,fx">
+    </div>
+    <div style="margin-top:8px">
+      <textarea id="q-answers" placeholder="Answer options (one per line)"></textarea>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn" id="btn-add">Add</button>
+      <span class="muted">Tip: 2–5 mutually exclusive options is ideal.</span>
+    </div>
+  </div>
+
+  <div class="pane">
+    <h2>Questions</h2>
+    <div id="list" class="list"></div>
+  </div>
+
+  <div class="pane">
+    <h2>Raw JSON Preview</h2>
+    <div id="json" class="code"></div>
+  </div>
+</main>
+
+<script>
+const state = { items: [] };
+const uid = ()=> (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random()));
+
+function escapeHtml(s){ return (''+s).replace(/[&<>\"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\\'':'&#39;'}[m])); }
+
+function render(){
+  const host = document.getElementById('list'); host.innerHTML='';
+  if(!state.items.length){ host.innerHTML='<div class="muted">No questions yet.</div>'; }
+  state.items.forEach((q,i)=>{
+    const div = document.createElement('div'); div.className='item';
+    const answers = (q.answers||[]).map(a=>a.text).join(' | ');
+    div.innerHTML = `
+      <div><strong>${escapeHtml(q.title)}</strong></div>
+      <div class="muted">Closes: ${new Date(q.closesAt).toLocaleString()} • Tags: ${(q.tags||[]).join(', ')||'-'}</div>
+      <div class="muted">Answers: ${escapeHtml(answers)}</div>
+      <div class="row" style="margin-top:6px">
+        <button class="btn" data-ed="${q.id}">Edit</button>
+        <button class="btn" data-del="${q.id}">Delete</button>
+        <label class="btn"><input type="checkbox" ${q.outcome? 'checked':''} data-resolve="${q.id}"> Resolved</label>
+      </div>`;
+    host.appendChild(div);
+  });
+  document.getElementById('json').textContent = JSON.stringify(state.items, null, 2);
+  // wire
+  host.querySelectorAll('[data-del]').forEach(b=> b.onclick=()=>{ const id=b.getAttribute('data-del'); state.items = state.items.filter(x=>x.id!==id); render(); });
+  host.querySelectorAll('[data-ed]').forEach(b=> b.onclick=()=>edit(b.getAttribute('data-ed')));
+  host.querySelectorAll('[data-resolve]').forEach(inp=> inp.onchange=()=>toggleResolve(inp.getAttribute('data-resolve'), inp.checked));
+}
+
+function toggleResolve(id, on){
+  const q = state.items.find(x=>x.id===id); if(!q) return;
+  if(on && q.answers && q.answers.length){
+    const idx = prompt('Outcome answer index (1..N)?');
+    const i = Math.max(0, Math.min(q.answers.length-1, (parseInt(idx,10)||1)-1));
+    q.outcome = { answerId: q.answers[i].id };
+  }else{
+    q.outcome = null;
+  }
+  render();
+}
+
+document.getElementById('btn-add').onclick = ()=>{
+  const title = document.getElementById('q-title').value.trim();
+  const closes = document.getElementById('q-close').value;
+  const tags = document.getElementById('q-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const answers = document.getElementById('q-answers').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!title || !closes || answers.length<2){ alert('Need title, close time, 2+ answers'); return; }
+  const q = {
+    id: uid(),
+    title, closesAt: new Date(closes).toISOString(),
+    answers: answers.map(t=>({id: uid(), text:t})),
+    created_at: new Date().toISOString(),
+    tags
+  };
+  state.items.push(q);
+  // reset
+  document.getElementById('q-title').value='';
+  document.getElementById('q-close').value='';
+  document.getElementById('q-tags').value='';
+  document.getElementById('q-answers').value='';
+  render();
+};
+
+function edit(id){
+  const q = state.items.find(x=>x.id===id); if(!q) return;
+  const title = prompt('Title:', q.title)||q.title;
+  const closes = prompt('Closes ISO:', q.closesAt)||q.closesAt;
+  const answers = prompt('Answers (comma separated):', (q.answers||[]).map(a=>a.text).join(', '))|| (q.answers||[]).map(a=>a.text).join(', ');
+  q.title = title; q.closesAt = closes;
+  q.answers = answers.split(',').map(s=>s.trim()).filter(Boolean).map(t=>({id: uid(), text:t}));
+  render();
+}
+
+document.getElementById('btn-download').onclick = ()=>{
+  const blob = new Blob([JSON.stringify(state.items, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='forecasts.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500);
+};
+
+document.getElementById('btn-load').onclick = async()=>{
+  try{
+    const res = await fetch('/forecasts.json?v='+Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error(res.status);
+    state.items = await res.json();
+    render();
+  }catch(err){
+    alert('Load failed: '+err.message);
+  }
+};
+
+// Boot with /forecasts.json if available
+(async()=>{
+  try{ const r=await fetch('/forecasts.json?v='+Date.now(), {cache:'no-store'}); if(r.ok) state.items = await r.json(); }catch{}
+  render();
+})();
+</script>
+</body>
+</html>
