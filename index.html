@@ -668,7 +668,7 @@ async function dbGetAll(store, index=null, key=null){
     req.onsuccess=()=>res(req.result);
     req.onerror=()=>rej(req.error);
   });
-}; }
+};
 async function dbPut(store, value){
   const s = await dbTx(store,'readwrite');
   return new Promise((res,rej)=>{
