@@ -893,5 +893,90 @@ window.addEventListener('DOMContentLoaded', async ()=>{
   }
 })();
 </script>
+
+
+<script>
+/*** ===== Shared forecasts.json → app ===== ***/
+(function(){
+  // tiny toast (no alerts)
+  function toast(msg){
+    let host = document.getElementById('wl-toast-host');
+    if(!host){
+      host = document.createElement('div');
+      host.id='wl-toast-host';
+      host.style.cssText='position:fixed;right:12px;bottom:12px;display:flex;flex-direction:column;gap:8px;z-index:9999';
+      document.body.appendChild(host);
+    }
+    const card = document.createElement('div');
+    card.textContent = msg;
+    card.style.cssText='background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.28)';
+    host.appendChild(card);
+    setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 300); }, 2000);
+  }
+
+  async function syncForecastsFromJSON(){
+    try{
+      // ensure DB is open (uses your existing dbOpen if present)
+      if (typeof dbOpen === 'function' && !window.dbh) {
+        await dbOpen();
+      }
+      const res = await fetch('/forecasts.json?v=' + Date.now(), { cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('forecasts.json must be an array');
+
+      // Replace the "questions" object store so UI pulls exactly these
+      const tx = dbh.transaction(['questions'], 'readwrite');
+      const s = tx.objectStore('questions');
+
+      await new Promise((resolve, reject)=>{ const req = s.clear(); req.onsuccess=resolve; req.onerror=()=>reject(req.error); });
+
+      // normalize ids and fields
+      for(const q of data){
+        q.id = q.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()));
+        q.answers = (q.answers||[]).map(a=>({ id: a.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random())), text: a.text }));
+        q.created_at = q.created_at || new Date().toISOString();
+        await new Promise((resolve, reject)=>{ const put = s.put(q); put.onsuccess=resolve; put.onerror=()=>reject(put.error); });
+      }
+
+      await new Promise((resolve, reject)=>{ tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error); });
+
+      // if we are on the Forecast page, re-render it
+      if (typeof routeForecast === 'function') routeForecast();
+      toast('Forecasts synced');
+    }catch(err){
+      console.error('syncForecastsFromJSON', err);
+      toast('Could not load forecasts.json');
+    }
+  }
+
+  // Re-sync when navigating to the Questions tab
+  function maybeSyncOnRoute(){
+    if (location.hash === '#/forecast/questions') {
+      syncForecastsFromJSON();
+    }
+  }
+
+  // Initial: once the app is loaded/opened its DB
+  window.addEventListener('load', ()=> setTimeout(maybeSyncOnRoute, 300));
+  window.addEventListener('hashchange', maybeSyncOnRoute);
+
+  // Optional: add a manual “Refresh” button next to Questions
+  function addRefreshBtn(){
+    // look for the toolbar where Questions tab lives
+    const qTab = document.querySelector('#view-forecast a.btn[href="#/forecast/questions"]');
+    if (qTab && !document.getElementById('fc-refresh')) {
+      const b = document.createElement('button');
+      b.className='btn'; b.id='fc-refresh'; b.textContent='Refresh';
+      b.onclick = (e)=>{ e.preventDefault(); syncForecastsFromJSON(); };
+      qTab.parentElement.appendChild(b);
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addRefreshBtn);
+  window.addEventListener('hashchange', addRefreshBtn);
+})();
+</script>
+
+  
 </body>
 </html>
