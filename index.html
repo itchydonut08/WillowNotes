@@ -676,7 +676,7 @@ async function dbPut(store, value){
     req.onsuccess=()=>res();
     req.onerror=()=>rej(req.error);
   });
-}); }
+};
 async function dbGet(store, key){
   const s = await dbTx(store);
   return new Promise((res,rej)=>{
@@ -684,7 +684,7 @@ async function dbGet(store, key){
     req.onsuccess=()=>res(req.result||null);
     req.onerror=()=>rej(req.error);
   });
-}); }
+};
 
 const fc = { asOf:null, curQ:null };
 function pct(n){ return Math.round(n)+'%'; }
