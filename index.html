@@ -656,10 +656,35 @@ function dbOpen(){ return new Promise((resolve,reject)=>{ const req=indexedDB.op
   if(!db.objectStoreNames.contains('forecasts')){ const fs=db.createObjectStore('forecasts',{keyPath:'id'}); fs.createIndex('byQ','questionId',{unique:false}); }
   if(!db.objectStoreNames.contains('events')){ db.createObjectStore('events',{keyPath:'id'}); }
 }; req.onsuccess=()=>{ dbh=req.result; resolve(); }; req.onerror=()=>reject(req.error); }); }
-function dbTx(name, mode='readonly'){ return dbh.transaction(name, mode).objectStore(name); }
-function dbGetAll(store, index=null, key=null){ return new Promise((res,rej)=>{ const s=dbTx(store); const src=index? s.index(index) : s; const req = key!==null? src.getAll(key) : src.getAll(); req.onsuccess=()=>res(req.result); req.onerror=()=>rej(req.error); }); }
-function dbPut(store, value){ return new Promise((res,rej)=>{ const s=dbTx(store,'readwrite'); const req=s.put(value); req.onsuccess=()=>res(); req.onerror=()=>rej(req.error); }); }
-function dbGet(store, key){ return new Promise((res,rej)=>{ const s=dbTx(store); const req=s.get(key); req.onsuccess=()=>res(req.result||null); req.onerror=()=>rej(req.error); }); }
+async function dbTx(name, mode='readonly'){
+  if(!dbh) await dbOpen();
+  return dbh.transaction(name, mode).objectStore(name);
+}
+async function dbGetAll(store, index=null, key=null){
+  const s = await dbTx(store);
+  return new Promise((res,rej)=>{
+    const src=index? s.index(index):s;
+    const req = key!==null? src.getAll(key):src.getAll();
+    req.onsuccess=()=>res(req.result);
+    req.onerror=()=>rej(req.error);
+  });
+}; }
+async function dbPut(store, value){
+  const s = await dbTx(store,'readwrite');
+  return new Promise((res,rej)=>{
+    const req=s.put(value);
+    req.onsuccess=()=>res();
+    req.onerror=()=>rej(req.error);
+  });
+}); }
+async function dbGet(store, key){
+  const s = await dbTx(store);
+  return new Promise((res,rej)=>{
+    const req=s.get(key);
+    req.onsuccess=()=>res(req.result||null);
+    req.onerror=()=>rej(req.error);
+  });
+}); }
 
 const fc = { asOf:null, curQ:null };
 function pct(n){ return Math.round(n)+'%'; }
@@ -753,7 +778,7 @@ async function openQuestionDetail(qid){
   $('#fc-save').onclick=()=>saveForecast(false); $('#fc-submit').onclick=()=>saveForecast(true);
 }
 async function saveForecast(submit=false){
-  const q=fc.curQ; if(!q) return; const sliders=$('[data-fc-prob]'); const probs=sliders.map(s=> parseInt(s.value,10)/100 );
+  const q=fc.curQ; if(!q) return; const sliders=$$('[data-fc-prob]'); const probs=sliders.map(s=> parseInt(s.value,10)/100 );
   const s=sum(probs); const norm = s>0? probs.map(p=>p/s) : probs.map(_=>0);
   $('#fc-sumcheck').textContent='Sum: '+pct(sum(norm)*100/100)+' (normalized on save)';
   const rec={ id:newid(), questionId:q.id, asOf:now(), probs:norm, submitted:submit };
@@ -765,7 +790,7 @@ function renderAnswerSliders(q){
     row.innerHTML = `<div style="flex:1">${esc(a.text)}</div><input type="range" min="0" max="100" step="1" value="${Math.floor(100/q.answers.length)}" data-fc-prob="${i}" style="width:240px"><span class="badge" id="fc-prob-${i}">${pct(100/q.answers.length)}</span>`;
     host.appendChild(row);
   });
-  $$('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
+  $$('[data-fc-prob]').forEach((r,i)=>{ r.oninput=()=>{ $('#fc-prob-'+i).textContent=pct(r.value); const sliders=$$('[data-fc-prob]'); const total=sliders.reduce((a,b)=>a+parseInt(b.value,10),0); $('#fc-sumcheck').textContent='Current sum: '+total+'% (normalized on save/submit)'; }; });
 }
 async function renderActivity(q){
   const events=(await dbGetAll('events')).filter(e=>e.questionId===q.id).sort((a,b)=>new Date(b.at)-new Date(a.at));
@@ -896,85 +921,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
 
 <script>
-/*** ===== Shared forecasts.json → app ===== ***/
-(function(){
-  // tiny toast (no alerts)
-  function toast(msg){
-    let host = document.getElementById('wl-toast-host');
-    if(!host){
-      host = document.createElement('div');
-      host.id='wl-toast-host';
-      host.style.cssText='position:fixed;right:12px;bottom:12px;display:flex;flex-direction:column;gap:8px;z-index:9999';
-      document.body.appendChild(host);
-    }
-    const card = document.createElement('div');
-    card.textContent = msg;
-    card.style.cssText='background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.28)';
-    host.appendChild(card);
-    setTimeout(()=>{ card.style.opacity='0'; card.style.transition='opacity .25s'; setTimeout(()=>card.remove(), 300); }, 2000);
-  }
 
-  async function syncForecastsFromJSON(){
-    try{
-      // ensure DB is open (uses your existing dbOpen if present)
-      if (typeof dbOpen === 'function' && !window.dbh) {
-        await dbOpen();
-      }
-      const res = await fetch('/forecasts.json?v=' + Date.now(), { cache:'no-store' });
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const data = await res.json();
-      if(!Array.isArray(data)) throw new Error('forecasts.json must be an array');
-
-      // Replace the "questions" object store so UI pulls exactly these
-      const tx = dbh.transaction(['questions'], 'readwrite');
-      const s = tx.objectStore('questions');
-
-      await new Promise((resolve, reject)=>{ const req = s.clear(); req.onsuccess=resolve; req.onerror=()=>reject(req.error); });
-
-      // normalize ids and fields
-      for(const q of data){
-        q.id = q.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()));
-        q.answers = (q.answers||[]).map(a=>({ id: a.id || (crypto.randomUUID? crypto.randomUUID(): String(Date.now()+Math.random())), text: a.text }));
-        q.created_at = q.created_at || new Date().toISOString();
-        await new Promise((resolve, reject)=>{ const put = s.put(q); put.onsuccess=resolve; put.onerror=()=>reject(put.error); });
-      }
-
-      await new Promise((resolve, reject)=>{ tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error); });
-
-      // if we are on the Forecast page, re-render it
-      if (typeof routeForecast === 'function') routeForecast();
-      toast('Forecasts synced');
-    }catch(err){
-      console.error('syncForecastsFromJSON', err);
-      toast('Could not load forecasts.json');
-    }
-  }
-
-  // Re-sync when navigating to the Questions tab
-  function maybeSyncOnRoute(){
-    if (location.hash === '#/forecast/questions') {
-      syncForecastsFromJSON();
-    }
-  }
-
-  // Initial: once the app is loaded/opened its DB
-  window.addEventListener('load', ()=> setTimeout(maybeSyncOnRoute, 300));
-  window.addEventListener('hashchange', maybeSyncOnRoute);
-
-  // Optional: add a manual “Refresh” button next to Questions
-  function addRefreshBtn(){
-    // look for the toolbar where Questions tab lives
-    const qTab = document.querySelector('#view-forecast a.btn[href="#/forecast/questions"]');
-    if (qTab && !document.getElementById('fc-refresh')) {
-      const b = document.createElement('button');
-      b.className='btn'; b.id='fc-refresh'; b.textContent='Refresh';
-      b.onclick = (e)=>{ e.preventDefault(); syncForecastsFromJSON(); };
-      qTab.parentElement.appendChild(b);
-    }
-  }
-  document.addEventListener('DOMContentLoaded', addRefreshBtn);
-  window.addEventListener('hashchange', addRefreshBtn);
-})();
 </script>
 
   
